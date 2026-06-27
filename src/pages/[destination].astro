@@ -190,18 +190,24 @@ const accessChip = (a?: string) =>
       <section id="kids" class={section}>
         <h2 class="m-0 mb-3 text-lg font-semibold text-stone-900">With a three-year-old · {kids.length}</h2>
         <div class="grid gap-2.5 sm:grid-cols-2">
-          {kids.map((k) => (
-            <div class={`rounded-xl border bg-white px-4 py-3 ${k.data.fit === 'caution' ? 'border-amber-300' : 'border-stone-200'}`}>
-              <p class="m-0 text-[15px] font-medium text-stone-900">
-                {k.data.fit === 'caution' && <span class="mr-1 text-amber-600">heads up —</span>}
-                {k.data.name}
-              </p>
-              <p class="m-0 mt-0.5 text-[13px] leading-snug text-stone-600">
-                {k.data.note}{' '}
-                <a href={k.data.source.url} target="_blank" rel="noopener noreferrer" class={srcLink}>— {k.data.source.label}</a>
-              </p>
-            </div>
-          ))}
+          {kids.map((k) => {
+            const photo = photoBySubject.get(k.id);
+            return (
+              <div class={`overflow-hidden rounded-xl border bg-white ${k.data.fit === 'caution' ? 'border-amber-300' : 'border-stone-200'}`}>
+                {photo && <img src={photo.data.src} alt={photo.data.alt} loading="lazy" class="aspect-[16/9] w-full object-cover" />}
+                <div class="px-4 py-3">
+                  <p class="m-0 text-[15px] font-medium text-stone-900">
+                    {k.data.fit === 'caution' && <span class="mr-1 text-amber-600">heads up —</span>}
+                    {k.data.name}
+                  </p>
+                  <p class="m-0 mt-0.5 text-[13px] leading-snug text-stone-600">
+                    {k.data.note}{' '}
+                    <a href={k.data.source.url} target="_blank" rel="noopener noreferrer" class={srcLink}>— {k.data.source.label}</a>
+                  </p>
+                </div>
+              </div>
+            );
+          })}
         </div>
       </section>
     )
@@ -257,18 +263,24 @@ const accessChip = (a?: string) =>
       <section id="more" class={section}>
         <h2 class="m-0 mb-3 text-lg font-semibold text-stone-900">More to do · {todo.length}</h2>
         <div class="grid gap-2.5 sm:grid-cols-2">
-          {todo.map((t) => (
-            <div class="rounded-xl border border-stone-200 bg-white px-4 py-3">
-              <div class="flex items-baseline justify-between gap-2">
-                <p class="m-0 text-[15px] font-medium text-stone-900">{t.data.name}</p>
-                {t.data.tag && <span class="shrink-0 rounded-full bg-stone-100 px-2 py-0.5 text-[11px] text-stone-500">{t.data.tag}</span>}
+          {todo.map((t) => {
+            const photo = photoBySubject.get(t.id);
+            return (
+              <div class="overflow-hidden rounded-xl border border-stone-200 bg-white">
+                {photo && <img src={photo.data.src} alt={photo.data.alt} loading="lazy" class="aspect-[16/9] w-full object-cover" />}
+                <div class="px-4 py-3">
+                  <div class="flex items-baseline justify-between gap-2">
+                    <p class="m-0 text-[15px] font-medium text-stone-900">{t.data.name}</p>
+                    {t.data.tag && <span class="shrink-0 rounded-full bg-stone-100 px-2 py-0.5 text-[11px] text-stone-500">{t.data.tag}</span>}
+                  </div>
+                  <p class="m-0 mt-0.5 text-[13px] leading-snug text-stone-600">
+                    {t.data.note}{' '}
+                    <a href={t.data.source.url} target="_blank" rel="noopener noreferrer" class={srcLink}>— {t.data.source.label}</a>
+                  </p>
+                </div>
               </div>
-              <p class="m-0 mt-0.5 text-[13px] leading-snug text-stone-600">
-                {t.data.note}{' '}
-                <a href={t.data.source.url} target="_blank" rel="noopener noreferrer" class={srcLink}>— {t.data.source.label}</a>
-              </p>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </section>
     )
@@ -280,16 +292,22 @@ const accessChip = (a?: string) =>
       <section id="culture" class={section}>
         <h2 class="m-0 mb-3 text-lg font-semibold text-stone-900">You might know it from</h2>
         <div class="grid gap-2.5 sm:grid-cols-2">
-          {popculture.map((p) => (
-            <div class="rounded-xl border border-stone-200 bg-white px-4 py-3">
+          {popculture.map((p) => {
+            const photo = photoBySubject.get(p.id);
+            return (
+            <div class="overflow-hidden rounded-xl border border-stone-200 bg-white">
+              {photo && <img src={photo.data.src} alt={photo.data.alt} loading="lazy" class="aspect-[16/9] w-full object-cover" />}
+              <div class="px-4 py-3">
               <p class="m-0 text-xs text-stone-400">{p.data.medium}</p>
               <p class="m-0 text-[15px] font-medium leading-snug text-stone-900">{p.data.title}</p>
               <p class="m-0 mt-0.5 text-[13px] leading-snug text-stone-600">
                 {p.data.note}{' '}
                 <a href={p.data.source.url} target="_blank" rel="noopener noreferrer" class={srcLink}>— {p.data.source.label}</a>
               </p>
+              </div>
             </div>
-          ))}
+            );
+          })}
         </div>
       </section>
     )

@@ -12,6 +12,13 @@ type Col = (typeof columns)[number];
 const weather = await getCollection('weather');
 const wByDest = new Map(weather.map((w) => [w.data.destination.id, w.data]));
 
+// Two more signature shots per city under the hero, so the columns convey the
+// character at a glance — Kurobe's gorge-and-onsen, Atami's easy seaside.
+const signatures: Record<string, string[]> = {
+  kurobe: ['/photos/kurobe-gorge-train.jpg', '/photos/unazuki-street.jpg'],
+  atami: ['/photos/moon-terrace.jpg', '/photos/sun-beach-day.jpg'],
+};
+
 // The deciding dimensions, in the order a toddler weekend weighs them. Every row
 // resolves to a value for both cities, so the comparison never goes lopsided.
 const rows: { label: string; val: (c: Col) => string }[] = [
@@ -44,6 +51,11 @@ const rows: { label: string; val: (c: Col) => string }[] = [
         columns.map((c, i) => (
           <a href={`/${c.dest.id}`} class={`block ${i === 0 ? 'border-r border-stone-100' : ''}`}>
             <img src={c.dest.data.heroImage} alt={c.dest.data.name} class="aspect-[16/9] w-full object-cover" />
+            <div class="grid grid-cols-2 gap-px bg-stone-100">
+              {(signatures[c.dest.id] ?? []).map((s) => (
+                <img src={s} alt="" loading="lazy" class="aspect-[4/3] w-full object-cover" />
+              ))}
+            </div>
             <div class="px-3 py-2.5">
               <h2 class="m-0 text-lg font-semibold text-stone-900">{c.dest.data.name}</h2>
               <p class="m-0 mt-0.5 text-[13px] leading-snug text-stone-500">{c.dest.data.tagline}</p>
