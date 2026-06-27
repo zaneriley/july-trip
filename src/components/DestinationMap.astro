@@ -1,17 +1,18 @@
 ---
 /*
-  The planning map for one destination. It plots every real, sourced point
-  (pois.yaml) coloured by category, draws the suggested routes (paths.yaml) as
-  dashed lines, and gives a show/hide filter so you can, say, look at only the
-  coffee and the train stops.
+  The planning map for one destination, paired with a list of place tiles.
 
-  Why Google Maps' JS API here (we'd moved away from it in ADR 0005): that move
-  was specifically because Google can't route transit in Japan. We don't ask it
-  to — we plot our own pins and draw our own lines. For per-point train directions
-  the marker still hands off to the Google Maps app, where Japan transit works.
+  Layout: on a phone the tile list is a draggable bottom sheet over the map
+  (drag the handle up for the full list); on desktop it's a scrolling rail beside
+  a sticky map. The list is banded by how you reach each place from the base
+  station — "on foot" vs "needs a train/bus/car/ferry" — because that hub-vs-spoke
+  split is what the trip actually turns on. Tiles and pins share one selection and
+  one category filter.
 
-  The map needs the key with the Maps JavaScript API enabled. Without a key the
-  block shows a note; the cards beside it still carry the journey details.
+  Why Google Maps' JS API (we'd moved away from it in ADR 0005): that move was
+  because Google can't route transit in Japan. We don't ask it to — we plot our
+  own pins and draw our own lines, and per-point transit hands off to the Google
+  Maps app. Without a key the map area shows a note, but the tile list still works.
 */
 import type { CollectionEntry } from 'astro:content';
 import { CATEGORY_META } from '../lib/categories';
@@ -27,65 +28,128 @@ const { destinationId, pois, paths } = Astro.props;
 const apiKey = import.meta.env.PUBLIC_GOOGLE_MAPS_API_KEY ?? '';
 const hasKey = apiKey.length > 0;
 
-// Only the categories that actually have points in this destination get a filter.
-const categoriesPresent = Object.keys(CATEGORY_META).filter((cat) =>
-  pois.some((poi) => poi.data.category === cat),
-);
+// The station you arrive at and orient around, per city.
+const baseStationId: Record<string, string> = { kurobe: 'unazuki-onsen-station', atami: 'atami-station' };
+const baseId = baseStationId[destinationId] ?? '';
 
-const poiData = pois.map((poi) => ({
-  id: poi.id,
-  name: poi.data.name,
-  category: poi.data.category,
-  lat: poi.data.lat,
-  lng: poi.data.lng,
-  note: poi.data.note,
-  url: poi.data.source.url,
-  approx: poi.data.coordsUnverified,
+const categoriesPresent = Object.keys(CATEGORY_META).filter((cat) => pois.some((p) => p.data.category === cat));
+const catOrder = Object.keys(CATEGORY_META);
+
+// A short, scannable category word for the tiles (the full labels are too long).
+const SHORT_CAT: Record<string, string> = {
+  'train-stop': 'station', sightseeing: 'sight', viewpoint: 'view', onsen: 'onsen',
+  food: 'eat', coffee: 'coffee', kissaten: 'kissaten', neighborhood: 'area',
+};
+
+const tiles = pois.map((p) => {
+  const reach = p.data.reach ?? 'walk';
+  const cat = SHORT_CAT[p.data.category] ?? p.data.category;
+  return {
+    id: p.id,
+    name: p.data.name,
+    category: p.data.category,
+    color: CATEGORY_META[p.data.category]?.color ?? '#666',
+    reach,
+    isBase: p.id === baseId,
+    secondary: reach === 'walk' ? cat : `${cat} · ${reach}`,
+  };
+});
+
+const sortTiles = (a: (typeof tiles)[number], b: (typeof tiles)[number]) =>
+  (a.isBase ? -1 : b.isBase ? 1 : 0) ||
+  catOrder.indexOf(a.category) - catOrder.indexOf(b.category) ||
+  a.name.localeCompare(b.name);
+
+const bands = [
+  { label: 'Around the station · on foot', items: tiles.filter((t) => t.reach === 'walk').sort(sortTiles) },
+  { label: 'Needs a train, bus, or car', items: tiles.filter((t) => t.reach !== 'walk').sort(sortTiles) },
+].filter((b) => b.items.length > 0);
+
+// Data the client script needs for the markers + sync.
+const poiData = pois.map((p) => ({
+  id: p.id, name: p.data.name, category: p.data.category,
+  lat: p.data.lat, lng: p.data.lng, note: p.data.note,
+  url: p.data.source.url, approx: p.data.coordsUnverified, reach: p.data.reach ?? 'walk',
 }));
-
 const pathData = paths.map((path) => ({ label: path.data.label, stops: path.data.stops }));
+
+const tileBtn =
+  'flex w-full items-center gap-2 rounded-lg px-2 py-2 text-left transition hover:bg-stone-50 aria-[current=true]:bg-stone-100';
 ---
 
-{
-  hasKey ? (
-    <div
-      data-map-block
-      data-destination={destinationId}
-      data-pois={JSON.stringify(poiData)}
-      data-paths={JSON.stringify(pathData)}
-    >
-      <div
-        role="group"
-        aria-label="Show or hide categories"
-        class="mb-2 flex flex-wrap gap-x-3 gap-y-1.5"
-      >
-        {categoriesPresent.map((cat) => (
-          <label class="inline-flex cursor-pointer items-center gap-1.5 text-sm text-stone-600">
-            <input type="checkbox" checked data-filter={cat} class="accent-stone-800" />
-            <span
-              class="inline-block h-2.5 w-2.5 rounded-full"
-              style={`background:${CATEGORY_META[cat].color}`}
-            />
-            {CATEGORY_META[cat].label}
-          </label>
-        ))}
-      </div>
+<div data-map-block data-destination={destinationId} data-base={baseId} data-haskey={hasKey ? '1' : ''} data-pois={JSON.stringify(poiData)} data-paths={JSON.stringify(pathData)}>
+  {/* Category filter — chips that hide/show both pins and tiles. */}
+  <div role="group" aria-label="Show or hide categories" class="mb-2 -mx-4 flex gap-2 overflow-x-auto px-4 pb-1 md:mx-0 md:flex-wrap md:px-0">
+    {
+      categoriesPresent.map((cat) => (
+        <button
+          type="button"
+          data-filter={cat}
+          aria-pressed="true"
+          class="inline-flex min-h-[36px] shrink-0 cursor-pointer items-center gap-1.5 whitespace-nowrap rounded-full border border-stone-200 px-3 text-sm text-stone-600 transition aria-[pressed=false]:opacity-40 aria-[pressed=true]:border-stone-400"
+        >
+          <span class="inline-block h-2.5 w-2.5 rounded-full" style={`background:${CATEGORY_META[cat].color}`} />
+          {CATEGORY_META[cat].label}
+        </button>
+      ))
+    }
+  </div>
 
-      <div data-map class="h-80 w-full rounded-2xl border border-stone-200 bg-stone-100 sm:h-96 md:h-[70vh]" />
+  {/* Map + list region: phone = map with a draggable sheet; desktop = two-pane. */}
+  <div class="relative h-[70vh] overflow-hidden rounded-2xl border border-stone-200 md:grid md:h-auto md:grid-cols-[1fr_22rem] md:gap-4 md:overflow-visible md:rounded-none md:border-0">
+    {
+      hasKey ? (
+        <div data-map class="absolute inset-0 bg-stone-100 md:static md:h-[70vh] md:rounded-2xl md:border md:border-stone-200" />
+      ) : (
+        <div class="absolute inset-0 flex items-center justify-center bg-stone-100 px-6 text-center text-sm text-stone-500 md:static md:h-[70vh] md:rounded-2xl md:border md:border-stone-200">
+          the map needs a Google Maps key — the list works without it
+        </div>
+      )
+    }
+
+    {/* Bottom sheet (phone) / right rail (desktop). */}
+    <div
+      data-sheet
+      class="absolute inset-x-0 bottom-0 z-10 flex h-[58vh] flex-col rounded-t-2xl border-t border-stone-200 bg-white shadow-[0_-8px_24px_rgba(0,0,0,0.08)] will-change-transform md:static md:h-[70vh] md:translate-y-0 md:rounded-none md:border-0 md:shadow-none"
+    >
+      <button data-sheet-handle type="button" aria-label="Expand the place list" class="shrink-0 cursor-grab touch-none select-none pt-2 pb-1 md:hidden">
+        <span class="mx-auto block h-1 w-10 rounded-full bg-stone-300" />
+        <span class="mt-1.5 block text-center text-[13px] text-stone-500">{tiles.length} places · drag up for the list</span>
+      </button>
+      <div data-sheet-scroll class="min-h-0 flex-1 overflow-y-auto px-3 pb-5">
+        {
+          bands.map((band) => (
+            <div class="mt-3 first:mt-1">
+              <p class="m-0 px-1 pb-1 text-[12px] font-medium text-stone-400">{band.label}</p>
+              <ul class="m-0 flex list-none flex-col gap-0.5 p-0">
+                {band.items.map((t) => (
+                  <li class="m-0">
+                    <button type="button" data-tile={t.id} data-cat={t.category} class={tileBtn}>
+                      <span class="h-2.5 w-2.5 shrink-0 rounded-full" style={`background:${t.color}`} />
+                      <span class="min-w-0 flex-1">
+                        <span class="block truncate text-[14px] font-medium text-stone-900">
+                          {t.isBase && <span class="mr-1 text-stone-400">★</span>}
+                          {t.name}
+                        </span>
+                        <span class="block truncate text-[12px] text-stone-400">{t.secondary}</span>
+                      </span>
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))
+        }
+      </div>
     </div>
-  ) : (
-    <div class="flex h-80 w-full items-center justify-center rounded-2xl border border-stone-200 bg-stone-100 px-6 text-center text-sm text-stone-500 md:h-[70vh]">
-      the map needs a Google Maps key with the Maps JavaScript API enabled
-    </div>
-  )
-}
+  </div>
+</div>
 
 <script>
   import { CATEGORY_META } from '../lib/categories';
 
   const KEY = import.meta.env.PUBLIC_GOOGLE_MAPS_API_KEY ?? '';
 
-  // Load the Maps JS library exactly once, the first time any map needs it.
   let mapsPromise: Promise<void> | null = null;
   function loadMaps(): Promise<void> {
     if (mapsPromise) return mapsPromise;
@@ -100,176 +164,245 @@ const pathData = paths.map((path) => ({ label: path.data.label, stops: path.data
     return mapsPromise;
   }
 
-  type Poi = {
-    id: string;
-    name: string;
-    category: string;
-    lat: number;
-    lng: number;
-    note: string;
-    url: string;
-    approx: boolean;
-  };
+  type Poi = { id: string; name: string; category: string; lat: number; lng: number; note: string; url: string; approx: boolean; reach: string };
   type Path = { label: string; stops: string[] };
 
-  const inited = new WeakSet<Element>();
-  // Each inited block exposes a highlight(id) so a card elsewhere on the page can
-  // pan to and bounce its pin (see the 'poi-focus' listener below).
-  const blockControllers = new Map<Element, (id: string) => void>();
+  const desktop = matchMedia('(min-width: 768px)');
 
-  async function initBlock(block: HTMLElement) {
+  // Per-block state, so a card elsewhere on the page can drive the map.
+  type Controller = { setActive: (id: string) => void; mapReady: boolean; ensureMap?: () => Promise<void> };
+  const controllers = new Map<Element, Controller>();
+  const mapInited = new WeakSet<Element>();
+
+  function setupBlock(block: HTMLElement) {
+    const pois: Poi[] = JSON.parse(block.dataset.pois ?? '[]');
+    const byId = new Map(pois.map((p) => [p.id, p]));
+
+    const tilesById = new Map<string, HTMLElement>(
+      [...block.querySelectorAll<HTMLElement>('[data-tile]')].map((el) => [el.dataset.tile!, el]),
+    );
+
+    // Flag a tile as selected and bring it into view within the list (no page scroll).
+    const flagTile = (id: string) => {
+      for (const t of tilesById.values()) t.removeAttribute('aria-current');
+      const tile = tilesById.get(id);
+      if (tile) {
+        tile.setAttribute('aria-current', 'true');
+        tile.scrollIntoView({ block: 'nearest' });
+      }
+    };
+
+    // The controller starts list-only; map init upgrades it to pan/bounce.
+    const ctrl: Controller = { mapReady: false, setActive: (id) => flagTile(id) };
+    controllers.set(block, ctrl);
+
+    setupSheet(block);
+    setupFilter(block);
+
+    // Tap a tile: select it, drive the map if ready, and on a phone drop the sheet
+    // back to peek so the panned pin is visible.
+    for (const tile of tilesById.values()) {
+      tile.addEventListener('click', () => {
+        ctrl.setActive(tile.dataset.tile!);
+        if (!desktop.matches) collapseSheet(block);
+      });
+    }
+
+    // Init the Google map at most once, on demand. The observer triggers it on
+    // scroll-into-view; a deep card's poi-focus can also trigger it early.
+    ctrl.ensureMap = async () => {
+      if (!block.dataset.haskey || mapInited.has(block)) return;
+      mapInited.add(block);
+      await initMap(block, pois, byId, flagTile, ctrl).catch(() => {
+        const el = block.querySelector('[data-map]');
+        if (el) el.textContent = 'the map could not load — check the API key and signal';
+      });
+    };
+
+    if (block.dataset.haskey) {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          for (const e of entries) if (e.isIntersecting) ctrl.ensureMap?.();
+        },
+        { rootMargin: '200px' },
+      );
+      observer.observe(block);
+    }
+  }
+
+  async function initMap(
+    block: HTMLElement, pois: Poi[], byId: Map<string, Poi>,
+    flagTile: (id: string) => void, ctrl: Controller,
+  ) {
     const mapEl = block.querySelector<HTMLElement>('[data-map]');
     if (!mapEl) return;
 
-    const pois: Poi[] = JSON.parse(block.dataset.pois ?? '[]');
-    const paths: Path[] = JSON.parse(block.dataset.paths ?? '[]');
-    const byId = new Map(pois.map((p) => [p.id, p]));
-
     await loadMaps();
     const g = (window as any).google;
-
-    const map = new g.maps.Map(mapEl, {
-      mapTypeControl: false,
-      streetViewControl: false,
-      // One-finger panning on a phone, rather than the two-finger default.
-      gestureHandling: 'greedy',
-    });
-
-    const bounds = new g.maps.LatLngBounds();
+    const map = new g.maps.Map(mapEl, { mapTypeControl: false, streetViewControl: false, gestureHandling: 'greedy' });
     const info = new g.maps.InfoWindow();
+    const baseId = block.dataset.base ?? '';
     const markersByCategory: Record<string, any[]> = {};
     const markersById = new Map<string, any>();
+    const walkBounds = new g.maps.LatLngBounds();
+    const allBounds = new g.maps.LatLngBounds();
+
+    const openInfo = (poi: Poi, marker: any) => {
+      const dir = `https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent('Shibuya Station, Tokyo')}&destination=${poi.lat},${poi.lng}&travelmode=transit`;
+      info.setContent(
+        `<div style="font:14px/1.45 system-ui,sans-serif;max-width:220px">
+           <strong>${poi.name}</strong><br>
+           <span style="color:#555">${poi.note}</span>
+           ${poi.approx ? '<br><span style="color:#999;font-size:12px">approximate location</span>' : ''}
+           <br><a href="${dir}" target="_blank" rel="noopener">train directions from Shibuya</a>
+           &nbsp;·&nbsp;<a href="${poi.url}" target="_blank" rel="noopener">source</a>
+         </div>`,
+      );
+      info.open(map, marker);
+    };
 
     for (const poi of pois) {
       const color = CATEGORY_META[poi.category]?.color ?? '#666';
+      const isBase = poi.id === baseId;
       const marker = new g.maps.Marker({
         position: { lat: poi.lat, lng: poi.lng },
         map,
         title: poi.name,
+        // The base station is the "you arrive here" anchor: a bigger, ringed dot.
         icon: {
           path: g.maps.SymbolPath.CIRCLE,
-          scale: 7,
+          scale: isBase ? 10 : 7,
           fillColor: color,
           fillOpacity: 0.95,
-          strokeColor: '#ffffff',
-          strokeWeight: 1.5,
+          strokeColor: isBase ? '#1c1917' : '#ffffff',
+          strokeWeight: isBase ? 2.5 : 1.5,
         },
+        zIndex: isBase ? 10 : undefined,
       });
-
-      // Hand transit routing to the Google Maps app — the only place it works for
-      // Japan — and link the source so any point can be checked.
-      const dir = `https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent('Shibuya Station, Tokyo')}&destination=${poi.lat},${poi.lng}&travelmode=transit`;
-      marker.addListener('click', () => {
-        info.setContent(
-          `<div style="font:14px/1.45 system-ui,sans-serif;max-width:220px">
-             <strong>${poi.name}</strong><br>
-             <span style="color:#555">${poi.note}</span>
-             ${poi.approx ? '<br><span style="color:#999;font-size:12px">approximate location</span>' : ''}
-             <br><a href="${dir}" target="_blank" rel="noopener">train directions from Shibuya</a>
-             &nbsp;·&nbsp;<a href="${poi.url}" target="_blank" rel="noopener">source</a>
-           </div>`,
-        );
-        info.open(map, marker);
-      });
-
+      marker.addListener('click', () => { openInfo(poi, marker); flagTile(poi.id); });
       (markersByCategory[poi.category] ??= []).push(marker);
       markersById.set(poi.id, marker);
-      bounds.extend(marker.getPosition());
+      allBounds.extend(marker.getPosition());
+      if (poi.reach === 'walk') walkBounds.extend(marker.getPosition());
     }
 
-    // Draw each suggested route as a dashed line through its points.
+    const paths: Path[] = JSON.parse(block.dataset.paths ?? '[]');
     for (const path of paths) {
       const pts = path.stops.map((id) => byId.get(id)).filter(Boolean).map((p) => ({ lat: p!.lat, lng: p!.lng }));
       if (pts.length < 2) continue;
       new g.maps.Polyline({
-        path: pts,
-        map,
-        strokeColor: '#57534e',
-        strokeOpacity: 0,
-        icons: [
-          {
-            icon: { path: 'M 0,-1 0,1', strokeOpacity: 0.7, scale: 3 },
-            offset: '0',
-            repeat: '10px',
-          },
-        ],
+        path: pts, map, strokeColor: '#57534e', strokeOpacity: 0,
+        icons: [{ icon: { path: 'M 0,-1 0,1', strokeOpacity: 0.7, scale: 3 }, offset: '0', repeat: '10px' }],
       });
     }
 
-    if (!bounds.isEmpty()) {
-      map.fitBounds(bounds, 48);
-      // Don't zoom in too far when the points happen to sit close together.
-      const once = g.maps.event.addListenerOnce(map, 'idle', () => {
-        if (map.getZoom() > 15) map.setZoom(15);
-      });
-      void once;
+    // Open framed on the walkable cluster (the hub), not the far-flung spokes —
+    // tapping a spoke's tile pans out to it.
+    const frame = !walkBounds.isEmpty() ? walkBounds : allBounds;
+    if (!frame.isEmpty()) {
+      map.fitBounds(frame, 48);
+      g.maps.event.addListenerOnce(map, 'idle', () => { if (map.getZoom() > 16) map.setZoom(16); });
     }
 
-    // Wire the show/hide filter for this block.
-    block.querySelectorAll<HTMLInputElement>('[data-filter]').forEach((input) => {
-      input.addEventListener('change', () => {
-        const cat = input.dataset.filter!;
-        for (const marker of markersByCategory[cat] ?? []) marker.setVisible(input.checked);
+    // Filter now also drives the markers.
+    block.querySelectorAll<HTMLButtonElement>('[data-filter]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const on = btn.getAttribute('aria-pressed') !== 'true';
+        for (const m of markersByCategory[btn.dataset.filter!] ?? []) m.setVisible(on);
       });
     });
 
-    // Let a card on the page point at a pin: re-show it if filtered out, pan to
-    // it, open its info window, and bounce it briefly.
-    const highlight = (id: string) => {
+    // Upgrade the controller: selecting now pans, opens, and bounces the pin.
+    ctrl.mapReady = true;
+    ctrl.setActive = (id) => {
+      flagTile(id);
       const marker = markersById.get(id);
-      if (!marker) return;
-      const cat = byId.get(id)?.category;
-      if (cat) {
-        const box = block.querySelector<HTMLInputElement>(`[data-filter="${cat}"]`);
-        if (box && !box.checked) {
-          box.checked = true;
-          for (const m of markersByCategory[cat] ?? []) m.setVisible(true);
-        }
+      const poi = byId.get(id);
+      if (!marker || !poi) return;
+      const btn = block.querySelector<HTMLButtonElement>(`[data-filter="${poi.category}"]`);
+      if (btn && btn.getAttribute('aria-pressed') !== 'true') {
+        btn.setAttribute('aria-pressed', 'true');
+        for (const m of markersByCategory[poi.category] ?? []) m.setVisible(true);
       }
       marker.setVisible(true);
       map.panTo(marker.getPosition());
       if (map.getZoom() < 14) map.setZoom(14);
-      g.maps.event.trigger(marker, 'click');
+      openInfo(poi, marker);
       marker.setAnimation(g.maps.Animation.BOUNCE);
       setTimeout(() => marker.setAnimation(null), 1400);
     };
-    blockControllers.set(block, highlight);
-
-    inited.add(block);
-    return map;
   }
 
-  // A card anywhere on the page asks the map to locate a point. Init the map first
-  // if it hasn't been (e.g. the user jumped straight down the page), then highlight.
+  // The category filter: toggle the pressed state and hide/show the matching tiles.
+  // (Markers are wired in initMap once the map exists.)
+  function setupFilter(block: HTMLElement) {
+    block.querySelectorAll<HTMLButtonElement>('[data-filter]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const on = btn.getAttribute('aria-pressed') !== 'true';
+        btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+        for (const tile of block.querySelectorAll<HTMLElement>(`[data-tile][data-cat="${btn.dataset.filter}"]`)) {
+          tile.closest('li')?.toggleAttribute('hidden', !on);
+        }
+      });
+    });
+  }
+
+  // The draggable bottom sheet (phone only). Peek shows the handle; drag/tap opens
+  // it to the full list. On desktop the sheet is a static rail — no transform.
+  function setupSheet(block: HTMLElement) {
+    const sheet = block.querySelector<HTMLElement>('[data-sheet]');
+    const handle = block.querySelector<HTMLElement>('[data-sheet-handle]');
+    if (!sheet || !handle) return;
+
+    let open = false;
+    const peekY = () => Math.max(0, sheet.offsetHeight - 56);
+    const apply = (animate: boolean) => {
+      sheet.style.transition = animate ? 'transform .2s ease' : 'none';
+      sheet.style.transform = desktop.matches ? '' : `translateY(${open ? 0 : peekY()}px)`;
+    };
+    (block as any)._collapseSheet = () => { open = false; apply(true); };
+
+    apply(false);
+    desktop.addEventListener('change', () => apply(false));
+    window.addEventListener('resize', () => apply(false));
+
+    let startY = 0, startT = 0, dragging = false, moved = 0;
+    handle.addEventListener('pointerdown', (e) => {
+      if (desktop.matches) return;
+      dragging = true; moved = 0; startY = e.clientY; startT = open ? 0 : peekY();
+      sheet.style.transition = 'none'; handle.setPointerCapture(e.pointerId);
+    });
+    handle.addEventListener('pointermove', (e) => {
+      if (!dragging) return;
+      moved = Math.abs(e.clientY - startY);
+      const t = Math.min(peekY(), Math.max(0, startT + (e.clientY - startY)));
+      sheet.style.transform = `translateY(${t}px)`;
+    });
+    const end = (e: PointerEvent) => {
+      if (!dragging) return;
+      dragging = false;
+      if (moved < 6) open = !open; // a tap toggles
+      else open = startT + (e.clientY - startY) < peekY() / 2; // a drag snaps
+      apply(true);
+    };
+    handle.addEventListener('pointerup', end);
+    handle.addEventListener('pointercancel', end);
+  }
+
+  function collapseSheet(block: HTMLElement) {
+    (block as any)._collapseSheet?.();
+  }
+
+  // A card elsewhere on the page (the rich collections' "on the map ↑") asks the
+  // map to locate a point: scroll handled by the card, selection handled here.
   document.addEventListener('poi-focus', async (e) => {
     const id = (e as CustomEvent<{ id: string }>).detail?.id;
     const block = document.querySelector<HTMLElement>('[data-map-block]');
     if (!block || !id) return;
-    if (!inited.has(block)) {
-      try {
-        await initBlock(block);
-      } catch {
-        return;
-      }
-    }
-    blockControllers.get(block)?.(id);
+    const ctrl = controllers.get(block);
+    await ctrl?.ensureMap?.();
+    ctrl?.setActive(id);
   });
 
-  // Initialise a map when its block scrolls into view — which also covers a tab
-  // becoming visible, since a hidden panel reports as not intersecting until shown.
-  const observer = new IntersectionObserver(
-    (entries) => {
-      for (const entry of entries) {
-        if (entry.isIntersecting && !inited.has(entry.target)) {
-          initBlock(entry.target as HTMLElement).catch(() => {
-            const el = entry.target.querySelector('[data-map]');
-            if (el) el.textContent = 'the map could not load — check the API key and signal';
-          });
-        }
-      }
-    },
-    { rootMargin: '150px' },
-  );
-
-  document.querySelectorAll<HTMLElement>('[data-map-block]').forEach((block) => observer.observe(block));
+  document.querySelectorAll<HTMLElement>('[data-map-block]').forEach(setupBlock);
 </script>

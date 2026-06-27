@@ -168,6 +168,9 @@ const pois = defineCollection({
     // How you get there from the base station — the walkability chip on cards/pins
     // ("5 min walk" / "needs a train"). Optional; set where it's known.
     accessFromStation: z.string().optional(),
+    // The coarse way you reach it from the base station — used to band the map's
+    // tile list into "on foot" vs "needs a train/bus/car/ferry". Set on every point.
+    reach: z.enum(['walk', 'train', 'bus', 'car', 'ferry']).optional(),
     // Scannable restaurant metadata, surfaced as chips instead of buried in the
     // note. All optional; set on food points where a source confirms them.
     rating: z.string().optional(), // Tabelog score, e.g. "3.69"

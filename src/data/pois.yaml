@@ -9,6 +9,7 @@
 - id: toyama-station
   name: Toyama Station
   category: train-stop
+  reach: train
   lat: 36.701217
   lng: 137.213209
   note: Regional gateway — Hokuriku Shinkansen plus the local railways toward Tateyama and Unazuki.
@@ -18,6 +19,7 @@
 - id: kurobe-unazukionsen-station
   name: Kurobe-Unazuki-Onsen Station
   category: train-stop
+  reach: train
   lat: 36.87472
   lng: 137.48222
   note: The Hokuriku Shinkansen stop for Unazuki and the gorge (Hakutaka services only).
@@ -27,6 +29,7 @@
 - id: shin-kurobe-station
   name: Shin-Kurobe Station
   category: train-stop
+  reach: train
   lat: 36.873139
   lng: 137.480972
   note: Toyama Chiho Railway station beside the shinkansen stop; transfer toward Unazuki.
@@ -36,6 +39,7 @@
 - id: unazuki-onsen-station
   name: Unazuki Onsen Station
   category: train-stop
+  reach: walk
   lat: 36.8158
   lng: 137.5833
   note: Toyama Chiho Railway terminus; main rail arrival for the onsen town.
@@ -45,6 +49,7 @@
 - id: unazuki-station
   name: Unazuki Station
   category: train-stop
+  reach: walk
   lat: 36.8150167
   lng: 137.5859611
   note: Departure terminus of the Kurobe Gorge Railway sightseeing train.
@@ -54,6 +59,7 @@
 - id: keyakidaira-station
   name: Keyakidaira Station
   category: train-stop
+  reach: train
   lat: 36.6969
   lng: 137.6580
   note: Upstream terminus of the gorge railway, deep in the canyon; trailheads and viewpoints.
@@ -63,6 +69,7 @@
 - id: tateyama-station
   name: Tateyama Station
   category: train-stop
+  reach: train
   lat: 36.5833137
   lng: 137.4453163
   note: Western start of the alpine route and base of the Tateyama cable car.
@@ -72,6 +79,7 @@
 - id: kurobedaira-station
   name: Kurobedaira Station
   category: train-stop
+  reach: train
   lat: 36.581750
   lng: 137.452472
   note: Transfer between the Tateyama ropeway and the Kurobe cable car, about 1,828 m.
@@ -81,6 +89,7 @@
 - id: murodo
   name: Murodo
   category: viewpoint
+  reach: train
   lat: 36.5773
   lng: 137.5955
   note: Highest point on the alpine route, about 2,450 m — alpine plateau with Mikurigaike pond.
@@ -90,6 +99,7 @@
 - id: daikanbo
   name: Daikanbo
   category: viewpoint
+  reach: train
   lat: 36.5696919
   lng: 137.6316977
   note: Cliffside panorama over Lake Kurobe and the Ushiro-Tateyama range.
@@ -99,6 +109,7 @@
 - id: kurobe-dam
   name: Kurobe Dam
   category: sightseeing
+  reach: train
   lat: 36.56639
   lng: 137.66139
   note: Japan's tallest dam (186 m); the summer water discharge is the signature sight.
@@ -108,6 +119,7 @@
 - id: kurobe-gorge
   name: Kurobe Gorge
   category: sightseeing
+  reach: train
   lat: 36.644444
   lng: 137.683333
   note: V-shaped granite canyon and designated Place of Scenic Beauty, traversed by the gorge railway.
@@ -117,6 +129,7 @@
 - id: unazuki-dam
   name: Unazuki Dam
   category: sightseeing
+  reach: walk
   lat: 36.80944
   lng: 137.59028
   note: A 97 m gravity dam (2001), the most downstream of the Kurobe River dams, near the onsen.
@@ -126,6 +139,7 @@
 - id: unazuki-onsen
   name: Unazuki onsen
   category: onsen
+  reach: walk
   lat: 36.817083
   lng: 137.581528
   note: Hot-spring resort town at the mouth of the gorge (established 1923).
@@ -135,6 +149,7 @@
 - id: cafe-serene
   name: Cafe Serene
   category: coffee
+  reach: walk
   lat: 36.813528
   lng: 137.58528
   note: Cafe at the Serene art-museum complex by the gorge entrance; coffee brewed with Kurobe water.
@@ -145,6 +160,7 @@
 - id: cafe-mozart
   name: Cafe Mozart
   category: kissaten
+  reach: walk
   lat: 36.8156
   lng: 137.5840
   note: Retro Mozart-themed kissaten in central Unazuki Onsen, known for morning sets.
@@ -158,6 +174,7 @@
 - id: atami-station
   name: Atami Station
   category: train-stop
+  reach: walk
   lat: 35.10333
   lng: 139.07778
   note: Tokaido Shinkansen and Tokaido Main Line junction, and the start of the Ito Line.
@@ -167,6 +184,7 @@
 - id: kinomiya-station
   name: Kinomiya Station
   category: train-stop
+  reach: train
   lat: 35.09864
   lng: 139.06588
   note: First Ito Line stop south of Atami, near the Kinomiya shrine.
@@ -176,6 +194,7 @@
 - id: izu-taga-station
   name: Izu-Taga Station
   category: train-stop
+  reach: train
   lat: 35.05889
   lng: 139.06694
   note: Ito Line station serving the southern Taga coast.
@@ -185,6 +204,7 @@
 - id: ajiro-station
   name: Ajiro Station
   category: train-stop
+  reach: train
   lat: 35.04364
   lng: 139.08121
   note: Ito Line and Odoriko stop in the Ajiro fishing-port district.
@@ -194,6 +214,7 @@
 - id: moa-museum
   name: MOA Museum of Art
   category: sightseeing
+  reach: bus
   lat: 35.10931
   lng: 139.07520
   note: Hillside art museum holding three National Treasures, with a wide bay view.
@@ -203,6 +224,7 @@
 - id: kiunkaku
   name: Kiunkaku
   category: sightseeing
+  reach: walk
   lat: 35.09286
   lng: 139.07094
   note: A 1919 villa turned ryokan, now a city cultural property with a garden.
@@ -212,6 +234,7 @@
 - id: atami-plum-garden
   name: Atami plum garden
   category: sightseeing
+  reach: bus
   lat: 35.09725
   lng: 139.06050
   note: Municipal strolling garden (1886) with around 470 plum trees; open year-round.
@@ -221,6 +244,7 @@
 - id: izusan-shrine
   name: Izusan Shrine
   category: sightseeing
+  reach: bus
   lat: 35.11546
   lng: 139.08256
   note: Historic hillside shrine north of central Atami, above the coast.
@@ -230,6 +254,7 @@
 - id: atami-sun-beach
   name: Atami Sun Beach
   category: sightseeing
+  reach: walk
   lat: 35.09803
   lng: 139.07683
   note: Central palm-lined city beach, lit up in the evening.
@@ -239,6 +264,7 @@
 - id: hatsushima
   name: Hatsushima
   category: sightseeing
+  reach: ferry
   lat: 35.03750
   lng: 139.16944
   note: Inhabited island in Sagami Bay, reached by ferry; resort and walking trails.
@@ -248,6 +274,7 @@
 - id: acao-forest
   name: ACAO Forest
   category: sightseeing
+  reach: bus
   lat: 35.07989
   lng: 139.07261
   note: Hillside resort garden over the bay; includes Kengo Kuma's Coeda House cafe.
@@ -257,6 +284,7 @@
 - id: atami-castle
   name: Atami Castle
   category: viewpoint
+  reach: bus
   lat: 35.08644
   lng: 139.07866
   note: A 1959 replica castle on Nishikigaura, about 120 m up, with a bay observation deck.
@@ -266,6 +294,7 @@
 - id: atami-ropeway
   name: Atami ropeway
   category: viewpoint
+  reach: walk
   lat: 35.08817
   lng: 139.07930
   note: Base of the ropeway up Hachiman mountain, beside the Korakuen resort and Fuua spa.
@@ -275,6 +304,7 @@
 - id: moon-terrace
   name: Moon Terrace
   category: viewpoint
+  reach: walk
   lat: 35.09419
   lng: 139.07507
   note: Waterfront terrace and promenade between Sun Beach and the marina.
@@ -284,6 +314,7 @@
 - id: oyu-geyser
   name: Oyu Geyser
   category: onsen
+  reach: walk
   lat: 35.09772
   lng: 139.07164
   note: Historic intermittent geyser, once one of Japan's three great geysers.
@@ -293,6 +324,7 @@
 - id: atami-onsen
   name: Atami onsen district
   category: onsen
+  reach: walk
   lat: 35.10336
   lng: 139.07906
   note: The historic central hot-springs district, with hundreds of springs.
@@ -302,6 +334,7 @@
 - id: hashiriyu
   name: Hashiriyu
   category: onsen
+  reach: bus
   lat: 35.11159
   lng: 139.08646
   note: A rare horizontal cave hot spring at the foot of Izusan, about 70 degrees.
@@ -311,6 +344,7 @@
 - id: izusan
   name: Izusan
   category: neighborhood
+  reach: bus
   lat: 35.11546
   lng: 139.08256
   note: Northern coastal district, centred on Izusan shrine.
@@ -320,6 +354,7 @@
 - id: ajiro
   name: Ajiro
   category: neighborhood
+  reach: train
   lat: 35.04364
   lng: 139.08121
   note: Fishing-port district in southern Atami.
@@ -329,6 +364,7 @@
 - id: taga
   name: Taga
   category: neighborhood
+  reach: train
   lat: 35.05889
   lng: 139.06694
   note: Coastal district south of central Atami.
@@ -338,6 +374,7 @@
 - id: atami-ekimae
   name: Ekimae (station front)
   category: neighborhood
+  reach: walk
   lat: 35.10333
   lng: 139.07778
   note: The central station-front area; shopping streets and the onsen district run downhill to the bay.
@@ -347,6 +384,7 @@
 - id: rolling-roasters
   name: Rolling Roasters
   category: coffee
+  reach: bus
   lat: 35.125099
   lng: 139.080521
   note: Specialty roaster run by a Q-grader, in the Izusan villa area; score-based single beans.
@@ -357,6 +395,7 @@
 - id: aizome-coffee
   name: Aizome Coffee
   category: coffee
+  reach: bus
   lat: 35.110649
   lng: 139.084839
   note: Pour-over specialty cafe with a Sagami Bay view, on the 4th floor opposite Izusan shrine's approach.
@@ -367,6 +406,7 @@
 - id: kamome-coffee
   name: Kamome Coffee Roastery
   category: coffee
+  reach: train
   lat: 35.096378
   lng: 139.072632
   note: Small-batch self-roastery near Kinomiya; beans and takeout, no seating.
@@ -377,6 +417,7 @@
 - id: aibana
   name: Aibana
   category: coffee
+  reach: walk
   lat: 35.102661
   lng: 139.077927
   note: Long-running self-roast cafe on the Nakamise shopping street; daily roasting, hand-drip.
@@ -387,6 +428,7 @@
 - id: chitose-105
   name: Chitose 105
   category: coffee
+  reach: car
   lat: 35.140446
   lng: 139.084015
   note: Direct-flame self-roaster at Atami's northern Izumi edge (toward Yugawara). Search by name on maps.
@@ -398,6 +440,7 @@
 - id: bonnet
   name: Bonnet
   category: kissaten
+  reach: walk
   lat: 35.096607
   lng: 139.073456
   note: Atami's flagship retro kissaten (1952), the first place in town to serve a hamburger.
@@ -408,6 +451,7 @@
 - id: pine-tree
   name: Pine Tree
   category: kissaten
+  reach: walk
   lat: 35.096691
   lng: 139.073776
   note: Time-capsule kissaten on Atami Ginza with vintage table-arcade consoles and iron-plate Napolitan.
@@ -418,6 +462,7 @@
 - id: sunbird
   name: Sunbird
   category: kissaten
+  reach: walk
   lat: 35.097137
   lng: 139.075043
   note: Seaside Showa kissaten (1968) facing the Pacific; iron-plate Napolitan and pudding a la mode.
@@ -428,6 +473,7 @@
 - id: denen
   name: Denen
   category: kissaten
+  reach: walk
   lat: 35.095627
   lng: 139.074600
   note: A 1959 pure-kissaten with an indoor koi inlet and a sculpture by Tatebayashi Kosei.
@@ -440,6 +486,7 @@
 - id: kajika
   name: Kajika (河鹿)
   category: food
+  reach: walk
   lat: 36.815804
   lng: 137.582690
   note: Cook-to-order clay-pot kamameshi and fresh white-shrimp sashimi, by Unazuki Onsen station — each pot is roughly a 20-minute wait.
@@ -453,6 +500,7 @@
 - id: kurobe-soba-ya
   name: Kurobe Soba-ya (黒部 そば屋)
   category: food
+  reach: train
   lat: 36.870784
   lng: 137.455618
   note: Handmade soba, the top-rated lunch in Kurobe city — but in central Kurobe, not Unazuki, and it closes once the soba sells out.
@@ -466,6 +514,7 @@
 - id: kashiwaya
   name: Rest Plaza Kashiwaya (柏や)
   category: food
+  reach: walk
   lat: 36.815652
   lng: 137.583298
   note: Right in front of Unazuki Onsen station; the local white-shrimp kakiage donburi.
@@ -478,6 +527,7 @@
 - id: kitokito-an
   name: Ariiso Kitokito-an (有磯 きときと庵)
   category: food
+  reach: walk
   lat: 36.815312
   lng: 137.584270
   note: A minute from Unazuki Onsen station; trout sushi (masu-no-sushi) and white shrimp.
@@ -491,6 +541,7 @@
 - id: uo-no-eki-ikuji
   name: Fish Station Ikuji (魚の駅 生地)
   category: food
+  reach: car
   lat: 36.891351
   lng: 137.419109
   note: A working fish market on Toyama Bay in Kurobe's Ikuji district; kaisen-don and kelp-cured sashimi (kombujime).
@@ -505,6 +556,7 @@
 - id: uosei
   name: Chuka Soba Uosei (中華そば うお静)
   category: food
+  reach: train
   lat: 35.044376
   lng: 139.081583
   note: A 2025 ramen "hyakumeiten" — but down in Ajiro, not walkable from Atami station.
@@ -518,6 +570,7 @@
 - id: soba-asada
   name: Soba Asada (蕎麦あさ田)
   category: food
+  reach: walk
   lat: 35.104851
   lng: 139.080543
   note: Often called Atami's best soba, a few minutes from the station.
@@ -531,6 +584,7 @@
 - id: washoku-kobayashi
   name: Washoku Kobayashi (和食処 こばやし)
   category: food
+  reach: walk
   lat: 35.102081
   lng: 139.076940
   note: On Heiwa-dori a few minutes from the station; a daily chirashi and a raw-shirasu bowl.
@@ -544,6 +598,7 @@
 - id: kamatsuru
   name: Kamatsuru (海幸楽膳 釜つる)
   category: food
+  reach: walk
   lat: 35.096687
   lng: 139.074410
   note: Seafood washoku from an old dried-fish house, known for simmered kinmedai.
@@ -557,6 +612,7 @@
 - id: atami-purin
   name: Atami Purin (熱海プリン)
   category: food
+  reach: walk
   lat: 35.102040
   lng: 139.077351
   note: The milk-bottle pudding shop near the station — the signature Atami sweet, with a regular queue.
@@ -569,6 +625,7 @@
 - id: kome-to-sakana
   name: Kome to Sakana (米と魚)
   category: food
+  reach: walk
   lat: 35.101839
   lng: 139.077340
   note: A small, well-liked seafood-bowl spot near the station — fresh sashimi, a calmer alternative to the busy mountain-bowl chains.
@@ -582,6 +639,7 @@
 - id: heiwa-dori
   name: Heiwa-dori arcade (平和通り)
   category: food
+  reach: walk
   lat: 35.102794
   lng: 139.077537
   note: The covered food-walking arcade right at Atami station — himono, takoyaki, sweets. Being covered, it's rain-proof for a wet day.
