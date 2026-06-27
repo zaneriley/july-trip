@@ -168,6 +168,12 @@ const pois = defineCollection({
     // How you get there from the base station — the walkability chip on cards/pins
     // ("5 min walk" / "needs a train"). Optional; set where it's known.
     accessFromStation: z.string().optional(),
+    // Scannable restaurant metadata, surfaced as chips instead of buried in the
+    // note. All optional; set on food points where a source confirms them.
+    rating: z.string().optional(), // Tabelog score, e.g. "3.69"
+    priceBand: z.string().optional(), // short band, e.g. "¥1–2k"
+    closedDay: z.string().optional(), // "Tue", "Sun & Mon", or "none" for open-daily
+    reservation: z.string().optional(), // "reserve", "book ahead", "walk-in", "queues"
     source: z.object({
       url: z.url(),
       type: z.enum(['official', 'tourism-board', 'wikimedia', 'wikidata', 'google-maps', 'tabelog', 'osm']),

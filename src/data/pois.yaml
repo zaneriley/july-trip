@@ -442,27 +442,38 @@
   category: food
   lat: 36.815804
   lng: 137.582690
-  note: Cook-to-order clay-pot kamameshi and fresh white-shrimp sashimi, by Unazuki Onsen station. Tabelog about 3.44; closed Tuesdays, and each pot is roughly a 20-minute wait.
+  note: Cook-to-order clay-pot kamameshi and fresh white-shrimp sashimi, by Unazuki Onsen station — each pot is roughly a 20-minute wait.
   destination: kurobe
   accessFromStation: "by Unazuki Onsen station"
+  rating: "3.44"
+  priceBand: "¥3–4k"
+  closedDay: "Tue"
+  reservation: "reserve"
   source: { url: https://tabelog.com/toyama/A1602/A160201/16000090/, type: tabelog }
 - id: kurobe-soba-ya
   name: Kurobe Soba-ya (黒部 そば屋)
   category: food
   lat: 36.870784
   lng: 137.455618
-  note: The top-rated lunch in Kurobe city (Tabelog about 3.59) — handmade soba; closes once the soba sells out, closed Tuesdays. In central Kurobe, not Unazuki.
+  note: Handmade soba, the top-rated lunch in Kurobe city — but in central Kurobe, not Unazuki, and it closes once the soba sells out.
   destination: kurobe
   accessFromStation: "central Kurobe — needs a train or car"
+  rating: "3.59"
+  priceBand: "¥1–2k"
+  closedDay: "Tue"
+  reservation: "walk-in"
   source: { url: https://tabelog.com/toyama/A1602/A160201/16000623/, type: tabelog }
 - id: kashiwaya
   name: Rest Plaza Kashiwaya (柏や)
   category: food
   lat: 36.815652
   lng: 137.583298
-  note: Right in front of Unazuki Onsen station; the local white-shrimp kakiage donburi (about ¥1,300).
+  note: Right in front of Unazuki Onsen station; the local white-shrimp kakiage donburi.
   destination: kurobe
   accessFromStation: "by Unazuki Onsen station"
+  rating: "3.15"
+  priceBand: "¥1–2k"
+  reservation: "reserve"
   source: { url: https://tabelog.com/toyama/A1602/A160201/16002884/, type: tabelog }
 - id: kitokito-an
   name: Ariiso Kitokito-an (有磯 きときと庵)
@@ -472,6 +483,10 @@
   note: A minute from Unazuki Onsen station; trout sushi (masu-no-sushi) and white shrimp.
   destination: kurobe
   accessFromStation: "1 min from Unazuki Onsen station"
+  rating: "3.10"
+  priceBand: "¥1–2k"
+  closedDay: "none"
+  reservation: "reserve"
   source: { url: https://tabelog.com/toyama/A1602/A160201/16004154/, type: tabelog }
 - id: uo-no-eki-ikuji
   name: Fish Station Ikuji (魚の駅 生地)
@@ -481,6 +496,10 @@
   note: A working fish market on Toyama Bay in Kurobe's Ikuji district; kaisen-don and kelp-cured sashimi (kombujime).
   destination: kurobe
   accessFromStation: "Ikuji district — needs a car or bus"
+  rating: "3.07"
+  priceBand: "¥1–2k"
+  closedDay: "Wed"
+  reservation: "walk-in"
   source: { url: https://tabelog.com/toyama/A1602/A160201/16009022/, type: tabelog }
 # Atami
 - id: uosei
@@ -488,54 +507,77 @@
   category: food
   lat: 35.044376
   lng: 139.081583
-  note: Tabelog 4.03, a 2025 ramen "hyakumeiten" — but down in Ajiro, not walkable from Atami station; queues from the morning, closed Sundays and Mondays.
+  note: A 2025 ramen "hyakumeiten" — but down in Ajiro, not walkable from Atami station.
   destination: atami
   accessFromStation: "in Ajiro — needs a train"
+  rating: "4.02"
+  priceBand: "¥1–2k"
+  closedDay: "Sun & Mon"
+  reservation: "queues"
   source: { url: https://tabelog.com/shizuoka/A2205/A220502/22041254/, type: tabelog }
 - id: soba-asada
   name: Soba Asada (蕎麦あさ田)
   category: food
   lat: 35.104851
   lng: 139.080543
-  note: Often called Atami's best soba, about 5 minutes from the station. Hours and reservations vary across sources — phone first.
+  note: Often called Atami's best soba, a few minutes from the station.
   destination: atami
   accessFromStation: "5 min from Atami station"
+  rating: "3.65"
+  priceBand: "¥2–3k"
+  closedDay: "Wed & Sun"
+  reservation: "reserve"
   source: { url: https://tabelog.com/shizuoka/A2205/A220502/22027903/, type: tabelog }
 - id: washoku-kobayashi
   name: Washoku Kobayashi (和食処 こばやし)
   category: food
   lat: 35.102081
   lng: 139.076940
-  note: Tabelog about 3.69, on Heiwa-dori a few minutes from the station; a daily chirashi and a raw-shirasu bowl; closed Tuesdays.
+  note: On Heiwa-dori a few minutes from the station; a daily chirashi and a raw-shirasu bowl.
   destination: atami
   accessFromStation: "on Heiwa-dori, a few min from the station"
+  rating: "3.71"
+  priceBand: "¥2–3k"
+  closedDay: "Tue"
+  reservation: "book ahead"
   source: { url: https://tabelog.com/shizuoka/A2205/A220502/22001229/, type: tabelog }
 - id: kamatsuru
   name: Kamatsuru (海幸楽膳 釜つる)
   category: food
   lat: 35.096687
   lng: 139.074410
-  note: Tabelog about 3.69; seafood washoku from an old dried-fish house, known for simmered kinmedai; reservation slots, closed Wednesdays.
+  note: Seafood washoku from an old dried-fish house, known for simmered kinmedai.
   destination: atami
   accessFromStation: "Atami Ginza — about 10 min walk"
+  rating: "3.68"
+  priceBand: "¥4–5k"
+  closedDay: "Wed & Thu"
+  reservation: "reserve"
   source: { url: https://tabelog.com/shizuoka/A2205/A220502/22000010/, type: tabelog }
 - id: atami-purin
   name: Atami Purin (熱海プリン)
   category: food
   lat: 35.102040
   lng: 139.077351
-  note: The milk-bottle pudding shop near the station — the signature Atami sweet, and a regular queue.
+  note: The milk-bottle pudding shop near the station — the signature Atami sweet, with a regular queue.
   destination: atami
   accessFromStation: "near Atami station"
+  priceBand: "~¥500"
+  closedDay: "none"
+  reservation: "walk-in"
   source: { url: https://www.atami-purin.com/, type: official }
 - id: kome-to-sakana
   name: Kome to Sakana (米と魚)
   category: food
   lat: 35.101839
   lng: 139.077340
-  note: A small, well-liked seafood-bowl spot near the station — fresh sashimi, a calmer alternative to the busy "mountain bowl" chains.
+  note: A small, well-liked seafood-bowl spot near the station — fresh sashimi, a calmer alternative to the busy mountain-bowl chains.
   destination: atami
   accessFromStation: "near Atami station"
+  rating: "3.29"
+  priceBand: "¥2–3k"
+  closedDay: "none"
+  reservation: "reserve"
   source: { url: https://tabelog.com/shizuoka/A2205/A220502/22044687/, type: tabelog }
 - id: heiwa-dori
   name: Heiwa-dori arcade (平和通り)

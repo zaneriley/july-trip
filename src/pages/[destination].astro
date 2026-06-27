@@ -69,6 +69,14 @@ const section = 'mt-8 scroll-mt-20';
 // A walkability chip: amber when it needs a train/bus/car, calm when it's a walk.
 const accessChip = (a?: string) =>
   a?.includes('needs') ? 'bg-amber-50 text-amber-700' : 'bg-stone-100 text-stone-500';
+const chip = 'rounded-full px-2 py-0.5 text-[11px]';
+const neutralChip = 'bg-stone-100 text-stone-500';
+// The trip is Fri–Sun: amber a closed-day chip when the closure lands on those
+// days, emerald when it's open daily, neutral otherwise.
+const closedHitsTrip = (d: string) => /Fri|Sat|Sun/.test(d);
+const closedChipClass = (d: string) =>
+  d === 'none' ? 'bg-emerald-50 text-emerald-700' : closedHitsTrip(d) ? 'bg-amber-50 text-amber-700' : neutralChip;
+const closedLabel = (d: string) => (d === 'none' ? 'open daily' : `closed ${d}`);
 ---
 
 <Base title={`${dest.data.name} — July 3 to 5`} description={dest.data.tagline} ogImage={`/og/${destId}.png`} wide={true}>
@@ -204,15 +212,17 @@ const accessChip = (a?: string) =>
             <div class="overflow-hidden rounded-xl border border-stone-200 bg-white">
               {photo && <img src={photo.data.src} alt={photo.data.alt} loading="lazy" class="aspect-[16/10] w-full object-cover" />}
               <div class="px-3 py-2.5">
-                <div class="flex items-baseline justify-between gap-2">
-                  <a href={poi.data.source.url} target="_blank" rel="noopener noreferrer" class="text-[15px] font-medium text-stone-900 underline decoration-stone-300 underline-offset-2 hover:text-stone-950">
-                    {poi.data.name}
-                  </a>
-                  {poi.data.accessFromStation && (
-                    <span class={`shrink-0 rounded-full px-2 py-0.5 text-[11px] ${accessChip(poi.data.accessFromStation)}`}>{poi.data.accessFromStation}</span>
-                  )}
+                <a href={poi.data.source.url} target="_blank" rel="noopener noreferrer" class="text-[15px] font-medium text-stone-900 underline decoration-stone-300 underline-offset-2 hover:text-stone-950">
+                  {poi.data.name}
+                </a>
+                <div class="mt-1.5 flex flex-wrap gap-1.5">
+                  {poi.data.rating && <span class={`${chip} ${neutralChip}`}>★ {poi.data.rating}</span>}
+                  {poi.data.priceBand && <span class={`${chip} ${neutralChip}`}>{poi.data.priceBand}</span>}
+                  {poi.data.closedDay && <span class={`${chip} ${closedChipClass(poi.data.closedDay)}`}>{closedLabel(poi.data.closedDay)}</span>}
+                  {poi.data.reservation && <span class={`${chip} ${neutralChip}`}>{poi.data.reservation}</span>}
+                  {poi.data.accessFromStation && <span class={`${chip} ${accessChip(poi.data.accessFromStation)}`}>{poi.data.accessFromStation}</span>}
                 </div>
-                <p class="m-0 mt-0.5 text-[13px] leading-snug text-stone-600">{poi.data.note}</p>
+                <p class="m-0 mt-2 text-[13px] leading-snug text-stone-600">{poi.data.note}</p>
               </div>
             </div>
           ))}
