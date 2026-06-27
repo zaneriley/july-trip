@@ -165,6 +165,9 @@ const pois = defineCollection({
     lng: z.number(),
     note: z.string(),
     destination: reference('destinations'),
+    // How you get there from the base station — the walkability chip on cards/pins
+    // ("5 min walk" / "needs a train"). Optional; set where it's known.
+    accessFromStation: z.string().optional(),
     source: z.object({
       url: z.url(),
       type: z.enum(['official', 'tourism-board', 'wikimedia', 'wikidata', 'google-maps', 'tabelog', 'osm']),

@@ -139,6 +139,7 @@
   lng: 137.58528
   note: Cafe at the Serene art-museum complex by the gorge entrance; coffee brewed with Kurobe water.
   destination: kurobe
+  accessFromStation: "by the Unazuki gorge entrance"
   source: { url: https://www.unazuki-selene.com/, type: official }
 
 - id: cafe-mozart
@@ -148,6 +149,7 @@
   lng: 137.5840
   note: Retro Mozart-themed kissaten in central Unazuki Onsen, known for morning sets.
   destination: kurobe
+  accessFromStation: "central Unazuki Onsen"
   coordsUnverified: true
   source: { url: https://tabelog.com/en/toyama/A1602/A160201/16000182/, type: tabelog }
 
@@ -349,6 +351,7 @@
   lng: 139.080521
   note: Specialty roaster run by a Q-grader, in the Izusan villa area; score-based single beans.
   destination: atami
+  accessFromStation: "Izusan — needs a bus"
   source: { url: https://tabelog.com/en/shizuoka/A2205/A220502/22040011/, type: tabelog }
 
 - id: aizome-coffee
@@ -358,6 +361,7 @@
   lng: 139.084839
   note: Pour-over specialty cafe with a Sagami Bay view, on the 4th floor opposite Izusan shrine's approach.
   destination: atami
+  accessFromStation: "Izusan — needs a bus"
   source: { url: https://aizome-coffee.com/, type: official }
 
 - id: kamome-coffee
@@ -367,6 +371,7 @@
   lng: 139.072632
   note: Small-batch self-roastery near Kinomiya; beans and takeout, no seating.
   destination: atami
+  accessFromStation: "near Kinomiya station"
   source: { url: https://tabelog.com/en/shizuoka/A2205/A220502/22034317/, type: tabelog }
 
 - id: aibana
@@ -376,6 +381,7 @@
   lng: 139.077927
   note: Long-running self-roast cafe on the Nakamise shopping street; daily roasting, hand-drip.
   destination: atami
+  accessFromStation: "on Nakamise, a few min from the station"
   source: { url: https://www.aibana.com/, type: official }
 
 - id: chitose-105
@@ -385,6 +391,7 @@
   lng: 139.084015
   note: Direct-flame self-roaster at Atami's northern Izumi edge (toward Yugawara). Search by name on maps.
   destination: atami
+  accessFromStation: "far north Atami — needs a car"
   coordsUnverified: true
   source: { url: https://chitose105.com/, type: official }
 
@@ -395,6 +402,7 @@
   lng: 139.073456
   note: Atami's flagship retro kissaten (1952), the first place in town to serve a hamburger.
   destination: atami
+  accessFromStation: "Atami Ginza — about 10 min walk"
   source: { url: https://tabelog.com/en/shizuoka/A2205/A220502/22013777/, type: tabelog }
 
 - id: pine-tree
@@ -404,6 +412,7 @@
   lng: 139.073776
   note: Time-capsule kissaten on Atami Ginza with vintage table-arcade consoles and iron-plate Napolitan.
   destination: atami
+  accessFromStation: "Atami Ginza — about 10 min walk"
   source: { url: https://www.siz-sba.or.jp/atamignz/pine-tree/, type: official }
 
 - id: sunbird
@@ -413,6 +422,7 @@
   lng: 139.075043
   note: Seaside Showa kissaten (1968) facing the Pacific; iron-plate Napolitan and pudding a la mode.
   destination: atami
+  accessFromStation: "Atami seafront — about 10 min walk"
   source: { url: https://tabelog.com/en/shizuoka/A2205/A220502/22013558/, type: tabelog }
 
 - id: denen
@@ -422,6 +432,7 @@
   lng: 139.074600
   note: A 1959 pure-kissaten with an indoor koi inlet and a sculpture by Tatebayashi Kosei.
   destination: atami
+  accessFromStation: "Atami seafront — about 10 min walk"
   source: { url: https://tabelog.com/en/shizuoka/A2205/A220502/22013996/, type: tabelog }
 
 # ── Places to eat (from Japanese-source food research) ───────────────────────
@@ -433,6 +444,7 @@
   lng: 137.582690
   note: Cook-to-order clay-pot kamameshi and fresh white-shrimp sashimi, by Unazuki Onsen station. Tabelog about 3.44; closed Tuesdays, and each pot is roughly a 20-minute wait.
   destination: kurobe
+  accessFromStation: "by Unazuki Onsen station"
   source: { url: https://tabelog.com/toyama/A1602/A160201/16000090/, type: tabelog }
 - id: kurobe-soba-ya
   name: Kurobe Soba-ya (黒部 そば屋)
@@ -441,6 +453,7 @@
   lng: 137.455618
   note: The top-rated lunch in Kurobe city (Tabelog about 3.59) — handmade soba; closes once the soba sells out, closed Tuesdays. In central Kurobe, not Unazuki.
   destination: kurobe
+  accessFromStation: "central Kurobe — needs a train or car"
   source: { url: https://tabelog.com/toyama/A1602/A160201/16000623/, type: tabelog }
 - id: kashiwaya
   name: Rest Plaza Kashiwaya (柏や)
@@ -449,6 +462,7 @@
   lng: 137.583298
   note: Right in front of Unazuki Onsen station; the local white-shrimp kakiage donburi (about ¥1,300).
   destination: kurobe
+  accessFromStation: "by Unazuki Onsen station"
   source: { url: https://tabelog.com/toyama/A1602/A160201/16002884/, type: tabelog }
 - id: kitokito-an
   name: Ariiso Kitokito-an (有磯 きときと庵)
@@ -457,6 +471,7 @@
   lng: 137.584270
   note: A minute from Unazuki Onsen station; trout sushi (masu-no-sushi) and white shrimp.
   destination: kurobe
+  accessFromStation: "1 min from Unazuki Onsen station"
   source: { url: https://tabelog.com/toyama/A1602/A160201/16004154/, type: tabelog }
 - id: uo-no-eki-ikuji
   name: Fish Station Ikuji (魚の駅 生地)
@@ -465,6 +480,7 @@
   lng: 137.419109
   note: A working fish market on Toyama Bay in Kurobe's Ikuji district; kaisen-don and kelp-cured sashimi (kombujime).
   destination: kurobe
+  accessFromStation: "Ikuji district — needs a car or bus"
   source: { url: https://tabelog.com/toyama/A1602/A160201/16009022/, type: tabelog }
 # Atami
 - id: uosei
@@ -474,6 +490,7 @@
   lng: 139.081583
   note: Tabelog 4.03, a 2025 ramen "hyakumeiten" — but down in Ajiro, not walkable from Atami station; queues from the morning, closed Sundays and Mondays.
   destination: atami
+  accessFromStation: "in Ajiro — needs a train"
   source: { url: https://tabelog.com/shizuoka/A2205/A220502/22041254/, type: tabelog }
 - id: soba-asada
   name: Soba Asada (蕎麦あさ田)
@@ -482,6 +499,7 @@
   lng: 139.080543
   note: Often called Atami's best soba, about 5 minutes from the station. Hours and reservations vary across sources — phone first.
   destination: atami
+  accessFromStation: "5 min from Atami station"
   source: { url: https://tabelog.com/shizuoka/A2205/A220502/22027903/, type: tabelog }
 - id: washoku-kobayashi
   name: Washoku Kobayashi (和食処 こばやし)
@@ -490,6 +508,7 @@
   lng: 139.076940
   note: Tabelog about 3.69, on Heiwa-dori a few minutes from the station; a daily chirashi and a raw-shirasu bowl; closed Tuesdays.
   destination: atami
+  accessFromStation: "on Heiwa-dori, a few min from the station"
   source: { url: https://tabelog.com/shizuoka/A2205/A220502/22001229/, type: tabelog }
 - id: kamatsuru
   name: Kamatsuru (海幸楽膳 釜つる)
@@ -498,6 +517,7 @@
   lng: 139.074410
   note: Tabelog about 3.69; seafood washoku from an old dried-fish house, known for simmered kinmedai; reservation slots, closed Wednesdays.
   destination: atami
+  accessFromStation: "Atami Ginza — about 10 min walk"
   source: { url: https://tabelog.com/shizuoka/A2205/A220502/22000010/, type: tabelog }
 - id: atami-purin
   name: Atami Purin (熱海プリン)
@@ -506,6 +526,7 @@
   lng: 139.077351
   note: The milk-bottle pudding shop near the station — the signature Atami sweet, and a regular queue.
   destination: atami
+  accessFromStation: "near Atami station"
   source: { url: https://www.atami-purin.com/, type: official }
 - id: kome-to-sakana
   name: Kome to Sakana (米と魚)
@@ -514,6 +535,7 @@
   lng: 139.077340
   note: A small, well-liked seafood-bowl spot near the station — fresh sashimi, a calmer alternative to the busy "mountain bowl" chains.
   destination: atami
+  accessFromStation: "near Atami station"
   source: { url: https://tabelog.com/shizuoka/A2205/A220502/22044687/, type: tabelog }
 - id: heiwa-dori
   name: Heiwa-dori arcade (平和通り)
@@ -522,4 +544,5 @@
   lng: 139.077537
   note: The covered food-walking arcade right at Atami station — himono, takoyaki, sweets. Being covered, it's rain-proof for a wet day.
   destination: atami
+  accessFromStation: "at Atami station"
   source: { url: https://ontrip.jal.co.jp/tokai/17608117, type: tourism-board }
