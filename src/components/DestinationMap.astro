@@ -113,6 +113,9 @@ const pathData = paths.map((path) => ({ label: path.data.label, stops: path.data
   type Path = { label: string; stops: string[] };
 
   const inited = new WeakSet<Element>();
+  // Each inited block exposes a highlight(id) so a card elsewhere on the page can
+  // pan to and bounce its pin (see the 'poi-focus' listener below).
+  const blockControllers = new Map<Element, (id: string) => void>();
 
   async function initBlock(block: HTMLElement) {
     const mapEl = block.querySelector<HTMLElement>('[data-map]');
@@ -135,6 +138,7 @@ const pathData = paths.map((path) => ({ label: path.data.label, stops: path.data
     const bounds = new g.maps.LatLngBounds();
     const info = new g.maps.InfoWindow();
     const markersByCategory: Record<string, any[]> = {};
+    const markersById = new Map<string, any>();
 
     for (const poi of pois) {
       const color = CATEGORY_META[poi.category]?.color ?? '#666';
@@ -169,6 +173,7 @@ const pathData = paths.map((path) => ({ label: path.data.label, stops: path.data
       });
 
       (markersByCategory[poi.category] ??= []).push(marker);
+      markersById.set(poi.id, marker);
       bounds.extend(marker.getPosition());
     }
 
@@ -208,9 +213,47 @@ const pathData = paths.map((path) => ({ label: path.data.label, stops: path.data
       });
     });
 
+    // Let a card on the page point at a pin: re-show it if filtered out, pan to
+    // it, open its info window, and bounce it briefly.
+    const highlight = (id: string) => {
+      const marker = markersById.get(id);
+      if (!marker) return;
+      const cat = byId.get(id)?.category;
+      if (cat) {
+        const box = block.querySelector<HTMLInputElement>(`[data-filter="${cat}"]`);
+        if (box && !box.checked) {
+          box.checked = true;
+          for (const m of markersByCategory[cat] ?? []) m.setVisible(true);
+        }
+      }
+      marker.setVisible(true);
+      map.panTo(marker.getPosition());
+      if (map.getZoom() < 14) map.setZoom(14);
+      g.maps.event.trigger(marker, 'click');
+      marker.setAnimation(g.maps.Animation.BOUNCE);
+      setTimeout(() => marker.setAnimation(null), 1400);
+    };
+    blockControllers.set(block, highlight);
+
     inited.add(block);
     return map;
   }
+
+  // A card anywhere on the page asks the map to locate a point. Init the map first
+  // if it hasn't been (e.g. the user jumped straight down the page), then highlight.
+  document.addEventListener('poi-focus', async (e) => {
+    const id = (e as CustomEvent<{ id: string }>).detail?.id;
+    const block = document.querySelector<HTMLElement>('[data-map-block]');
+    if (!block || !id) return;
+    if (!inited.has(block)) {
+      try {
+        await initBlock(block);
+      } catch {
+        return;
+      }
+    }
+    blockControllers.get(block)?.(id);
+  });
 
   // Initialise a map when its block scrolls into view — which also covers a tab
   // becoming visible, since a hidden panel reports as not intersecting until shown.
