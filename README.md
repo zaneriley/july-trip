@@ -2,18 +2,23 @@
 
 ## What this is
 
-A one-page, phone-first site for picking where five of us (plus a three-year-old)
-go for the July 3–5 long weekend. It lays out two destinations — Kurobe and Atami —
-side by side as tabs. Anyone can tap a heart on the things they'd want to do; the
-counts are shared and anonymous, so the group can see what everyone's drawn to
-without a poll, a sign-up, or a group chat thread. The tone is calm and plain on
-purpose: it's a quiet way to decide together, not a brochure.
+A phone-first site for deciding where four of us (plus a three-year-old) go for
+the July 3–5 long weekend — Kurobe or Atami. The deciding happens in our iMessage
+group thread; this site is the shared evidence we link to. Home is the two options
+side by side (time and cost from Shibuya, and the feel of each); each destination
+has its own page with a map and the places. The tone is calm and plain on purpose.
+
+Because the planning lives in a chat, the **link preview matters as much as the
+page** — paste a link and the unfurled bubble carries the comparison itself. See
+`docs/decisions/0007-link-native-imessage.md`.
 
 ## How it's built
 
-- **Astro** static site, TypeScript (strict), **Tailwind** for utility CSS.
-- **Cloudflare Pages** hosts the static build.
-- A small **Cloudflare Worker** backed by **KV** holds the anonymous heart counts.
+- **Astro** static site, TypeScript (strict), **Tailwind** for utility CSS. Pure
+  static — no server, no accounts.
+- **Cloudflare Pages** hosts the build.
+- **Open Graph link previews** generated at build (satori + resvg, `src/pages/og/`)
+  from the same sourced data, so a pasted link unfurls into a useful bubble.
 - **Google Maps JavaScript API** powers a per-destination planning map: categorized
   pins, author-drawn routes, and a show/hide filter. Per-point train directions
   hand off to the Google Maps app (the only place Japan transit routing works).
@@ -57,7 +62,7 @@ and `0006-planning-map.md` (the map).
 ## Local dev
 
 ```
-cp .env.example .env      # optional: add a Maps key and the Worker URL
+cp .env.example .env      # optional: add a Maps key for the planning map
 npm install
 npm run dev
 ```
@@ -65,10 +70,9 @@ npm run dev
 ## Deploy
 
 Automatic on push to `main` (see `.github/workflows/deploy.yml`), once these repo
-secrets are set: `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`, `GOOGLE_MAPS_API_KEY`,
-and optionally `PUBLIC_HEART_API_URL`. The workflow injects `GOOGLE_MAPS_API_KEY`
-into the build as `PUBLIC_GOOGLE_MAPS_API_KEY`. The Worker needs a KV namespace —
-create it once and paste the id into `worker/wrangler.toml`.
+secrets are set: `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`, and
+`GOOGLE_MAPS_API_KEY`. The workflow injects `GOOGLE_MAPS_API_KEY` into the build as
+`PUBLIC_GOOGLE_MAPS_API_KEY`. It's a pure static deploy — no Worker, no KV.
 
 ## Maps and the Maps key
 

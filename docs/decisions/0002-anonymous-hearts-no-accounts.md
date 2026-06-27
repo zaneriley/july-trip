@@ -1,6 +1,11 @@
 # 0002 — Hearts are anonymous, with no accounts
 
-Status: accepted
+Status: superseded by ADR 0007
+
+> Superseded 2026-06-27. The planning moved to the group's iMessage thread, where
+> reacting is a tapback. An anonymous on-page vote among four people who already
+> react in the chat was redundant ceremony, so the hearts feature and its Worker +
+> KV were removed. The reasoning below is kept for the record.
 
 ## Context
 

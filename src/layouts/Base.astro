@@ -1,16 +1,27 @@
 ---
 /*
-  The shared shell for the one page this site has. It sets the mobile viewport,
-  loads the design-rule stylesheet, and nothing else — there is no header chrome,
-  no nav bar, because the whole site is a single scrollable page.
+  The shared shell. It sets the mobile viewport, loads the design-rule stylesheet,
+  and — because the real planning happens in an iMessage group thread — emits the
+  link-preview tags (Open Graph) so a pasted link unfurls into a useful bubble.
+  Every route passes its own title, description, and preview image.
 */
 import '../styles/global.css';
 
 interface Props {
   title: string;
+  // One plain sentence shown under the title in a shared-link preview.
+  description: string;
+  // Absolute-path preview image (a real raster, generated at build — see
+  // src/pages/og/). iMessage and the like read og:image to draw the bubble.
+  ogImage?: string;
+  // Detail pages (a map beside cards) need room; the comparison/home stays narrow.
+  wide?: boolean;
 }
 
-const { title } = Astro.props;
+const { title, description, ogImage, wide = false } = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const ogImageUrl = ogImage ? new URL(ogImage, Astro.site).href : undefined;
+const main = wide ? 'mx-auto max-w-6xl px-4 pb-24 pt-8 md:px-6' : 'mx-auto max-w-xl px-4 pb-24 pt-8';
 ---
 
 <!doctype html>
@@ -22,10 +33,26 @@ const { title } = Astro.props;
     <!-- viewport-fit=cover lets the page reach into the iPhone safe areas. -->
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="generator" content={Astro.generator} />
+
     <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical.href} />
+
+    <!-- The link-preview bubble in a chat. This is the page's real first surface. -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical.href} />
+    {ogImageUrl && <meta property="og:image" content={ogImageUrl} />}
+    {ogImageUrl && <meta property="og:image:width" content="1200" />}
+    {ogImageUrl && <meta property="og:image:height" content="630" />}
+    <meta name="twitter:card" content={ogImageUrl ? 'summary_large_image' : 'summary'} />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    {ogImageUrl && <meta name="twitter:image" content={ogImageUrl} />}
   </head>
   <body class="bg-stone-50 text-stone-900 antialiased">
-    <main class="mx-auto max-w-xl px-4 pb-24 pt-8">
+    <main class={main}>
       <slot />
     </main>
   </body>

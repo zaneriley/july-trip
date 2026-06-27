@@ -1,19 +1,17 @@
 ---
 /*
   A card is a piece of content, not a row of chips. It is a title, real prose
-  (passed in as the slot), maybe a photo, the provenance for the prose, and a
-  heart. There is deliberately no slot for a category, tag, badge, or label, so
-  none can creep in (ADR 0001).
+  (passed in as the slot), maybe a photo, and the provenance for the prose. There
+  is deliberately no slot for a category, tag, badge, or label, so none can creep
+  in (ADR 0001).
 
   Provenance is first-class: a card takes the resolved source entries behind its
   prose and prints them as plain links at the foot, so any claim can be traced.
 */
 import type { CollectionEntry } from 'astro:content';
-import Heart from './Heart.astro';
 import SourceLinks from './SourceLinks.astro';
 
 interface Props {
-  cardId: string;
   title: string;
   // The sources behind this card's prose, already resolved from references.
   sourceEntries?: CollectionEntry<'sources'>[];
@@ -22,7 +20,7 @@ interface Props {
   image?: { src: string; alt: string; credit?: string; creditUrl?: string };
 }
 
-const { cardId, title, sourceEntries = [], image } = Astro.props;
+const { title, sourceEntries = [], image } = Astro.props;
 ---
 
 <article class="mb-5 overflow-hidden rounded-2xl border border-stone-200 bg-white shadow-sm">
@@ -58,11 +56,8 @@ const { cardId, title, sourceEntries = [], image } = Astro.props;
       <slot />
     </div>
 
-    <div class="mt-4 flex items-end justify-between gap-3">
-      <div class="min-w-0">
-        <SourceLinks entries={sourceEntries} lead="about this place" />
-      </div>
-      <Heart cardId={cardId} />
+    <div class="mt-4">
+      <SourceLinks entries={sourceEntries} lead="about this place" />
     </div>
   </div>
 </article>

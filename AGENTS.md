@@ -4,11 +4,13 @@ The contract for working in this repo. Read it before changing anything.
 
 ## What this repo is
 
-A single-page, phone-first site for planning around two trip destinations (Kurobe
-and Atami), shown as tabs. Each has a Google Maps planning map (categorized pins,
-drawn routes, a show/hide filter) beside prose place cards with anonymous shared
-heart reactions. Astro static site + a Cloudflare Worker (KV) for the hearts. See
-`README.md` for the full picture and `docs/decisions/` for the locked decisions.
+A phone-first site for deciding between two trip destinations (Kurobe and Atami).
+The deciding happens in the group's iMessage thread; the site is the shared
+evidence linked there. Home is the two options side by side; each destination has
+its own URL with a Google Maps planning map (categorized pins, drawn routes, a
+filter) beside prose place cards. Pure static Astro — no server, no accounts. The
+link previews (`src/pages/og/`) are a first-class surface. See `README.md` and
+`docs/decisions/` (especially ADR 0007).
 
 ## Acceptance gates — non-negotiable
 

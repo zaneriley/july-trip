@@ -1,0 +1,66 @@
+---
+import Base from '../layouts/Base.astro';
+import Card from '../components/Card.astro';
+import Journeys from '../components/Journeys.astro';
+import DestinationMap from '../components/DestinationMap.astro';
+import { getCollection, getEntries, render } from 'astro:content';
+
+// One static page per destination (/kurobe, /atami). Each is its own URL so it
+// has its own link preview — drop "/atami" in the chat and it unfurls to Atami.
+export async function getStaticPaths() {
+  const destinations = await getCollection('destinations');
+  return destinations.map((dest) => ({ params: { destination: dest.id } }));
+}
+
+const { destination: destId } = Astro.params;
+const dest = (await getCollection('destinations')).find((d) => d.id === destId)!;
+
+const allJourneys = await getCollection('journeys');
+const places = await Promise.all(
+  (await getCollection('places'))
+    .filter((place) => place.data.destination.id === destId)
+    .map(async (place) => ({
+      place,
+      PlaceBody: (await render(place)).Content,
+      placeSources: await getEntries(place.data.sources),
+      journeys: allJourneys.filter((j) => j.data.to.id === place.id),
+    })),
+);
+const pois = (await getCollection('pois')).filter((poi) => poi.data.destination.id === destId);
+const paths = (await getCollection('paths')).filter((path) => path.data.destination.id === destId);
+---
+
+<Base
+  title={`${dest.data.name} — July 3 to 5`}
+  description={dest.data.tagline}
+  ogImage={`/og/${destId}.png`}
+  wide={true}
+>
+  <header class="mb-5">
+    <a href="/" class="text-sm text-stone-500 hover:text-stone-800">← Kurobe or Atami?</a>
+    <h1 class="mt-2 text-2xl font-semibold text-stone-900">{dest.data.name}</h1>
+    <p class="mt-1 text-[15px] leading-relaxed text-stone-600">{dest.data.tagline}</p>
+  </header>
+
+  {/*
+    Map-led on desktop: the map takes the flexible space and stays put while the
+    cards scroll beside it; the cards hold a comfortable fixed reading column. On a
+    phone this stacks — map first, then the cards.
+  */}
+  <div class="md:grid md:grid-cols-[1fr_minmax(340px,400px)] md:items-start md:gap-6">
+    <div class="mb-6 md:sticky md:top-4 md:mb-0">
+      <DestinationMap destinationId={dest.id} pois={pois} paths={paths} />
+    </div>
+
+    <div>
+      {
+        places.map(({ place, PlaceBody, placeSources, journeys }) => (
+          <Card title={place.data.name} image={place.data.image} sourceEntries={placeSources}>
+            <PlaceBody />
+            <Journeys journeys={journeys} />
+          </Card>
+        ))
+      }
+    </div>
+  </div>
+</Base>

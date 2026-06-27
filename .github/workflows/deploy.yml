@@ -1,7 +1,7 @@
 name: Deploy to Cloudflare
 
-# Solo dev, straight to main: every push to main builds the site and ships both
-# the Pages project and the hearts Worker. Same secret names as the niwa repo.
+# Solo dev, straight to main: every push to main builds the static site and ships
+# it to the Pages project. Same secret names as the niwa repo.
 on:
   push:
     branches: [main]
@@ -35,7 +35,6 @@ jobs:
           # secrecy. We still hold it as a repo secret so the value isn't in git;
           # it's injected into the public PUBLIC_ var only at build time.
           PUBLIC_GOOGLE_MAPS_API_KEY: ${{ secrets.GOOGLE_MAPS_API_KEY }}
-          PUBLIC_HEART_API_URL: ${{ secrets.PUBLIC_HEART_API_URL }}
 
       - name: Deploy the site to Pages
         uses: cloudflare/wrangler-action@v3
@@ -43,11 +42,3 @@ jobs:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           command: pages deploy dist --project-name=july-trip
-
-      - name: Deploy the hearts Worker
-        uses: cloudflare/wrangler-action@v3
-        with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          workingDirectory: worker
-          command: deploy

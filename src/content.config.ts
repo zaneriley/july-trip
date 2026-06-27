@@ -65,6 +65,16 @@ const destinations = defineCollection({
     region: z.string(),
     // Display order on the page. No preference is implied by the order.
     order: z.number().default(0),
+    // A one-line "what it is", for the comparison and the link preview.
+    tagline: z.string(),
+    // The three honest comparison cells. Plain summaries, not sourced figures —
+    // the times and costs come from the journeys; these are the feel of the place.
+    pace: z.string(),
+    withChild: z.string(),
+    weather: z.string(),
+    // The destination's hero photo (a /photos path), reused in the comparison and
+    // the generated link-preview image.
+    heroImage: z.string(),
     sources: z.array(reference('sources')).default([]),
   }),
 });

@@ -1,118 +1,80 @@
 ---
 import Base from '../layouts/Base.astro';
-import DestinationTab from '../components/DestinationTab.astro';
-import Card from '../components/Card.astro';
-import Journeys from '../components/Journeys.astro';
-import DestinationMap from '../components/DestinationMap.astro';
-import { getCollection, getEntries, render } from 'astro:content';
+import { comparisonColumns } from '../lib/compare';
 
-// The whole page is built from the content graph (see src/content.config.ts).
-// Nothing here is hardcoded trip prose — destinations, the places inside them,
-// and the journeys to each place all come from src/data, every figure carrying
-// its source. To add or correct anything, edit the data, not this file.
-const destinations = (await getCollection('destinations')).sort(
-  (a, b) => a.data.order - b.data.order,
-);
-const allPlaces = await getCollection('places');
-const allJourneys = await getCollection('journeys');
-const allPois = await getCollection('pois');
-const allPaths = await getCollection('paths');
+// Home is the decision: Kurobe vs Atami, side by side. The actual deciding happens
+// in the group thread — this page is the shared evidence everyone links to. Each
+// destination's own page (the map + the places) is one tap away.
+const columns = await comparisonColumns();
 
-// Resolve everything once, here, so the markup below stays flat and readable.
-const view = await Promise.all(
-  destinations.map(async (dest) => {
-    const places = await Promise.all(
-      allPlaces
-        .filter((place) => place.data.destination.id === dest.id)
-        .map(async (place) => {
-          const { Content: PlaceBody } = await render(place);
-          return {
-            place,
-            PlaceBody,
-            placeSources: await getEntries(place.data.sources),
-            journeys: allJourneys.filter((j) => j.data.to.id === place.id),
-          };
-        }),
-    );
-    return {
-      dest,
-      places,
-      pois: allPois.filter((poi) => poi.data.destination.id === dest.id),
-      paths: allPaths.filter((path) => path.data.destination.id === dest.id),
-    };
-  }),
-);
+// The qualitative rows, in the order they help the decision.
+const rows = [
+  { label: 'the pace', key: 'pace' as const },
+  { label: 'with a three-year-old', key: 'withChild' as const },
+  { label: 'early July', key: 'weather' as const },
+];
 ---
 
-<Base title="July 3–5 — Kurobe or Atami?">
+<Base
+  title="Kurobe or Atami? — July 3 to 5"
+  description="Two options for the long weekend, side by side: the alpine route at Kurobe, or onsen by the sea at Atami. Have a look, then we'll sort it out in the chat."
+  ogImage="/og/home.png"
+>
   <header class="mb-6">
     <h1 class="m-0 text-2xl font-semibold text-stone-900">Where should we go, July 3 to 5?</h1>
+    <p class="mt-2 text-[15px] leading-relaxed text-stone-600">
+      Two options, side by side. Have a look at both — then we'll sort it out in the chat.
+    </p>
   </header>
 
-  <!--
-    Tabs. Sentence-case labels, no all-caps, no pill styling — just buttons that
-    swap which destination panel is visible.
-  -->
-  <div role="tablist" aria-label="Destinations" class="mb-6 flex gap-2">
+  <!-- The two options as a side-by-side, each tapping through to its own map. -->
+  <div class="grid grid-cols-2 gap-3">
     {
-      view.map(({ dest }, i) => (
-        <button
-          type="button"
-          role="tab"
-          data-tab={dest.id}
-          aria-selected={i === 0 ? 'true' : 'false'}
-          aria-controls={`panel-${dest.id}`}
-          class="rounded-full border border-stone-300 px-4 py-2 text-[15px] text-stone-600 transition aria-selected:border-stone-900 aria-selected:bg-stone-900 aria-selected:text-white"
+      columns.map(({ dest, time, cost }) => (
+        <a
+          href={`/${dest.id}`}
+          class="group flex flex-col overflow-hidden rounded-2xl border border-stone-200 bg-white shadow-sm transition hover:border-stone-400"
         >
-          {dest.data.name}
-        </button>
+          <img
+            src={dest.data.heroImage}
+            alt={dest.data.name}
+            class="aspect-[4/3] w-full object-cover"
+          />
+          <div class="flex flex-1 flex-col px-3 py-3">
+            <h2 class="m-0 text-lg font-semibold text-stone-900">{dest.data.name}</h2>
+            <p class="mt-1 text-[13px] leading-snug text-stone-500">{dest.data.tagline}</p>
+            <dl class="mt-3 space-y-1.5 text-[13px]">
+              <div>
+                <dt class="text-stone-400">getting there</dt>
+                <dd class="m-0 text-stone-800">{time ?? '—'}</dd>
+              </div>
+              <div>
+                <dt class="text-stone-400">cost per adult</dt>
+                <dd class="m-0 text-stone-800">{cost ?? '—'}</dd>
+              </div>
+            </dl>
+            <span class="mt-3 text-sm text-stone-500 group-hover:text-stone-800">
+              see the map and places →
+            </span>
+          </div>
+        </a>
       ))
     }
   </div>
 
-  {
-    view.map(({ dest, places, pois, paths }, i) => (
-      <DestinationTab id={dest.id} label={dest.data.name} active={i === 0}>
-        {/*
-          Two panes on desktop: the planning map on the left (it stays put as you
-          scroll the places beside it), the place cards on the right. On a phone
-          this stacks — map first, then the cards.
-        */}
-        <div class="md:grid md:grid-cols-2 md:items-start md:gap-6">
-          <div class="mb-6 md:sticky md:top-4 md:mb-0">
-            <DestinationMap destinationId={dest.id} pois={pois} paths={paths} />
-          </div>
-
-          <div>
-            {places.map(({ place, PlaceBody, placeSources, journeys }) => (
-              <Card
-                cardId={place.id}
-                title={place.data.name}
-                image={place.data.image}
-                sourceEntries={placeSources}
-              >
-                <PlaceBody />
-                <Journeys journeys={journeys} />
-              </Card>
-            ))}
-          </div>
+  <!-- The softer, side-by-side comparison for the things numbers don't capture. -->
+  <div class="mt-6 overflow-hidden rounded-2xl border border-stone-200 bg-white">
+    {
+      rows.map((row, i) => (
+        <div class={`grid grid-cols-2 gap-4 px-4 py-3 ${i > 0 ? 'border-t border-stone-100' : ''}`}>
+          {columns.map(({ dest }) => (
+            <div>
+              <p class="m-0 text-xs text-stone-400">{row.label}</p>
+              <p class="mt-0.5 text-[14px] leading-snug text-stone-700">{dest.data[row.key]}</p>
+            </div>
+          ))}
         </div>
-      </DestinationTab>
-    ))
-  }
-
-  <script>
-    // Swap which destination panel is visible. Pure DOM toggling — no framework,
-    // so it works the instant the HTML lands even before anything else loads.
-    const tabs = [...document.querySelectorAll<HTMLButtonElement>('[data-tab]')];
-    const panels = [...document.querySelectorAll<HTMLElement>('[data-tab-panel]')];
-
-    for (const tab of tabs) {
-      tab.addEventListener('click', () => {
-        const id = tab.dataset.tab;
-        for (const t of tabs) t.setAttribute('aria-selected', String(t === tab));
-        for (const p of panels) p.hidden = p.dataset.tabPanel !== id;
-      });
+      ))
     }
-  </script>
+  </div>
 </Base>

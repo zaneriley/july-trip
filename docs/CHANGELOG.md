@@ -2,6 +2,17 @@
 
 ## Unreleased
 
+- Rebuilt around the iMessage group thread (ADR 0007): home is now the Kurobe-vs-
+  Atami comparison (figures from the journey data + the feel of each), and each
+  destination has its own URL (`/kurobe`, `/atami`) with its map and places. Tabs
+  removed.
+- Added Open Graph link previews generated at build (satori + resvg) from the same
+  sourced data — the home preview is the comparison itself; each destination's is
+  its photo and figures. The link bubble is the page's first surface in a chat.
+- Removed the heart vote and its Cloudflare Worker + KV — reacting happens in the
+  thread. Back to a pure static site (ADR 0002 superseded).
+- Detail pages use a roomier map-led two-pane layout on desktop.
+
 - Bootstrap the project: Astro static site (TypeScript strict, Tailwind),
   a Cloudflare Worker + KV for anonymous heart counts, and a lazy-loading
   Google Maps component for routes from Shibuya and coffee stops.
