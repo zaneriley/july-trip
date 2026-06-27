@@ -17,8 +17,9 @@ interface Props {
   title: string;
   // The sources behind this card's prose, already resolved from references.
   sourceEntries?: CollectionEntry<'sources'>[];
-  // One photo: a real image with a credit, never a stock placeholder.
-  image?: { src: string; alt: string; credit?: string };
+  // One photo: a real image with a credit linking back to its source, never a
+  // stock placeholder. The credit is the image's provenance (ADR 0003).
+  image?: { src: string; alt: string; credit?: string; creditUrl?: string };
 }
 
 const { cardId, title, sourceEntries = [], image } = Astro.props;
@@ -30,7 +31,20 @@ const { cardId, title, sourceEntries = [], image } = Astro.props;
       <figure class="m-0">
         <img src={image.src} alt={image.alt} loading="lazy" class="aspect-[4/3] w-full object-cover" />
         {image.credit && (
-          <figcaption class="px-4 pt-2 text-xs text-stone-400">{image.credit}</figcaption>
+          <figcaption class="px-4 pt-2 text-xs text-stone-400">
+            {image.creditUrl ? (
+              <a
+                href={image.creditUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="underline decoration-stone-300 underline-offset-2 hover:text-stone-600"
+              >
+                {image.credit}
+              </a>
+            ) : (
+              image.credit
+            )}
+          </figcaption>
         )}
       </figure>
     )

@@ -66,14 +66,22 @@ and optionally `PUBLIC_HEART_API_URL`. The workflow injects `GOOGLE_MAPS_API_KEY
 into the build as `PUBLIC_GOOGLE_MAPS_API_KEY`. The Worker needs a KV namespace —
 create it once and paste the id into `worker/wrangler.toml`.
 
-## A note on the Maps key
+## Maps and the Maps key
 
-The Google Maps key is **public by design** — Astro bakes `PUBLIC_*` variables
-into the client bundle, and that's expected for the Maps JavaScript API. Its key
-is meant to ship to the browser. Secrecy is **not** the security boundary here.
+Google's developer map APIs **do not provide transit (train) routing for Japan** —
+it's a licensing exclusion, not a key or signal problem. So the page doesn't try
+to draw a route. Instead each place shows an inline location map (Maps Embed API)
+and two deep-links into the Google Maps app — "train directions from Shibuya" and
+"coffee nearby" — where Japan transit actually works. Those links need no key. See
+`docs/decisions/0005-maps-deep-link-japan-transit.md`.
+
+Only the inline place map uses the key, so **enable "Maps Embed API"** on it
+(Directions/Places aren't needed). The key is **public by design** — Astro bakes
+`PUBLIC_*` variables into the client bundle, and an Embed key is meant to ship to
+the browser. Secrecy is **not** the security boundary.
 
 The real boundary is the **HTTP-referrer restriction** you set in the Google Cloud
 console: limit the key to `*.pages.dev` and `localhost` so it only works from this
-site. Without that restriction a leaked key could be used anywhere and run up your
-quota — so set it before going live. Holding the key as a repo secret only keeps
-the value out of git history; the referrer rule is what actually protects it.
+site. Holding it as a repo secret only keeps the value out of git history; the
+referrer rule is what actually protects it. Left unset, the inline maps show a note
+and the deep-links still work.

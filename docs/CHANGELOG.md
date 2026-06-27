@@ -17,3 +17,10 @@
   as the Tateyama Kurobe alpine route plus Unazuki Onsen; Atami with Kodama,
   Odoriko, and local-train options. Figures that couldn't be confirmed at a
   first-party source are marked `unverified` and shown with their caveat.
+- Removed the page's intro paragraph and the per-destination intro prose.
+- Added a real, self-hosted, license-confirmed photo to each place card
+  (Wikimedia Commons), with the attribution linking back to its source file.
+- Replaced the broken transit route maps: Google's developer APIs don't route
+  transit in Japan, so each place now shows a Maps Embed location map plus
+  deep-links to the Google Maps app for train directions and coffee — which need
+  no key and where Japan transit actually works. See ADR 0005.

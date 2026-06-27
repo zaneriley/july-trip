@@ -1,6 +1,13 @@
 ---
 name: Tateyama Kurobe alpine route
 destination: kurobe
+mapQuery: Kurobe Dam, Toyama, Japan
+image:
+  src: /photos/kurobe-dam.jpg
+  alt: Kurobe Dam mid water-discharge, a mist plume rising over the arch dam with green slopes around it
+  credit: Photo by Raki_Man, CC BY 3.0, via Wikimedia Commons
+  creditUrl: https://commons.wikimedia.org/wiki/File:Kurobe_Dam_-_panoramio.jpg
+  license: CC BY 3.0
 sources:
   - alpen-route-transportation
   - alpen-route-open-2026

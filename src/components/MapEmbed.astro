@@ -1,136 +1,72 @@
 ---
 /*
-  A Google map that only loads when it scrolls into view. We do this because the
-  page may have several maps and the audience is on phones with weak signal —
-  loading the Maps script eagerly would block the whole page on a slow network.
+  A map for one place, plus the two links that actually do something useful here.
 
-  Three modes:
-    - "place"  : show a single location.
-    - "route"  : draw directions from the origin (Shibuya by default) to a place.
-    - "search" : show places (e.g. coffee) near a point or along a route.
+  Why it's built this way: Google's developer map APIs do not provide transit
+  (train) routing for Japan at all — it's a licensing exclusion, not a key or
+  signal problem, so a "draw the train route" call always fails. The consumer
+  Google Maps app/site DOES have full Japan rail data. So instead of drawing a
+  wrong or broken route, we:
 
-  The API key is read from PUBLIC_GOOGLE_MAPS_API_KEY at build time. While it is
-  blank the component renders a clear "needs API key" note instead of a broken map.
+    1. show where the place is, with the Maps Embed API (a plain iframe, which
+       loads lazily and survives weak signal far better than scripted maps), and
+    2. hand the actual routing to Google Maps via a deep link — which opens the
+       app on a phone and shows real train directions.
+
+  Both links need no API key, so the route and the coffee search work even before
+  a key is set; only the inline map needs the key (and the Maps Embed API enabled).
 */
 interface Props {
-  mode: 'place' | 'route' | 'search';
-  /** Where the map is centred or what the route ends at. A place name works fine. */
-  destination: string;
-  /** Route origin. Defaults to Shibuya Station. */
-  origin?: string;
-  /** For "search" mode: what to look for, e.g. "coffee". */
-  query?: string;
-  /** Accessible description of what this map shows. */
+  // A geocodable location, e.g. "Kurobe Dam, Toyama, Japan".
+  query: string;
+  // Accessible description of the map.
   label: string;
+  // Where directions start from. Defaults to Shibuya Station.
+  origin?: string;
 }
 
-const {
-  mode,
-  destination,
-  // TODO: swap this free-text origin for Shibuya Station's canonical place id
-  // once it is verified via the Places API. A place id pins the exact station
-  // entrance; the text query is close enough but can drift.
-  origin = 'Shibuya Station, Tokyo',
-  query,
-  label,
-} = Astro.props;
+const { query, label, origin = 'Shibuya Station, Tokyo' } = Astro.props;
 
 const apiKey = import.meta.env.PUBLIC_GOOGLE_MAPS_API_KEY ?? '';
 const hasKey = apiKey.length > 0;
 
-const config = JSON.stringify({ mode, destination, origin, query, hasKey });
+const placeUrl = `https://www.google.com/maps/embed/v1/place?key=${apiKey}&q=${encodeURIComponent(query)}`;
+
+// Deep links into the consumer Google Maps app — the only place Japan transit
+// actually works. No API key required.
+const directionsUrl =
+  `https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(origin)}` +
+  `&destination=${encodeURIComponent(query)}&travelmode=transit`;
+const coffeeUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`coffee near ${query}`)}`;
+
+const linkClass =
+  'inline-flex items-center gap-1 rounded-lg border border-stone-300 px-3 py-2 text-sm text-stone-700 transition hover:border-stone-900 hover:text-stone-900';
 ---
 
-<div
-  data-map
-  data-config={config}
-  role="img"
-  aria-label={label}
-  class="my-4 flex aspect-[4/3] w-full items-center justify-center overflow-hidden rounded-2xl border border-stone-200 bg-stone-100 text-center text-sm text-stone-500"
->
+<div class="my-4">
   {
     hasKey ? (
-      <span data-map-placeholder>map loads when you scroll here…</span>
+      <iframe
+        title={label}
+        src={placeUrl}
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+        allowfullscreen
+        class="aspect-[4/3] w-full rounded-2xl border border-stone-200"
+      />
     ) : (
-      <span class="px-6">
-        map needs a Google Maps API key — set <code>PUBLIC_GOOGLE_MAPS_API_KEY</code> to enable it
-      </span>
+      <div class="flex aspect-[4/3] w-full items-center justify-center rounded-2xl border border-stone-200 bg-stone-100 px-6 text-center text-sm text-stone-500">
+        the inline map needs a Google Maps key — the links below work without one
+      </div>
     )
   }
+
+  <div class="mt-2 flex flex-wrap gap-2">
+    <a href={directionsUrl} target="_blank" rel="noopener noreferrer" class={linkClass}>
+      train directions from Shibuya →
+    </a>
+    <a href={coffeeUrl} target="_blank" rel="noopener noreferrer" class={linkClass}>
+      coffee nearby →
+    </a>
+  </div>
 </div>
-
-{
-  hasKey && (
-    <script
-      is:inline
-      define:vars={{ apiKey }}
-      type="module"
-    >
-      // Loaded once per page. Watches every [data-map] element and only boots the
-      // Google Maps script after the first map nears the viewport.
-      let mapsReady = null;
-
-      function loadMaps() {
-        if (mapsReady) return mapsReady;
-        mapsReady = new Promise((resolve, reject) => {
-          const s = document.createElement('script');
-          s.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=places`;
-          s.async = true;
-          s.onload = resolve;
-          s.onerror = reject;
-          document.head.appendChild(s);
-        });
-        return mapsReady;
-      }
-
-      async function draw(el) {
-        const cfg = JSON.parse(el.dataset.config);
-        await loadMaps();
-        el.textContent = '';
-        const map = new google.maps.Map(el, { zoom: 12, center: { lat: 35.659, lng: 139.7 }, mapId: undefined });
-
-        if (cfg.mode === 'route') {
-          const svc = new google.maps.DirectionsService();
-          const renderer = new google.maps.DirectionsRenderer({ map });
-          const res = await svc.route({
-            origin: cfg.origin,
-            destination: cfg.destination,
-            travelMode: google.maps.TravelMode.TRANSIT,
-          });
-          renderer.setDirections(res);
-        } else if (cfg.mode === 'search') {
-          const geocoder = new google.maps.Geocoder();
-          const { results } = await geocoder.geocode({ address: cfg.destination });
-          const center = results[0].geometry.location;
-          map.setCenter(center);
-          const places = new google.maps.places.PlacesService(map);
-          places.nearbySearch(
-            { location: center, radius: 1500, keyword: cfg.query ?? 'coffee' },
-            (list) => {
-              (list ?? []).forEach((p) => new google.maps.Marker({ map, position: p.geometry.location, title: p.name }));
-            },
-          );
-        } else {
-          const geocoder = new google.maps.Geocoder();
-          const { results } = await geocoder.geocode({ address: cfg.destination });
-          const loc = results[0].geometry.location;
-          map.setCenter(loc);
-          new google.maps.Marker({ map, position: loc, title: cfg.destination });
-        }
-      }
-
-      const observer = new IntersectionObserver((entries, obs) => {
-        for (const entry of entries) {
-          if (entry.isIntersecting) {
-            obs.unobserve(entry.target);
-            draw(entry.target).catch(() => {
-              entry.target.textContent = 'map could not load — check signal and try again';
-            });
-          }
-        }
-      }, { rootMargin: '200px' });
-
-      document.querySelectorAll('[data-map]').forEach((el) => observer.observe(el));
-    </script>
-  )
-}

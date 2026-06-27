@@ -76,6 +76,23 @@ const places = defineCollection({
   schema: z.object({
     name: z.string(),
     destination: reference('destinations'),
+    // One real photo, self-hosted under /photos, carrying its own licence and a
+    // link back to where it came from — provenance for the image, same as for a
+    // fact (ADR 0003). Only license-confirmed images go here.
+    image: z
+      .object({
+        src: z.string(), // path under public/, e.g. /photos/kurobe-dam.jpg
+        alt: z.string(),
+        credit: z.string(), // the attribution the licence requires
+        creditUrl: z.url(), // the source file page, so the credit is checkable
+        license: z.string(), // e.g. "CC BY 3.0"
+      })
+      .optional(),
+    // A geocodable location string for the map and the Google Maps deep-links,
+    // e.g. "Kurobe Dam, Toyama, Japan". Google's developer APIs don't do transit
+    // routing in Japan, so the route is a deep-link to Google Maps, not a drawn
+    // line — see MapEmbed.astro.
+    mapQuery: z.string().optional(),
     sources: z.array(reference('sources')).default([]),
   }),
 });

@@ -3,7 +3,6 @@ import Base from '../layouts/Base.astro';
 import DestinationTab from '../components/DestinationTab.astro';
 import Card from '../components/Card.astro';
 import Journeys from '../components/Journeys.astro';
-import SourceLinks from '../components/SourceLinks.astro';
 import MapEmbed from '../components/MapEmbed.astro';
 import { getCollection, getEntries, render } from 'astro:content';
 
@@ -20,8 +19,6 @@ const allJourneys = await getCollection('journeys');
 // Resolve everything once, here, so the markup below stays flat and readable.
 const view = await Promise.all(
   destinations.map(async (dest) => {
-    const { Content: DestBody } = await render(dest);
-    const destSources = await getEntries(dest.data.sources);
     const places = await Promise.all(
       allPlaces
         .filter((place) => place.data.destination.id === dest.id)
@@ -35,16 +32,9 @@ const view = await Promise.all(
           };
         }),
     );
-    return { dest, DestBody, destSources, places };
+    return { dest, places };
   }),
 );
-
-// Maps are live Google data, not graph facts, so they're configured here per
-// destination rather than stored as content.
-const mapsByDestination: Record<string, { route: string; coffee: string; label: string }> = {
-  kurobe: { route: 'Kurobe Dam, Toyama, Japan', coffee: 'Shibuya Station, Tokyo', label: 'Kurobe Dam' },
-  atami: { route: 'Atami Station, Shizuoka, Japan', coffee: 'Atami Station, Shizuoka, Japan', label: 'Atami' },
-};
 ---
 
 <Base title="July 3–5 — Kurobe or Atami?">
@@ -74,40 +64,24 @@ const mapsByDestination: Record<string, { route: string; coffee: string; label: 
   </div>
 
   {
-    view.map(({ dest, DestBody, destSources, places }, i) => {
-      const maps = mapsByDestination[dest.id];
-      return (
-        <DestinationTab id={dest.id} label={dest.data.name} active={i === 0}>
-          <div class="mb-5 text-[15px] leading-relaxed text-stone-600">
-            <DestBody />
-            <SourceLinks entries={destSources} lead="sources" />
-          </div>
-
-          {places.map(({ place, PlaceBody, placeSources, journeys }) => (
-            <Card cardId={place.id} title={place.data.name} sourceEntries={placeSources}>
-              <PlaceBody />
-              <Journeys journeys={journeys} />
-            </Card>
-          ))}
-
-          {maps && (
-            <>
-              <MapEmbed
-                mode="route"
-                destination={maps.route}
-                label={`Transit route from Shibuya Station to ${maps.label}`}
-              />
-              <MapEmbed
-                mode="search"
-                destination={maps.coffee}
-                query="coffee"
-                label={`Coffee places near ${maps.coffee}`}
-              />
-            </>
-          )}
-        </DestinationTab>
-      );
-    })
+    view.map(({ dest, places }, i) => (
+      <DestinationTab id={dest.id} label={dest.data.name} active={i === 0}>
+        {places.map(({ place, PlaceBody, placeSources, journeys }) => (
+          <Card
+            cardId={place.id}
+            title={place.data.name}
+            image={place.data.image}
+            sourceEntries={placeSources}
+          >
+            <PlaceBody />
+            <Journeys journeys={journeys} />
+            {place.data.mapQuery && (
+              <MapEmbed query={place.data.mapQuery} label={`Map of ${place.data.name}`} />
+            )}
+          </Card>
+        ))}
+      </DestinationTab>
+    ))
   }
 
   <script>
