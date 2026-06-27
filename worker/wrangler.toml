@@ -10,4 +10,4 @@ compatibility_date = "2024-11-01"
 # then paste the returned id below (replace the placeholder).
 [[kv_namespaces]]
 binding = "HEARTS"
-id = "REPLACE_WITH_KV_NAMESPACE_ID"
+id = "79950c4054eb4d5bb695b9adf52ea487"
