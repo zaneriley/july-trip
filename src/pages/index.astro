@@ -1,179 +1,127 @@
 ---
 import Base from '../layouts/Base.astro';
-import DestinationMap from '../components/DestinationMap.astro';
-import { CATEGORY_META } from '../lib/categories';
 import { comparisonColumns } from '../lib/compare';
 import { getCollection } from 'astro:content';
 
-// Home is everything in one place: a single map carrying both cities' points, and
-// the places we're looking at as a grid of real photos. The deciding happens in
-// the group thread — this is the shared board it points at.
-const pois = await getCollection('pois');
-const paths = await getCollection('paths');
-const photos = await getCollection('photos');
+// Home is the decision, not the browse. Two options side by side — read across
+// (Kurobe's time vs Atami's time, Kurobe's facts vs Atami's) to pick one. The
+// map, the photo grid, and the food all live on each city's own page, reachable
+// once you're leaning. See docs/decisions/0008-decision-first-home.md.
 const columns = await comparisonColumns();
+const photos = await getCollection('photos');
+const notes = await getCollection('notes');
 
-// Group photos by the subject (place/poi/route) they depict.
-const photosBySubject = new Map<string, typeof photos>();
+const photoBySubject = new Map<string, (typeof photos)[number]>();
 for (const photo of photos) {
-  const list = photosBySubject.get(photo.data.subject) ?? [];
-  list.push(photo);
-  photosBySubject.set(photo.data.subject, list);
+  if (!photoBySubject.has(photo.data.subject)) photoBySubject.set(photo.data.subject, photo);
 }
 
-// A couple of photo subjects aren't map points (the route as a whole); name them
-// here so every tile resolves. Everything else is looked up from its poi.
-const extraSubjects: Record<string, { name: string; category: string; destination: string; sourceUrl: string }> = {
-  'alpine-route': {
-    name: 'Tateyama Kurobe alpine route',
-    category: 'sightseeing',
-    destination: 'kurobe',
-    sourceUrl: 'https://www.alpen-route.com/en/',
-  },
+// A few signature shots per city — "what you'd actually do here", not the catalog.
+const signatures: Record<string, string[]> = {
+  kurobe: ['kurobe-dam', 'murodo', 'kurobe-gorge'],
+  atami: ['atami-onsen', 'atami-sun-beach', 'atami-castle'],
 };
 
-// Build one tile per subject that has photos, ordered Kurobe first then Atami.
-const destOrder: Record<string, number> = { kurobe: 0, atami: 1 };
-const tiles = [...photosBySubject.keys()]
-  .map((subject) => {
-    const poi = pois.find((p) => p.id === subject);
-    const meta = poi
-      ? {
-          name: poi.data.name,
-          category: poi.data.category,
-          destination: poi.data.destination.id,
-          sourceUrl: poi.data.source.url,
-        }
-      : extraSubjects[subject];
-    if (!meta) return null;
-    return { subject, ...meta, photo: photosBySubject.get(subject)![0] };
-  })
-  .filter((t): t is NonNullable<typeof t> => t !== null)
-  .sort((a, b) => (destOrder[a.destination] ?? 9) - (destOrder[b.destination] ?? 9));
-
-// Places to eat, from the Japanese food research — split by town.
-const food = pois.filter((p) => p.data.category === 'food');
-const foodColumns = [
-  { title: 'Kurobe', items: food.filter((f) => f.data.destination.id === 'kurobe') },
-  { title: 'Atami', items: food.filter((f) => f.data.destination.id === 'atami') },
-];
-
-// Decision facts for these dates — sourced, ordered.
-const notes = (await getCollection('notes')).sort((a, b) => a.data.order - b.data.order);
-const noteTag: Record<string, string> = { both: 'Both', kurobe: 'Kurobe', atami: 'Atami' };
+const view = columns.map((c) => ({
+  dest: c.dest,
+  time: c.time,
+  cost: c.cost,
+  hero: photoBySubject.get(c.dest.id === 'kurobe' ? 'kurobe-dam' : 'atami-onsen'),
+  shots: (signatures[c.dest.id] ?? []).map((s) => photoBySubject.get(s)).filter(Boolean),
+  facts: notes.filter((n) => n.data.destination === c.dest.id).sort((a, b) => a.data.order - b.data.order),
+}));
+const bothFacts = notes
+  .filter((n) => n.data.destination === 'both')
+  .sort((a, b) => a.data.order - b.data.order);
 ---
 
 <Base
   title="Kurobe or Atami? — July 3 to 5"
-  description="Both options on one map, with photos of every place: the alpine route at Kurobe, or onsen by the sea at Atami. We'll sort it out in the chat."
+  description="Two options for the long weekend, side by side: the alpine route at Kurobe, or onsen by the sea at Atami. Pick one — we'll settle it in the chat."
   ogImage="/og/home.png"
   wide={true}
 >
-  <header class="mb-5">
+  <header class="mb-6">
     <h1 class="m-0 text-2xl font-semibold text-stone-900">Where should we go, July 3 to 5?</h1>
     <p class="mt-2 text-[15px] leading-relaxed text-stone-600">
-      Both options on one map. {' '}
-      {
-        columns.map((c, i) => (
-          <>
-            {i > 0 && ' · '}
-            <a href={`/${c.dest.id}`} class="text-stone-800 underline decoration-stone-300 underline-offset-2 hover:text-stone-900">
-              {c.dest.data.name}
-            </a>
-            {c.time && <> {c.time} from Shibuya</>}
-          </>
-        ))
-      }.
+      Two options, a few hours apart — pick one. Read across, then we'll settle it in the chat.
     </p>
   </header>
 
-  <!-- One giant map carrying every point from both cities. -->
-  <DestinationMap destinationId="all" pois={pois} paths={paths} />
-
-  <!-- The places, as a grid of real photos. Names and sources only — no invented copy. -->
-  <h2 class="mt-8 mb-3 text-lg font-semibold text-stone-900">The places</h2>
-  <div class="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4">
-    {
-      tiles.map((tile) => (
-        <div class="flex flex-col overflow-hidden rounded-xl border border-stone-200 bg-white transition hover:border-stone-400">
-          <a href={`/${tile.destination}`} class="block">
-            <img
-              src={tile.photo.data.src}
-              alt={tile.photo.data.alt}
-              loading="lazy"
-              class="aspect-[4/3] w-full object-cover"
-            />
-            <div class="px-3 pt-2.5">
-              <div class="flex items-center gap-1.5">
-                <span
-                  class="inline-block h-2 w-2 shrink-0 rounded-full"
-                  style={`background:${CATEGORY_META[tile.category]?.color ?? '#888'}`}
-                />
-                <span class="text-xs text-stone-400">{tile.destination === 'kurobe' ? 'Kurobe' : 'Atami'}</span>
-              </div>
-              <h3 class="m-0 mt-1 text-[15px] font-medium leading-snug text-stone-900">{tile.name}</h3>
-            </div>
-          </a>
-          <a
-            href={tile.photo.data.creditUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="mt-auto px-3 pb-2.5 pt-2 text-[11px] text-stone-400 hover:text-stone-600"
-          >
-            {tile.photo.data.credit}
-          </a>
-        </div>
-      ))
-    }
-  </div>
-
-  <!-- Where to eat. The names link to the source; the notes and ratings are theirs. -->
-  <h2 class="mt-8 mb-3 text-lg font-semibold text-stone-900">Where to eat</h2>
+  <!-- The two options as columns. The strongest line on the page is the gap between them. -->
   <div class="grid gap-4 md:grid-cols-2">
     {
-      foodColumns.map((col) => (
-        <div class="rounded-2xl border border-stone-200 bg-white p-4">
-          <h3 class="m-0 text-[15px] font-semibold text-stone-900">{col.title}</h3>
-          <ul class="m-0 mt-3 list-none space-y-3 p-0">
-            {col.items.map((f) => (
-              <li>
-                <a
-                  href={f.data.source.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="text-[15px] font-medium text-stone-900 underline decoration-stone-300 underline-offset-2 hover:text-stone-950"
-                >
-                  {f.data.name}
-                </a>
-                <p class="m-0 mt-0.5 text-[13px] leading-snug text-stone-600">{f.data.note}</p>
-              </li>
-            ))}
-          </ul>
-        </div>
+      view.map(({ dest, time, cost, hero, shots, facts }) => (
+        <section class="flex flex-col overflow-hidden rounded-2xl border border-stone-200 bg-white shadow-sm">
+          {hero && <img src={hero.data.src} alt={hero.data.alt} class="aspect-[16/9] w-full object-cover" />}
+
+          <div class="flex flex-1 flex-col px-4 py-4">
+            <h2 class="m-0 text-xl font-semibold text-stone-900">{dest.data.name}</h2>
+            <p class="mt-1 text-[14px] leading-snug text-stone-600">{dest.data.tagline}</p>
+
+            {/* The aligned numbers — same row position in both columns, to read across. */}
+            <dl class="mt-4 grid grid-cols-2 gap-3 border-y border-stone-100 py-3">
+              <div>
+                <dt class="text-xs text-stone-400">getting there</dt>
+                <dd class="m-0 text-[15px] font-medium text-stone-900">{time ?? '—'}</dd>
+              </div>
+              <div>
+                <dt class="text-xs text-stone-400">cost per adult</dt>
+                <dd class="m-0 text-[15px] font-medium text-stone-900">{cost ?? '—'}</dd>
+              </div>
+            </dl>
+
+            {shots.length > 0 && (
+              <div class="mt-3 grid grid-cols-3 gap-1.5">
+                {shots.map((s) => (
+                  <img src={s!.data.src} alt={s!.data.alt} loading="lazy" class="aspect-square w-full rounded-md object-cover" />
+                ))}
+              </div>
+            )}
+
+            {facts.length > 0 && (
+              <div class="mt-4">
+                <p class="m-0 text-xs text-stone-400">for July 3 to 5</p>
+                <ul class="m-0 mt-1 list-none space-y-1.5 p-0">
+                  {facts.map((n) => (
+                    <li class="text-[13px] leading-snug text-stone-700">
+                      {n.data.text}{' '}
+                      <a href={n.data.source.url} target="_blank" rel="noopener noreferrer" class="whitespace-nowrap text-stone-400 underline decoration-stone-300 underline-offset-2 hover:text-stone-700">
+                        — {n.data.source.label}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            <a
+              href={`/${dest.id}`}
+              class="mt-5 inline-flex items-center justify-center rounded-lg border border-stone-300 px-4 py-2.5 text-[15px] font-medium text-stone-800 transition hover:border-stone-900 hover:bg-stone-900 hover:text-white"
+            >
+              Look closer at {dest.data.name} — map, places, food →
+            </a>
+          </div>
+        </section>
       ))
     }
   </div>
 
-  <!-- Sourced facts that bear on the dates — not editorial; each links its source. -->
-  <h2 class="mt-8 mb-3 text-lg font-semibold text-stone-900">Good to know for July 3 to 5</h2>
-  <div class="overflow-hidden rounded-2xl border border-stone-200 bg-white">
-    {
-      notes.map((n, i) => (
-        <div class={`px-4 py-3 ${i > 0 ? 'border-t border-stone-100' : ''}`}>
-          <p class="m-0 text-[14px] leading-relaxed text-stone-700">
-            <span class="mr-1.5 text-xs text-stone-400">{noteTag[n.data.destination]}</span>
-            {n.data.text}{' '}
-            <a
-              href={n.data.source.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              class="whitespace-nowrap text-stone-500 underline decoration-stone-300 underline-offset-2 hover:text-stone-800"
-            >
-              — {n.data.source.label}
-            </a>
-          </p>
-        </div>
-      ))
-    }
-  </div>
+  {
+    bothFacts.length > 0 && (
+      <div class="mt-6 rounded-2xl border border-stone-200 bg-white px-4 py-3">
+        <p class="m-0 text-xs text-stone-400">good to know for both</p>
+        <ul class="m-0 mt-1 list-none space-y-1.5 p-0">
+          {bothFacts.map((n) => (
+            <li class="text-[13px] leading-snug text-stone-700">
+              {n.data.text}{' '}
+              <a href={n.data.source.url} target="_blank" rel="noopener noreferrer" class="whitespace-nowrap text-stone-400 underline decoration-stone-300 underline-offset-2 hover:text-stone-700">
+                — {n.data.source.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    )
+  }
 </Base>

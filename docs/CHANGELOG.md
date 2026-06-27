@@ -2,6 +2,13 @@
 
 ## Unreleased
 
+- Reorganized the IA around the decision (peer-review + ui-critique, ADR 0008):
+  the home is now a side-by-side Kurobe-vs-Atami comparison you read across
+  (hero, character, getting-there/cost aligned, signature shots, dated facts), not
+  a both-cities map and a flat photo dump. The map, the photo gallery (grouped by
+  category), the eating list, and the date facts moved to each city's own page —
+  the "explore once you're leaning" surface. Each city's map shows only its pins.
+
 - Rebuilt around the iMessage group thread (ADR 0007): home is now the Kurobe-vs-
   Atami comparison, and each destination has its own URL (`/kurobe`, `/atami`) with
   its map and places. Tabs removed.

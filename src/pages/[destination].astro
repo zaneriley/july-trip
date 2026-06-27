@@ -3,10 +3,12 @@ import Base from '../layouts/Base.astro';
 import Card from '../components/Card.astro';
 import Journeys from '../components/Journeys.astro';
 import DestinationMap from '../components/DestinationMap.astro';
+import { CATEGORY_META } from '../lib/categories';
 import { getCollection, getEntries, render } from 'astro:content';
 
-// One static page per destination (/kurobe, /atami). Each is its own URL so it
-// has its own link preview — drop "/atami" in the chat and it unfurls to Atami.
+// One static page per destination (/kurobe, /atami) — the "explore this option"
+// surface, reached once you're leaning toward it. The map, the places gallery,
+// the food, and the date facts all live here (the home stays a clean comparison).
 export async function getStaticPaths() {
   const destinations = await getCollection('destinations');
   return destinations.map((dest) => ({ params: { destination: dest.id } }));
@@ -28,6 +30,37 @@ const places = await Promise.all(
 );
 const pois = (await getCollection('pois')).filter((poi) => poi.data.destination.id === destId);
 const paths = (await getCollection('paths')).filter((path) => path.data.destination.id === destId);
+
+// One photo per subject, to put on tiles and eating-list items.
+const photos = await getCollection('photos');
+const photoBySubject = new Map<string, (typeof photos)[number]>();
+for (const photo of photos) {
+  if (!photoBySubject.has(photo.data.subject)) photoBySubject.set(photo.data.subject, photo);
+}
+
+// Things to see, grouped by category (in palette order); only points with a photo.
+const seeCategories = ['sightseeing', 'viewpoint', 'onsen', 'neighborhood'];
+const seeGroups = seeCategories
+  .map((cat) => ({
+    category: cat,
+    items: pois
+      .filter((p) => p.data.category === cat && photoBySubject.has(p.id))
+      .map((p) => ({ poi: p, photo: photoBySubject.get(p.id)! })),
+  }))
+  .filter((g) => g.items.length > 0);
+
+// Eating & drinking — food, coffee, kissaten, each with a thumbnail + the source note.
+const eatCategories = ['food', 'coffee', 'kissaten'];
+const eatGroups = eatCategories
+  .map((cat) => ({
+    category: cat,
+    items: pois.filter((p) => p.data.category === cat).map((p) => ({ poi: p, photo: photoBySubject.get(p.id) })),
+  }))
+  .filter((g) => g.items.length > 0);
+
+const facts = (await getCollection('notes'))
+  .filter((n) => n.data.destination === destId || n.data.destination === 'both')
+  .sort((a, b) => a.data.order - b.data.order);
 ---
 
 <Base
@@ -43,9 +76,8 @@ const paths = (await getCollection('paths')).filter((path) => path.data.destinat
   </header>
 
   {/*
-    Map-led on desktop: the map takes the flexible space and stays put while the
-    cards scroll beside it; the cards hold a comfortable fixed reading column. On a
-    phone this stacks — map first, then the cards.
+    Map-led on desktop: the map (this city's points only) stays put while the
+    place cards scroll beside it. On a phone this stacks — map first, then cards.
   */}
   <div class="md:grid md:grid-cols-[1fr_minmax(340px,400px)] md:items-start md:gap-6">
     <div class="mb-6 md:sticky md:top-4 md:mb-0">
@@ -63,4 +95,76 @@ const paths = (await getCollection('paths')).filter((path) => path.data.destinat
       }
     </div>
   </div>
+
+  {/* Things to see — the gallery, grouped so it reads, not a flat dump. */}
+  {
+    seeGroups.length > 0 && (
+      <section class="mt-8">
+        <h2 class="m-0 mb-3 text-lg font-semibold text-stone-900">Things to see</h2>
+        {seeGroups.map((group) => (
+          <div class="mb-5">
+            <p class="m-0 mb-2 text-[13px] capitalize text-stone-500">{CATEGORY_META[group.category]?.label}</p>
+            <div class="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4">
+              {group.items.map(({ poi, photo }) => (
+                <div class="overflow-hidden rounded-xl border border-stone-200 bg-white">
+                  <img src={photo.data.src} alt={photo.data.alt} loading="lazy" class="aspect-[4/3] w-full object-cover" />
+                  <h3 class="m-0 px-3 py-2 text-[14px] font-medium leading-snug text-stone-900">{poi.data.name}</h3>
+                </div>
+              ))}
+            </div>
+          </div>
+        ))}
+      </section>
+    )
+  }
+
+  {/* Eating & drinking — photo + name + the sourced note. */}
+  {
+    eatGroups.length > 0 && (
+      <section class="mt-8">
+        <h2 class="m-0 mb-3 text-lg font-semibold text-stone-900">Eating &amp; drinking</h2>
+        {eatGroups.map((group) => (
+          <div class="mb-5">
+            <p class="m-0 mb-2 text-[13px] text-stone-500">{CATEGORY_META[group.category]?.label}</p>
+            <div class="grid gap-3 sm:grid-cols-2">
+              {group.items.map(({ poi, photo }) => (
+                <div class="flex gap-3 overflow-hidden rounded-xl border border-stone-200 bg-white p-2.5">
+                  {photo && (
+                    <img src={photo.data.src} alt={photo.data.alt} loading="lazy" class="h-20 w-20 shrink-0 rounded-lg object-cover" />
+                  )}
+                  <div class="min-w-0">
+                    <a href={poi.data.source.url} target="_blank" rel="noopener noreferrer" class="text-[15px] font-medium text-stone-900 underline decoration-stone-300 underline-offset-2 hover:text-stone-950">
+                      {poi.data.name}
+                    </a>
+                    <p class="m-0 mt-0.5 text-[13px] leading-snug text-stone-600">{poi.data.note}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        ))}
+      </section>
+    )
+  }
+
+  {/* What the dates mean here — sourced facts. */}
+  {
+    facts.length > 0 && (
+      <section class="mt-8">
+        <h2 class="m-0 mb-3 text-lg font-semibold text-stone-900">Good to know for July 3 to 5</h2>
+        <div class="overflow-hidden rounded-2xl border border-stone-200 bg-white">
+          {facts.map((n, i) => (
+            <div class={`px-4 py-3 ${i > 0 ? 'border-t border-stone-100' : ''}`}>
+              <p class="m-0 text-[14px] leading-relaxed text-stone-700">
+                {n.data.text}{' '}
+                <a href={n.data.source.url} target="_blank" rel="noopener noreferrer" class="whitespace-nowrap text-stone-500 underline decoration-stone-300 underline-offset-2 hover:text-stone-800">
+                  — {n.data.source.label}
+                </a>
+              </p>
+            </div>
+          ))}
+        </div>
+      </section>
+    )
+  }
 </Base>
