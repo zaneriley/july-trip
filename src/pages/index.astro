@@ -19,12 +19,20 @@ const signatures: Record<string, string[]> = {
   atami: ['/photos/moon-terrace.jpg', '/photos/sun-beach-day.jpg'],
 };
 
+// A one-line lodging summary per city for the comparison row (detail lives in the
+// "where to stay" section on each city page).
+const stayByDest: Record<string, string> = {
+  kurobe: 'Four ryokan in Unazuki, about ¥24–85k/person with two meals — private family baths are common, a 2–5 min walk from the station.',
+  atami: 'Four stays, about ¥21–39k/person — family resorts and buffet hotels, most a short shuttle or taxi from the station.',
+};
+
 // The deciding dimensions, in the order a toddler weekend weighs them. Every row
 // resolves to a value for both cities, so the comparison never goes lopsided.
 const rows: { label: string; val: (c: Col) => string }[] = [
   { label: 'getting there', val: (c) => c.time ?? '—' },
   { label: 'cost per adult', val: (c) => c.cost ?? '—' },
   { label: 'weather', val: (c) => wByDest.get(c.dest.id)?.headline ?? '—' },
+  { label: 'where to stay', val: (c) => stayByDest[c.dest.id] ?? '—' },
   { label: 'with a three-year-old', val: (c) => c.dest.data.kidNote },
   { label: 'food', val: (c) => c.dest.data.foodNote },
 ];

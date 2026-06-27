@@ -47,12 +47,14 @@ const weather = (await getCollection('weather')).find((w) => w.data.destination.
 const goodToKnow = (await getCollection('notes')).filter((n) => n.data.destination === destId).sort((a, b) => a.data.order - b.data.order);
 const todo = (await getCollection('todo')).filter((t) => t.data.destination.id === destId).sort((a, b) => a.data.order - b.data.order);
 const popculture = (await getCollection('popculture')).filter((p) => p.data.destination.id === destId).sort((a, b) => a.data.order - b.data.order);
+const lodging = (await getCollection('lodging')).filter((l) => l.data.destination.id === destId).sort((a, b) => a.data.order - b.data.order);
 
 // The section nav — decision-weight order, only what's present.
 const nav = [
   { id: 'map', label: 'Map', show: true },
   { id: 'getting-there', label: 'Getting there', show: journeys.length > 0 },
   { id: 'weather', label: 'Weather', show: !!weather },
+  { id: 'stay', label: 'Where to stay', show: lodging.length > 0 },
   { id: 'eat', label: 'Eat', show: restaurants.length > 0 },
   { id: 'kids', label: 'With a 3-yo', show: kids.length > 0 },
   { id: 'cafes', label: 'Cafes', show: cafes.length > 0 },
@@ -153,6 +155,41 @@ const accessChip = (a?: string) =>
             </div>
           ))}
         </dl>
+      </section>
+    )
+  }
+
+  {/* Where to stay — the biggest planning fact, with the facts a family weighs. */}
+  {
+    lodging.length > 0 && (
+      <section id="stay" class={section}>
+        <h2 class="m-0 text-lg font-semibold text-stone-900">Where to stay · {lodging.length}</h2>
+        <p class="mt-0.5 text-[13px] text-stone-400">Prices are rough per-person estimates with two meals — confirm live for July 3–5.</p>
+        <div class="mt-3 grid gap-3 sm:grid-cols-2">
+          {lodging.map((l) => (
+            <div class="rounded-xl border border-stone-200 bg-white px-4 py-3">
+              <div class="flex items-baseline justify-between gap-2">
+                <a href={l.data.source.url} target="_blank" rel="noopener noreferrer" class="text-[15px] font-medium text-stone-900 underline decoration-stone-300 underline-offset-2 hover:text-stone-950">
+                  {l.data.name}
+                </a>
+                <span class="shrink-0 rounded-full bg-stone-100 px-2 py-0.5 text-[11px] text-stone-500">{l.data.tier}</span>
+              </div>
+              {l.data.nameJa && <p class="m-0 text-xs text-stone-400">{l.data.nameJa}</p>}
+              <dl class="m-0 mt-2 grid grid-cols-[5rem_1fr] gap-x-3 gap-y-1.5 text-[13px] leading-snug">
+                <dt class="text-stone-400">getting in</dt>
+                <dd class="m-0 text-stone-700">{l.data.access}</dd>
+                <dt class="text-stone-400">rooms</dt>
+                <dd class="m-0 text-stone-700">{l.data.rooms}</dd>
+                <dt class="text-stone-400">price</dt>
+                <dd class="m-0 text-stone-700">{l.data.price}</dd>
+                <dt class="text-stone-400">private bath</dt>
+                <dd class="m-0 text-stone-700">{l.data.privateOnsen}</dd>
+                <dt class="text-stone-400">with a kid</dt>
+                <dd class="m-0 text-stone-700">{l.data.kids}</dd>
+              </dl>
+            </div>
+          ))}
+        </div>
       </section>
     )
   }

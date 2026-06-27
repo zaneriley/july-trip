@@ -1,0 +1,109 @@
+# Where to stay — real, family-fitting lodgings per town, researched from official
+# sites and Rakuten/Jalan listings. Prices are date-sensitive ESTIMATES (per
+# person, one night with two meals, unless noted); confirm live for July 3-5.
+
+# ── Kurobe / Unazuki Onsen ────────────────────────────────────────────────────
+- id: kurobe-yamanoha
+  name: "Yamanoha"
+  nameJa: "黒部・宇奈月温泉 やまのは"
+  destination: kurobe
+  order: 1
+  tier: "mid-range"
+  access: "about 2-3 min walk from Unazuki Onsen station — the easiest with a stroller and luggage"
+  rooms: "Japanese / Japanese-western rooms, 35-38 m2, for 4-5 (larger rooms up to 10)"
+  price: "about ¥25,300-62,400 per person, one night with two meals (buffet); river-side higher"
+  privateOnsen: "Yes — private bath ¥1,650 / 50 min, holds 5"
+  kids: "Baby rack, baby-bath thermometer, potty seat, a kids' corner, and baby food"
+  source: { label: "Official (ORIX)", url: https://yamanoha.orixhotelsandresorts.com/ }
+
+- id: kurobe-oedo
+  name: "Oedo Onsen Monogatari Unazuki Grand Hotel"
+  nameJa: "大江戸温泉物語 宇奈月グランドホテル"
+  destination: kurobe
+  order: 2
+  tier: "budget"
+  access: "about 5 min walk from Unazuki Onsen station"
+  rooms: "Japanese-style rooms for 4-9 — one room fits the whole group"
+  price: "from about ¥23,760 per person, one night with two meals (buffet)"
+  privateOnsen: "Yes — private bath ¥1,000 / hr, holds 5"
+  kids: "Baby bed, an indoor kids' park, baby food, and a nursing room — the strongest toddler amenities here"
+  source: { label: "Official", url: https://www.ooedoonsen.jp/unazuki-gh/ }
+
+- id: kurobe-tougen
+  name: "Hotel Tougen"
+  nameJa: "桃源"
+  destination: kurobe
+  order: 3
+  tier: "mid-range"
+  access: "about 5 min walk from Unazuki Onsen station"
+  rooms: "Japanese rooms plus special rooms with a private open-air bath (confirm a 4-5 person room when booking)"
+  price: "Not confirmed online — check Rakuten or Jalan live for early July"
+  privateOnsen: "Yes — a reservable open-air bath ¥2,200 / 45 min that holds up to 8 (the whole group at once), plus a nine-bath circuit"
+  kids: "Baby-bath loan, and a kids' chair and bouncer in the dining room"
+  source: { label: "Official", url: https://www.h-togen.com/ }
+
+- id: kurobe-enraku
+  name: "Enraku"
+  nameJa: "延楽"
+  destination: kurobe
+  order: 4
+  tier: "upscale"
+  access: "about 3-5 min walk from Unazuki Onsen station"
+  rooms: "Japanese and Japanese-western rooms; 12 have a private open-air bath, 14 have an in-room hot-spring bath"
+  price: "about ¥65,000-84,700 per person, one night with two meals (premium plans)"
+  privateOnsen: "Book a room with its own private bath rather than a shared reservable one"
+  kids: "Baby bed, a bouncer or toddler chair on loan, a kids' menu, and in-room dining"
+  source: { label: "Official", url: https://enraku.com/ }
+
+# ── Atami ─────────────────────────────────────────────────────────────────────
+- id: atami-seaside
+  name: "Atami Seaside Spa & Resort"
+  nameJa: "熱海シーサイドスパ&リゾート"
+  destination: atami
+  order: 1
+  tier: "mid-range"
+  access: "about 10 min walk from Atami station, in front of Sun Beach — the most stroller-manageable of the set"
+  rooms: "Family room (Japanese-western), up to 6, all ocean-view with a tatami area"
+  price: "Family-room price not confirmed; standard rooms from about $97 a night (verify on Jalan for your dates)"
+  privateOnsen: "Yes — a private / family bath is listed; confirm the reservation terms"
+  kids: "Baby-bath, crib and kids'-meal details not confirmed — call ahead to verify"
+  source: { label: "Official (family room)", url: https://www.atamiseaside.com/rooms/family.php }
+
+- id: atami-risonare
+  name: "Hoshino Resorts RISONARE Atami"
+  nameJa: "星野リゾート リゾナーレ熱海"
+  destination: atami
+  order: 2
+  tier: "family resort"
+  access: "free shuttle about 20 min from Atami station (shuttle only, not walkable — reserve the return slot at check-in)"
+  rooms: "Rooms for 1-6; a child under 7 sleeps with parents free, so the group fits in one room"
+  price: "about ¥22,500-38,880+ per person, one night with buffet; early July skews high"
+  privateOnsen: "Not confirmed — public baths only listed"
+  kids: "An indoor playroom, a pool, treetop athletics, a kids' buffet section, and a child-temperature onsen — the strongest kids' activity property"
+  source: { label: "Official", url: https://hoshinoresorts.com/en/hotels/risonareatami/ }
+
+- id: atami-korakuen
+  name: "Atami Korakuen Hotel"
+  nameJa: "熱海後楽園ホテル"
+  destination: atami
+  order: 3
+  tier: "upper-mid"
+  access: "shuttle about 10 min from Atami station (roughly 9:40-19:00); not a comfortable walk with luggage"
+  rooms: "Tower Japanese rooms, 18-tatami, ocean-view, for 2-4 on futon"
+  price: "about ¥25,200-38,600 per person, one night with two meals"
+  privateOnsen: "Yes — three private open-air baths, reservable 45 min, but for Excellence-Floor guests only"
+  kids: "Preschoolers often stay free on period plans; baby goods, baby food, and a nursing room"
+  source: { label: "Official plans", url: https://www.atamikorakuen.co.jp/plan/ }
+
+- id: atami-oedo
+  name: "Ooedo Onsen Monogatari Premium Atami"
+  nameJa: "大江戸温泉物語Premium あたみ"
+  destination: atami
+  order: 4
+  tier: "budget"
+  access: "central near the bay; a few minutes' walk or a short taxi from Atami station (transport help offered)"
+  rooms: "Japanese rooms for 1-6 (some up to 9), no in-room bath — fits the group easily"
+  price: "about ¥21,300-48,900 per person incl. tax, one night with buffet (plus ¥200/night lodging tax, ¥150 bathing tax)"
+  privateOnsen: "An ocean-view private bath is listed — confirm the fee and reservation on your plan"
+  kids: "Under-3 meal about ¥330, cribs noted; baby-bath specifics not confirmed"
+  source: { label: "Official", url: https://atami.ooedoonsen.jp/plan/ }

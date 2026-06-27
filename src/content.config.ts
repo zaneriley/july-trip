@@ -280,4 +280,24 @@ const popculture = defineCollection({
   }),
 });
 
-export const collections = { sources, destinations, places, journeys, pois, paths, photos, notes, kids, weather, todo, popculture };
+// Where to stay — a few real, family-fitting lodgings per town, with the facts a
+// group with a toddler actually weighs: access from the station, rooms that fit
+// four adults + a child, a price estimate, private-bath and kid amenities.
+const lodging = defineCollection({
+  loader: file('./src/data/lodging.yaml'),
+  schema: z.object({
+    name: z.string(),
+    nameJa: z.string().optional(),
+    destination: reference('destinations'),
+    order: z.number().default(0),
+    tier: z.string(),
+    access: z.string(),
+    rooms: z.string(),
+    price: z.string(),
+    privateOnsen: z.string(),
+    kids: z.string(),
+    source: z.object({ label: z.string(), url: z.url() }),
+  }),
+});
+
+export const collections = { sources, destinations, places, journeys, pois, paths, photos, notes, kids, weather, todo, popculture, lodging };
