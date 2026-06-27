@@ -1,14 +1,12 @@
 ---
 import Base from '../layouts/Base.astro';
-import Card from '../components/Card.astro';
-import Journeys from '../components/Journeys.astro';
 import DestinationMap from '../components/DestinationMap.astro';
-import { CATEGORY_META } from '../lib/categories';
-import { getCollection, getEntries, render } from 'astro:content';
+import { formatDuration, formatYen } from '../lib/format';
+import { getCollection } from 'astro:content';
 
-// One static page per destination (/kurobe, /atami) — the "explore this option"
-// surface, reached once you're leaning toward it. The map, the places gallery,
-// the food, and the date facts all live here (the home stays a clean comparison).
+// The "explore this option" page, built as a stack of small collections —
+// weather, getting there, photos, restaurants, cafes, kids — rather than long
+// passages. Reached once you're leaning toward this city (see ADR 0008).
 export async function getStaticPaths() {
   const destinations = await getCollection('destinations');
   return destinations.map((dest) => ({ params: { destination: dest.id } }));
@@ -17,147 +15,197 @@ export async function getStaticPaths() {
 const { destination: destId } = Astro.params;
 const dest = (await getCollection('destinations')).find((d) => d.id === destId)!;
 
-const allJourneys = await getCollection('journeys');
-const places = await Promise.all(
-  (await getCollection('places'))
-    .filter((place) => place.data.destination.id === destId)
-    .map(async (place) => ({
-      place,
-      PlaceBody: (await render(place)).Content,
-      placeSources: await getEntries(place.data.sources),
-      journeys: allJourneys.filter((j) => j.data.to.id === place.id),
-    })),
-);
-const pois = (await getCollection('pois')).filter((poi) => poi.data.destination.id === destId);
-const paths = (await getCollection('paths')).filter((path) => path.data.destination.id === destId);
+const pois = (await getCollection('pois')).filter((p) => p.data.destination.id === destId);
+const paths = (await getCollection('paths')).filter((p) => p.data.destination.id === destId);
+const poiById = new Map(pois.map((p) => [p.id, p]));
 
-// One photo per subject, to put on tiles and eating-list items.
+// Getting there: this city's journeys (resolved through each journey's place).
+const places = await getCollection('places');
+const placeToDest = new Map(places.map((p) => [p.id, p.data.destination.id]));
+const journeys = (await getCollection('journeys')).filter((j) => placeToDest.get(j.data.to.id) === destId);
+
+// Photos: one lead per subject for the food/cafe cards; all scenery shots for the gallery.
 const photos = await getCollection('photos');
 const photoBySubject = new Map<string, (typeof photos)[number]>();
-for (const photo of photos) {
-  if (!photoBySubject.has(photo.data.subject)) photoBySubject.set(photo.data.subject, photo);
-}
+for (const photo of photos) if (!photoBySubject.has(photo.data.subject)) photoBySubject.set(photo.data.subject, photo);
 
-// Things to see, grouped by category (in palette order); only points with a photo.
 const seeCategories = ['sightseeing', 'viewpoint', 'onsen', 'neighborhood'];
-const seeGroups = seeCategories
-  .map((cat) => ({
-    category: cat,
-    items: pois
-      .filter((p) => p.data.category === cat && photoBySubject.has(p.id))
-      .map((p) => ({ poi: p, photo: photoBySubject.get(p.id)! })),
-  }))
-  .filter((g) => g.items.length > 0);
+const sightSubjects = new Set(pois.filter((p) => seeCategories.includes(p.data.category)).map((p) => p.id));
+if (destId === 'kurobe') sightSubjects.add('alpine-route');
+const gallery = photos.filter((p) => sightSubjects.has(p.data.subject));
+const captionFor = (subject: string) =>
+  poiById.get(subject)?.data.name ?? (subject === 'alpine-route' ? 'Alpine route' : subject);
 
-// Eating & drinking — food, coffee, kissaten, each with a thumbnail + the source note.
-const eatCategories = ['food', 'coffee', 'kissaten'];
-const eatGroups = eatCategories
-  .map((cat) => ({
-    category: cat,
-    items: pois.filter((p) => p.data.category === cat).map((p) => ({ poi: p, photo: photoBySubject.get(p.id) })),
-  }))
-  .filter((g) => g.items.length > 0);
+const restaurants = pois.filter((p) => p.data.category === 'food').map((p) => ({ poi: p, photo: photoBySubject.get(p.id) }));
+const cafes = pois
+  .filter((p) => p.data.category === 'coffee' || p.data.category === 'kissaten')
+  .map((p) => ({ poi: p, photo: photoBySubject.get(p.id) }));
 
-const facts = (await getCollection('notes'))
-  .filter((n) => n.data.destination === destId || n.data.destination === 'both')
+const kids = (await getCollection('kids'))
+  .filter((k) => k.data.destination.id === destId)
   .sort((a, b) => a.data.order - b.data.order);
+const weather = (await getCollection('weather')).find((w) => w.data.destination.id === destId);
+const goodToKnow = (await getCollection('notes'))
+  .filter((n) => n.data.destination === destId)
+  .sort((a, b) => a.data.order - b.data.order);
+
+const srcLink = 'whitespace-nowrap text-stone-400 underline decoration-stone-300 underline-offset-2 hover:text-stone-700';
 ---
 
-<Base
-  title={`${dest.data.name} — July 3 to 5`}
-  description={dest.data.tagline}
-  ogImage={`/og/${destId}.png`}
-  wide={true}
->
+<Base title={`${dest.data.name} — July 3 to 5`} description={dest.data.tagline} ogImage={`/og/${destId}.png`} wide={true}>
   <header class="mb-5">
     <a href="/" class="text-sm text-stone-500 hover:text-stone-800">← Kurobe or Atami?</a>
     <h1 class="mt-2 text-2xl font-semibold text-stone-900">{dest.data.name}</h1>
     <p class="mt-1 text-[15px] leading-relaxed text-stone-600">{dest.data.tagline}</p>
   </header>
 
-  {/*
-    Map-led on desktop: the map (this city's points only) stays put while the
-    place cards scroll beside it. On a phone this stacks — map first, then cards.
-  */}
-  <div class="md:grid md:grid-cols-[1fr_minmax(340px,400px)] md:items-start md:gap-6">
-    <div class="mb-6 md:sticky md:top-4 md:mb-0">
-      <DestinationMap destinationId={dest.id} pois={pois} paths={paths} />
-    </div>
+  <DestinationMap destinationId={dest.id} pois={pois} paths={paths} />
 
-    <div>
-      {
-        places.map(({ place, PlaceBody, placeSources, journeys }) => (
-          <Card title={place.data.name} image={place.data.image} sourceEntries={placeSources}>
-            <PlaceBody />
-            <Journeys journeys={journeys} />
-          </Card>
-        ))
-      }
-    </div>
-  </div>
-
-  {/* Things to see — the gallery, grouped so it reads, not a flat dump. */}
+  {/* Weather — a few labelled rows, not a paragraph. */}
   {
-    seeGroups.length > 0 && (
+    weather && (
       <section class="mt-8">
-        <h2 class="m-0 mb-3 text-lg font-semibold text-stone-900">Things to see</h2>
-        {seeGroups.map((group) => (
-          <div class="mb-5">
-            <p class="m-0 mb-2 text-[13px] capitalize text-stone-500">{CATEGORY_META[group.category]?.label}</p>
-            <div class="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4">
-              {group.items.map(({ poi, photo }) => (
-                <div class="overflow-hidden rounded-xl border border-stone-200 bg-white">
-                  <img src={photo.data.src} alt={photo.data.alt} loading="lazy" class="aspect-[4/3] w-full object-cover" />
-                  <h3 class="m-0 px-3 py-2 text-[14px] font-medium leading-snug text-stone-900">{poi.data.name}</h3>
-                </div>
-              ))}
+        <h2 class="m-0 text-lg font-semibold text-stone-900">The weather, July 3 to 5</h2>
+        <p class="mt-0.5 text-[14px] text-stone-600">{weather.data.headline}</p>
+        <dl class="mt-3 overflow-hidden rounded-2xl border border-stone-200 bg-white">
+          {weather.data.rows.map((row, i) => (
+            <div class={`grid grid-cols-[7rem_1fr] gap-3 px-4 py-3 ${i > 0 ? 'border-t border-stone-100' : ''}`}>
+              <dt class="text-[13px] text-stone-400">{row.label}</dt>
+              <dd class="m-0 text-[14px] leading-snug text-stone-700">
+                {row.value}{' '}
+                {row.sourceUrl && (
+                  <a href={row.sourceUrl} target="_blank" rel="noopener noreferrer" class={srcLink}>
+                    — {row.sourceLabel}
+                  </a>
+                )}
+              </dd>
             </div>
-          </div>
-        ))}
+          ))}
+        </dl>
       </section>
     )
   }
 
-  {/* Eating & drinking — photo + name + the sourced note. */}
+  {/* Getting there — each option a compact card. */}
   {
-    eatGroups.length > 0 && (
+    journeys.length > 0 && (
       <section class="mt-8">
-        <h2 class="m-0 mb-3 text-lg font-semibold text-stone-900">Eating &amp; drinking</h2>
-        {eatGroups.map((group) => (
-          <div class="mb-5">
-            <p class="m-0 mb-2 text-[13px] text-stone-500">{CATEGORY_META[group.category]?.label}</p>
-            <div class="grid gap-3 sm:grid-cols-2">
-              {group.items.map(({ poi, photo }) => (
-                <div class="flex gap-3 overflow-hidden rounded-xl border border-stone-200 bg-white p-2.5">
-                  {photo && (
-                    <img src={photo.data.src} alt={photo.data.alt} loading="lazy" class="h-20 w-20 shrink-0 rounded-lg object-cover" />
-                  )}
-                  <div class="min-w-0">
-                    <a href={poi.data.source.url} target="_blank" rel="noopener noreferrer" class="text-[15px] font-medium text-stone-900 underline decoration-stone-300 underline-offset-2 hover:text-stone-950">
-                      {poi.data.name}
-                    </a>
-                    <p class="m-0 mt-0.5 text-[13px] leading-snug text-stone-600">{poi.data.note}</p>
-                  </div>
-                </div>
-              ))}
+        <h2 class="m-0 mb-3 text-lg font-semibold text-stone-900">Getting there from Shibuya</h2>
+        <div class="grid gap-3 sm:grid-cols-2">
+          {journeys.map((j) => (
+            <div class="rounded-xl border border-stone-200 bg-white px-4 py-3">
+              <p class="m-0 text-[15px] font-medium text-stone-900">{j.data.label}</p>
+              <p class="m-0 mt-0.5 text-[14px] text-stone-700">
+                {j.data.totalDurationMin && formatDuration(j.data.totalDurationMin.value)}
+                {j.data.totalFareYen && <> · {formatYen(j.data.totalFareYen.value)}</>}
+              </p>
+              <p class="m-0 mt-1 text-[12px] text-stone-400">
+                {[j.data.from, ...j.data.legs.map((l) => l.to)].join(' → ')}
+              </p>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </section>
     )
   }
 
-  {/* What the dates mean here — sourced facts. */}
+  {/* Photos — the scenery, as a collection. */}
   {
-    facts.length > 0 && (
+    gallery.length > 0 && (
       <section class="mt-8">
-        <h2 class="m-0 mb-3 text-lg font-semibold text-stone-900">Good to know for July 3 to 5</h2>
+        <h2 class="m-0 mb-3 text-lg font-semibold text-stone-900">Photos</h2>
+        <div class="grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4">
+          {gallery.map((p) => (
+            <figure class="m-0 overflow-hidden rounded-xl border border-stone-200 bg-white">
+              <img src={p.data.src} alt={p.data.alt} loading="lazy" class="aspect-[4/3] w-full object-cover" />
+              <figcaption class="px-2.5 py-2 text-[13px] font-medium leading-snug text-stone-800">{captionFor(p.data.subject)}</figcaption>
+            </figure>
+          ))}
+        </div>
+      </section>
+    )
+  }
+
+  {/* Restaurants. */}
+  {
+    restaurants.length > 0 && (
+      <section class="mt-8">
+        <h2 class="m-0 mb-3 text-lg font-semibold text-stone-900">Restaurants</h2>
+        <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          {restaurants.map(({ poi, photo }) => (
+            <div class="overflow-hidden rounded-xl border border-stone-200 bg-white">
+              {photo && <img src={photo.data.src} alt={photo.data.alt} loading="lazy" class="aspect-[16/10] w-full object-cover" />}
+              <div class="px-3 py-2.5">
+                <a href={poi.data.source.url} target="_blank" rel="noopener noreferrer" class="text-[15px] font-medium text-stone-900 underline decoration-stone-300 underline-offset-2 hover:text-stone-950">
+                  {poi.data.name}
+                </a>
+                <p class="m-0 mt-0.5 text-[13px] leading-snug text-stone-600">{poi.data.note}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+    )
+  }
+
+  {/* Cafes & kissaten. */}
+  {
+    cafes.length > 0 && (
+      <section class="mt-8">
+        <h2 class="m-0 mb-3 text-lg font-semibold text-stone-900">Cafes &amp; kissaten</h2>
+        <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          {cafes.map(({ poi, photo }) => (
+            <div class="overflow-hidden rounded-xl border border-stone-200 bg-white">
+              {photo && <img src={photo.data.src} alt={photo.data.alt} loading="lazy" class="aspect-[16/10] w-full object-cover" />}
+              <div class="px-3 py-2.5">
+                <a href={poi.data.source.url} target="_blank" rel="noopener noreferrer" class="text-[15px] font-medium text-stone-900 underline decoration-stone-300 underline-offset-2 hover:text-stone-950">
+                  {poi.data.name}
+                </a>
+                <p class="m-0 mt-0.5 text-[13px] leading-snug text-stone-600">{poi.data.note}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+    )
+  }
+
+  {/* With a three-year-old. */}
+  {
+    kids.length > 0 && (
+      <section class="mt-8">
+        <h2 class="m-0 mb-3 text-lg font-semibold text-stone-900">With a three-year-old</h2>
+        <div class="grid gap-2.5 sm:grid-cols-2">
+          {kids.map((k) => (
+            <div class={`rounded-xl border bg-white px-4 py-3 ${k.data.fit === 'caution' ? 'border-amber-300' : 'border-stone-200'}`}>
+              <p class="m-0 text-[15px] font-medium text-stone-900">
+                {k.data.fit === 'caution' && <span class="mr-1 text-amber-600">heads up —</span>}
+                {k.data.name}
+              </p>
+              <p class="m-0 mt-0.5 text-[13px] leading-snug text-stone-600">
+                {k.data.note}{' '}
+                <a href={k.data.source.url} target="_blank" rel="noopener noreferrer" class={srcLink}>
+                  — {k.data.source.label}
+                </a>
+              </p>
+            </div>
+          ))}
+        </div>
+      </section>
+    )
+  }
+
+  {/* Good to know — the operational facts. */}
+  {
+    goodToKnow.length > 0 && (
+      <section class="mt-8">
+        <h2 class="m-0 mb-3 text-lg font-semibold text-stone-900">Good to know</h2>
         <div class="overflow-hidden rounded-2xl border border-stone-200 bg-white">
-          {facts.map((n, i) => (
+          {goodToKnow.map((n, i) => (
             <div class={`px-4 py-3 ${i > 0 ? 'border-t border-stone-100' : ''}`}>
               <p class="m-0 text-[14px] leading-relaxed text-stone-700">
                 {n.data.text}{' '}
-                <a href={n.data.source.url} target="_blank" rel="noopener noreferrer" class="whitespace-nowrap text-stone-500 underline decoration-stone-300 underline-offset-2 hover:text-stone-800">
+                <a href={n.data.source.url} target="_blank" rel="noopener noreferrer" class={srcLink}>
                   — {n.data.source.label}
                 </a>
               </p>

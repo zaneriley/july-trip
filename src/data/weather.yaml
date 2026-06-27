@@ -1,0 +1,36 @@
+# The anticipated weather per city for early July. Figures are climate normals
+# (JMA), so "what a typical July 3–5 looks like" — not a forecast.
+
+- id: kurobe-weather
+  destination: kurobe
+  headline: Normally rainy season, and the mountain is cold
+  rows:
+    - label: rainy season
+      value: Normally still on — Hokuriku's tsuyu typically ends about July 23.
+      sourceLabel: japan-guide / JMA
+      sourceUrl: https://www.japan-guide.com/e/e2277.html
+    - label: in the valley
+      value: Hot and humid — about 30°C high, 79% humidity (Toyama July normal).
+      sourceLabel: JMA normals
+      sourceUrl: https://www.data.jma.go.jp/stats/etrn/view/nml_sfc_ym.php?prec_no=55&block_no=47607
+    - label: up the alpine route
+      value: About 16°C at Murodo (~2,450 m) — cool even at midday, pack a layer.
+      sourceLabel: alpen-route.com
+      sourceUrl: https://www.alpen-route.com/en/faq/
+
+- id: atami-weather
+  destination: atami
+  headline: Normally rainy season, warm and humid by the sea
+  rows:
+    - label: rainy season
+      value: Normally still on — the Tokai/Izu tsuyu typically ends about July 19; an early-July day is close to a coin-flip for rain.
+      sourceLabel: japan-guide / JMA
+      sourceUrl: https://www.japan-guide.com/e/e2277.html
+    - label: temperature
+      value: Warm and humid — about 29°C high, 80% humidity (Ajiro July normal).
+      sourceLabel: JMA normals
+      sourceUrl: https://www.data.jma.go.jp/stats/etrn/view/nml_sfc_ym.php?prec_no=50&block_no=47668
+    - label: the sea
+      value: Swimmable, but the beach season opens July 11 — it's a stroll, not a swim, on these dates.
+      sourceLabel: Atami Tourism Association
+      sourceUrl: https://www.ataminews.gr.jp/event/142

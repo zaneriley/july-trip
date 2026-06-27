@@ -214,4 +214,36 @@ const notes = defineCollection({
   }),
 });
 
-export const collections = { sources, destinations, places, journeys, pois, paths, photos, notes };
+// Things to do with a three-year-old, per city — a sourced collection, including
+// honest "caution" items (a long mountain day is no place for a toddler).
+const kids = defineCollection({
+  loader: file('./src/data/kids.yaml'),
+  schema: z.object({
+    destination: reference('destinations'),
+    name: z.string(),
+    note: z.string(),
+    fit: z.enum(['good', 'caution']).default('good'),
+    order: z.number().default(0),
+    source: z.object({ label: z.string(), url: z.url() }),
+  }),
+});
+
+// The anticipated weather for the dates, per city — a few labelled rows, each
+// with its source, so it reads as a block, not a paragraph.
+const weather = defineCollection({
+  loader: file('./src/data/weather.yaml'),
+  schema: z.object({
+    destination: reference('destinations'),
+    headline: z.string(),
+    rows: z.array(
+      z.object({
+        label: z.string(),
+        value: z.string(),
+        sourceLabel: z.string().optional(),
+        sourceUrl: z.url().optional(),
+      }),
+    ),
+  }),
+});
+
+export const collections = { sources, destinations, places, journeys, pois, paths, photos, notes, kids, weather };

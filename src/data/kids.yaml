@@ -1,0 +1,90 @@
+# Things to do with a three-year-old, per city — from family-travel and official
+# sources. Includes honest "caution" items, because not everything suits a toddler.
+
+# Kurobe
+- id: k-trolley
+  destination: kurobe
+  name: The gorge trolley, there and back
+  note: A scenic round trip (Unazuki to Nekomata and back in 2026, no getting off). Pick the enclosed car and bring a layer — the tunnels are cold.
+  fit: good
+  order: 1
+  source: { label: Kurobe Gorge Railway, url: https://www.kurotetu.co.jp/timetable/ }
+- id: k-electric-museum
+  destination: kurobe
+  name: Kurobe River Electric Memorial Museum
+  note: Free, indoor, and stroller-friendly by the trolley station — a gorge diorama and a camera kids can operate. The best rainy-day stop.
+  fit: good
+  order: 2
+  source: { label: Kurobe-Unazuki tourism, url: https://www.kurobe-unazuki.jp/tourism/432/ }
+- id: k-unazuki-park
+  destination: kurobe
+  name: Unazuki park and footbath
+  note: A playground plus a free "Omokage" footbath about five minutes from the station — soak your feet together.
+  fit: good
+  order: 3
+  source: { label: Kurobe-Unazuki tourism, url: https://www.kurobe-unazuki.jp/tourism/420/ }
+- id: k-family-onsen
+  destination: kurobe
+  name: A private family onsen
+  note: Book a private (kashikiri) bath — several Unazuki ryokan rent baby baths and have indoor kids' play areas.
+  fit: good
+  order: 4
+  source: { label: Toyama tourism, url: https://www.info-toyama.com/stories/onsen_inn }
+- id: k-chitetsu
+  destination: kurobe
+  name: The Alps Express sightseeing train
+  note: An easy seated ride on the Toyama Chiho Railway, with kids' high-deck seats. Runs on set days, so check the schedule.
+  fit: good
+  order: 5
+  source: { label: Toyama Chiho Railway, url: https://www.chitetsu.co.jp/?page_id=12666 }
+- id: k-alpine-caution
+  destination: kurobe
+  name: The alpine route is a hard day with a toddler
+  note: Reaching the dam and Murodo is a long multi-leg climb to about 2,450 m — cold, crowded, and snow still lingers. A poor fit for a three-year-old.
+  fit: caution
+  order: 6
+  source: { label: japan-guide, url: https://www.japan-guide.com/e/e7551.html }
+
+# Atami
+- id: a-castle
+  destination: atami
+  name: Atami Castle's play floor
+  note: A free indoor play zone (ball pool, slide, trampoline) plus a trick-art annex — a solid rain option. Take the loop bus; it's 100 m up.
+  fit: good
+  order: 1
+  source: { label: Atami Castle, url: https://atamijyo.com/sp/access/index.html }
+- id: a-marine-spa
+  destination: atami
+  name: Marine Spa Atami
+  note: An indoor warm pool with a toddler pool — the best beach substitute while the sea season hasn't opened.
+  fit: good
+  order: 2
+  source: { label: Marine Spa Atami, url: https://www.marinespa.com/guide/ }
+- id: a-moa
+  destination: atami
+  name: MOA Museum
+  note: Kids free, free stroller loan, and the long mountain escalators feel like an adventure — plus a giant kaleidoscope. A good rainy-day pick.
+  fit: good
+  order: 3
+  source: { label: Atami Tourism Association, url: https://www.ataminews.gr.jp/spot/112 }
+- id: a-shinsui
+  destination: atami
+  name: The seafront promenade
+  note: Flat, smooth, and stroller-friendly along the water by the Moon Terrace — free, with the sea breeze.
+  fit: good
+  order: 4
+  source: { label: Atami City, url: https://www.city.atami.lg.jp/shisetsu/bunka/1002057/1002069.html }
+- id: a-ropeway
+  destination: atami
+  name: The Atami ropeway
+  note: A short three-minute cable-car ride up to a summit deck — fun, though you'll carry the stroller up the stairs.
+  fit: good
+  order: 5
+  source: { label: Atami Ropeway, url: https://www.atami-ropeway.jp/faq/ }
+- id: a-beach-caution
+  destination: atami
+  name: The beach is a stroll, not a swim
+  note: Sun Beach's season opens July 11, with no lifeguards before then — fine to play on the sand on these dates, but don't plan on swimming.
+  fit: caution
+  order: 6
+  source: { label: Atami Tourism Association, url: https://www.ataminews.gr.jp/spot/142 }
