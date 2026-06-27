@@ -1,0 +1,89 @@
+# More to do beyond the headline sights — town-level, family, indoor, retro.
+
+# Kurobe — easy, mostly in/near Unazuki, no alpine route required
+- id: t-walking-course
+  destination: kurobe
+  order: 1
+  tag: easy
+  name: The Unazuki half-day walking course
+  note: Art museum, a hydropower museum, a free footbath, a café and sweets — a walking-only loop the tourism board lays out as family-friendly.
+  source: { label: Toyama tourism, url: https://www.info-toyama.com/itineraries/unaduki_modelcourse }
+- id: t-electric-museum
+  destination: kurobe
+  order: 2
+  tag: rainy day
+  name: Kurobe River Electric Memorial Museum
+  note: Free and indoor by the trolley station — a gorge diorama and a camera kids can operate. The best wet-weather stop.
+  source: { label: Kurobe-Unazuki tourism, url: https://www.kurobe-unazuki.jp/tourism/432/ }
+- id: t-ranch
+  destination: kurobe
+  order: 3
+  tag: family
+  name: Kurobe Ranch, "Makiba no Kaze"
+  note: Cows, goats and ponies, milking, and butter or ice-cream making, with fresh-milk soft serve. Open April to October.
+  source: { label: Kurobe Ranch, url: http://www.kurobe-bokujyo.jp/ }
+- id: t-science-museum
+  destination: kurobe
+  order: 4
+  tag: family
+  name: Yoshida Science Museum
+  note: Free, with a planetarium that runs a "Baby Plane" toddler program and hands-on science toys.
+  source: { label: Yoshida Science Museum, url: https://kysm.or.jp/ }
+- id: t-ykk
+  destination: kurobe
+  order: 5
+  tag: family
+  name: YKK Center Park
+  note: Free zipper exhibits, a kids' play corner, and a make-your-own-zipper craft.
+  source: { label: YKK Center Park, url: https://www.ykkcenterpark.jp/experience/ }
+- id: t-ikuji-walk
+  destination: kurobe
+  order: 6
+  tag: easy
+  name: The Ikuji spring-water town walk
+  note: A flat one-kilometre stroll among twenty natural springs and a foot-spring, free.
+  source: { label: Ikuji town-walk guide, url: https://ikuji-machiaruki-guide.webes.jp/syouzu-meguri.html }
+- id: t-footbaths
+  destination: kurobe
+  order: 7
+  tag: easy
+  name: Free footbaths around Unazuki
+  note: Soak your feet for free at several spots around town, watching the red trolley bridges.
+  source: { label: Kurobe Gorge Railway, url: https://www.kurotetu.co.jp/spot_unaduki/ }
+
+# Atami — retro, hands-on, indoor; beyond the castle / MOA / beach
+- id: t-retro-stroll
+  destination: atami
+  order: 1
+  tag: retro
+  name: A Showa-retro stroll
+  note: The official "retro course" — Bonnet (1952), the Pine Tree café with table games, a 1940s tobacco-shop arcade, and the old covered shopping streets.
+  source: { label: Atami Tourism Association, url: https://www.ataminews.gr.jp/courses/33 }
+- id: t-crafts
+  destination: atami
+  order: 2
+  tag: family
+  name: Hands-on craft studios
+  note: Pottery, glassblowing, stained glass and silver-ring making at family-friendly studios near the station — good indoors on a wet day.
+  source: { label: Atami Craft, url: https://www.atami-craft.jp/ }
+- id: t-kinomiya
+  destination: atami
+  order: 3
+  tag: easy
+  name: Kinomiya Shrine
+  note: A 2,000-year-old sacred camphor tree, lit up at night — a short, easy "power spot" stop near Kinomiya station.
+  source: { label: Atami Tourism Association, url: https://www.ataminews.gr.jp/spot/115 }
+- id: t-yushima
+  destination: atami
+  order: 4
+  tag: retro
+  name: Yushima retro game arcade
+  note: A Showa game parlour with smart-ball and old machines, about ¥500 to play.
+  source: { label: Time Out Tokyo, url: https://www.timeout.jp/tokyo/ja/things-to-do/atami-retro-spot }
+- id: t-fuua
+  destination: atami
+  order: 5
+  tag: rainy day
+  name: Ocean Spa Fuua
+  note: An infinity hot-spring over the bay, plus saunas and rock baths — a weather-proof half-day.
+  source: { label: Atami Tourism Association, url: https://www.ataminews.gr.jp/spot/115 }

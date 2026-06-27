@@ -1,0 +1,75 @@
+# Pop-culture footprint — "you might know it from."
+
+# Kurobe
+- id: pc-sands
+  destination: kurobe
+  order: 1
+  medium: film
+  title: The Sands of Kurobe (黒部の太陽), 1968
+  note: Toshiro Mifune's epic about building the dam — the top-grossing film of its year, and the dam's defining cultural anchor.
+  source: { label: Wikipedia, url: https://ja.wikipedia.org/wiki/黒部の太陽 }
+- id: pc-projectx
+  destination: kurobe
+  order: 2
+  medium: TV & song
+  title: NHK "Project X" — and "Chijo no Hoshi"
+  note: The heroic-engineering documentary, and Miyuki Nakajima's nationally famous theme song that came with it.
+  source: { label: NHK, url: https://www.nhk-ep.com/products/detail/h15272AS }
+- id: pc-whiteout
+  destination: kurobe
+  order: 3
+  medium: film
+  title: Whiteout (ホワイトアウト), 2000
+  note: The Yuji Oda dam-siege thriller — actually shot at Kurobe Dam.
+  source: { label: Wikipedia, url: https://ja.wikipedia.org/wiki/ホワイトアウト_(小説) }
+- id: pc-anime-kurobe
+  destination: kurobe
+  order: 4
+  medium: anime
+  title: A.I.C.O. Incarnation · Zatsu Tabi
+  note: The gorge is the setting of the Netflix anime A.I.C.O.; the trolley and Unazuki station feature in the currently-trending Zatsu Tabi.
+  source: { label: anime location guide, url: https://osikatutravel.com/zatutabikurobe/ }
+- id: pc-tallest
+  destination: kurobe
+  order: 5
+  medium: trivia
+  title: Japan's tallest dam
+  note: At 186 metres, the tallest in Japan — and the summer tourist water discharge is its iconic shot.
+  source: { label: Wikipedia, url: https://ja.wikipedia.org/wiki/黒部ダム }
+
+# Atami
+- id: pc-konjiki
+  destination: atami
+  order: 1
+  medium: novel
+  title: Konjiki Yasha (The Golden Demon), 1897
+  note: The novel that made Atami famous; its beach scene is marked today by the Kan'ichi–Omiya statue and Omiya's Pine on the coast, plus a well-known song.
+  source: { label: Atami Tourism Association, url: https://www.ataminews.gr.jp/spot/113 }
+- id: pc-honeymoon
+  destination: atami
+  order: 2
+  medium: culture
+  title: The Showa honeymoon mecca
+  note: Atami was the 1950s–60s honeymoon destination of Japan — and is now back as a Showa-retro getaway.
+  source: { label: Tokyo Headline, url: https://www.tokyoheadline.com/815450/ }
+- id: pc-films
+  destination: atami
+  order: 3
+  medium: film
+  title: Tokyo Story · King Kong vs. Godzilla · Only Yesterday
+  note: Ozu's 1953 classic, the 1962 monster battle staged at Atami Castle, and the Ghibli film all use Atami.
+  source: { label: GO to ATAMI, url: https://gotoatami.com/blog170911 }
+- id: pc-kiunkaku
+  destination: atami
+  order: 4
+  medium: literature
+  title: Kiunkaku, the writers' villa
+  note: Dazai Osamu worked on "No Longer Human" here; Tanizaki and other masters stayed.
+  source: { label: Atami Tourism Association, url: https://www.ataminews.gr.jp/spot/114 }
+- id: pc-anime-atami
+  destination: atami
+  order: 5
+  medium: anime
+  title: 「綺麗にしてもらえますか。」, 2026
+  note: A current TV anime set in Atami — the station, the Ieyasu footbath, the Heiwa-dori arcade.
+  source: { label: Anime pilgrimage DB, url: https://anime-tourism.jp/r/Shizuoka/Atami/ }

@@ -250,4 +250,31 @@ const weather = defineCollection({
   }),
 });
 
-export const collections = { sources, destinations, places, journeys, pois, paths, photos, notes, kids, weather };
+// More to do beyond the headline sights — town-level, family, indoor, retro — as
+// a sourced list (no map pin needed). Each item names its source.
+const todo = defineCollection({
+  loader: file('./src/data/todo.yaml'),
+  schema: z.object({
+    destination: reference('destinations'),
+    name: z.string(),
+    note: z.string(),
+    tag: z.string().optional(),
+    order: z.number().default(0),
+    source: z.object({ label: z.string(), url: z.url() }),
+  }),
+});
+
+// Pop-culture footprint — "you might know it from" — film, anime, songs, trivia.
+const popculture = defineCollection({
+  loader: file('./src/data/popculture.yaml'),
+  schema: z.object({
+    destination: reference('destinations'),
+    title: z.string(),
+    medium: z.string(),
+    note: z.string(),
+    order: z.number().default(0),
+    source: z.object({ label: z.string(), url: z.url() }),
+  }),
+});
+
+export const collections = { sources, destinations, places, journeys, pois, paths, photos, notes, kids, weather, todo, popculture };

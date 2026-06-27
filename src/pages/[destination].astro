@@ -48,6 +48,12 @@ const weather = (await getCollection('weather')).find((w) => w.data.destination.
 const goodToKnow = (await getCollection('notes'))
   .filter((n) => n.data.destination === destId)
   .sort((a, b) => a.data.order - b.data.order);
+const todo = (await getCollection('todo'))
+  .filter((t) => t.data.destination.id === destId)
+  .sort((a, b) => a.data.order - b.data.order);
+const popculture = (await getCollection('popculture'))
+  .filter((p) => p.data.destination.id === destId)
+  .sort((a, b) => a.data.order - b.data.order);
 
 const srcLink = 'whitespace-nowrap text-stone-400 underline decoration-stone-300 underline-offset-2 hover:text-stone-700';
 ---
@@ -186,6 +192,51 @@ const srcLink = 'whitespace-nowrap text-stone-400 underline decoration-stone-300
                 {k.data.note}{' '}
                 <a href={k.data.source.url} target="_blank" rel="noopener noreferrer" class={srcLink}>
                   — {k.data.source.label}
+                </a>
+              </p>
+            </div>
+          ))}
+        </div>
+      </section>
+    )
+  }
+
+  {/* More to do — the broader, easy / family / retro options, as a list. */}
+  {
+    todo.length > 0 && (
+      <section class="mt-8">
+        <h2 class="m-0 mb-3 text-lg font-semibold text-stone-900">More to do</h2>
+        <div class="grid gap-2.5 sm:grid-cols-2">
+          {todo.map((t) => (
+            <div class="rounded-xl border border-stone-200 bg-white px-4 py-3">
+              <p class="m-0 text-[15px] font-medium text-stone-900">{t.data.name}</p>
+              <p class="m-0 mt-0.5 text-[13px] leading-snug text-stone-600">
+                {t.data.note}{' '}
+                <a href={t.data.source.url} target="_blank" rel="noopener noreferrer" class={srcLink}>
+                  — {t.data.source.label}
+                </a>
+              </p>
+            </div>
+          ))}
+        </div>
+      </section>
+    )
+  }
+
+  {/* You might know it from — pop culture. */}
+  {
+    popculture.length > 0 && (
+      <section class="mt-8">
+        <h2 class="m-0 mb-3 text-lg font-semibold text-stone-900">You might know it from</h2>
+        <div class="grid gap-2.5 sm:grid-cols-2">
+          {popculture.map((p) => (
+            <div class="rounded-xl border border-stone-200 bg-white px-4 py-3">
+              <p class="m-0 text-xs text-stone-400">{p.data.medium}</p>
+              <p class="m-0 text-[15px] font-medium leading-snug text-stone-900">{p.data.title}</p>
+              <p class="m-0 mt-0.5 text-[13px] leading-snug text-stone-600">
+                {p.data.note}{' '}
+                <a href={p.data.source.url} target="_blank" rel="noopener noreferrer" class={srcLink}>
+                  — {p.data.source.label}
                 </a>
               </p>
             </div>
