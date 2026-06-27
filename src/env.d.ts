@@ -2,9 +2,9 @@
 
 interface ImportMetaEnv {
   /**
-   * Google Maps JavaScript API key, restricted by HTTP referrer to the Pages
-   * domain. Public by design (it ships to the browser), but kept out of git.
-   * Left blank until provided — components show a "needs API key" placeholder.
+   * Google Maps Embed API key, restricted by HTTP referrer to the Pages domain.
+   * Public by design (it ships to the browser), but kept out of git. Left blank
+   * until provided — components show a "needs API key" placeholder.
    */
   readonly PUBLIC_GOOGLE_MAPS_API_KEY: string;
   /**

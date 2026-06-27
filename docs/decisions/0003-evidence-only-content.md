@@ -17,13 +17,12 @@ Every fact, price, photo, and map must trace to a verifiable source:
   sources, always with a credit.
 - **Prices** — Booking.com, Rakuten Travel, JR, or the official attraction site,
   stated in words and dated where it matters.
-- **Maps** — real Google Maps routes and Places results, not screenshots.
+- **Maps** — real Google Maps place embeds and deep-links to consumer Maps for
+  routing and nearby searches, not screenshots or fabricated routes.
 - **Descriptions** — written from known facts, with a source link on the card.
 
 No fabricated descriptions, no AI-imagined places, no Lorem Ipsum or placeholder
-filler that survives to a commit. The scaffold ships two cards marked `DEMO CARD`,
-each kept to well-established facts and pointing at an official source; they exist
-to show the card shape and must be replaced with the real plan.
+filler that survives to a commit.
 
 ## Consequences
 

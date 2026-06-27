@@ -5,8 +5,9 @@ The contract for working in this repo. Read it before changing anything.
 ## What this repo is
 
 A single-page, phone-first site that offers two trip destinations (Kurobe and
-Atami) as tabs, with anonymous shared heart reactions and Google Maps routes from
-Shibuya. Astro static site + a Cloudflare Worker (KV) for the hearts. See
+Atami) as tabs, with anonymous shared heart reactions, inline place maps, and
+Google Maps deep-links for train directions from Shibuya. Astro static site + a
+Cloudflare Worker (KV) for the hearts. See
 `README.md` for the full picture and `docs/decisions/` for the locked decisions.
 
 ## Acceptance gates — non-negotiable
@@ -45,7 +46,7 @@ breaks one of them does not merge.
 Build the way CI will, in a clean container:
 
 ```
-docker run --rm -v "$PWD":/app -w /app node:20 sh -c "npm install && npm run build && npx astro check"
+docker run --rm -v "$PWD":/app -w /app node:22.12.0 sh -c "npm install && npm run build && npx astro check"
 ```
 
 All green before pushing.

@@ -15,8 +15,7 @@ Solo project, no branches — work straight on `main`. Keep these in mind:
 
 Every fact, price, photo, and map must have a real, verifiable source. No
 fabricated descriptions, no AI-imagined places, no Lorem Ipsum that survives to a
-commit. The two demo cards are marked `DEMO CARD` in `src/pages/index.astro` —
-replace them with real content rather than copying their shape blindly.
+commit.
 
 ## Code comments
 
@@ -27,7 +26,7 @@ Plain English. Explain *why*, not *what*. No jargon, no clipped shorthand.
 Build it the way CI will, in a clean container:
 
 ```
-docker run --rm -v "$PWD":/app -w /app node:20 sh -c "npm install && npm run build && npx astro check"
+docker run --rm -v "$PWD":/app -w /app node:22.12.0 sh -c "npm install && npm run build && npx astro check"
 ```
 
 All green before pushing.

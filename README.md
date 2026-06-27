@@ -14,8 +14,8 @@ purpose: it's a quiet way to decide together, not a brochure.
 - **Astro** static site, TypeScript (strict), **Tailwind** for utility CSS.
 - **Cloudflare Pages** hosts the static build.
 - A small **Cloudflare Worker** backed by **KV** holds the anonymous heart counts.
-- **Google Maps** JavaScript + Places API draws routes from Shibuya and finds
-  coffee stops along the way. Maps lazy-load only when scrolled into view.
+- **Google Maps Embed API** shows each place inline. Train directions and coffee
+  searches are Google Maps deep-links, so the route links work without an API key.
 
 ## Design rules
 
