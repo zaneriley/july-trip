@@ -30,9 +30,11 @@ jobs:
           npm ci
           npm run build
         env:
-          # Public Maps key is injected at build time. Set it as a repo secret
-          # (or leave unset — the map shows a "needs API key" note).
-          PUBLIC_GOOGLE_MAPS_API_KEY: ${{ secrets.PUBLIC_GOOGLE_MAPS_API_KEY }}
+          # The Maps key is public-by-design (it ships in the client bundle) and
+          # secured by an HTTP-referrer restriction on Google's side, not by
+          # secrecy. We still hold it as a repo secret so the value isn't in git;
+          # it's injected into the public PUBLIC_ var only at build time.
+          PUBLIC_GOOGLE_MAPS_API_KEY: ${{ secrets.GOOGLE_MAPS_API_KEY }}
           PUBLIC_HEART_API_URL: ${{ secrets.PUBLIC_HEART_API_URL }}
 
       - name: Deploy the site to Pages

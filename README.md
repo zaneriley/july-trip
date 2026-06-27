@@ -45,6 +45,19 @@ npm run dev
 ## Deploy
 
 Automatic on push to `main` (see `.github/workflows/deploy.yml`), once these repo
-secrets are set: `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`, and optionally
-`PUBLIC_GOOGLE_MAPS_API_KEY` and `PUBLIC_HEART_API_URL`. The Worker needs a KV
-namespace — create it once and paste the id into `worker/wrangler.toml`.
+secrets are set: `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`, `GOOGLE_MAPS_API_KEY`,
+and optionally `PUBLIC_HEART_API_URL`. The workflow injects `GOOGLE_MAPS_API_KEY`
+into the build as `PUBLIC_GOOGLE_MAPS_API_KEY`. The Worker needs a KV namespace —
+create it once and paste the id into `worker/wrangler.toml`.
+
+## A note on the Maps key
+
+The Google Maps key is **public by design** — Astro bakes `PUBLIC_*` variables
+into the client bundle, and that's expected for the Maps JavaScript API. Its key
+is meant to ship to the browser. Secrecy is **not** the security boundary here.
+
+The real boundary is the **HTTP-referrer restriction** you set in the Google Cloud
+console: limit the key to `*.pages.dev` and `localhost` so it only works from this
+site. Without that restriction a leaked key could be used anywhere and run up your
+quota — so set it before going live. Holding the key as a repo secret only keeps
+the value out of git history; the referrer rule is what actually protects it.
