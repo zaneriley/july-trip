@@ -1,0 +1,51 @@
+name: Deploy to Cloudflare
+
+# Solo dev, straight to main: every push to main builds the site and ships both
+# the Pages project and the hearts Worker. Same secret names as the niwa repo.
+on:
+  push:
+    branches: [main]
+
+concurrency:
+  group: pages-production
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  deployments: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22.12.0
+          cache: npm
+
+      - name: Build the site
+        run: |
+          npm ci
+          npm run build
+        env:
+          # Public Maps key is injected at build time. Set it as a repo secret
+          # (or leave unset — the map shows a "needs API key" note).
+          PUBLIC_GOOGLE_MAPS_API_KEY: ${{ secrets.PUBLIC_GOOGLE_MAPS_API_KEY }}
+          PUBLIC_HEART_API_URL: ${{ secrets.PUBLIC_HEART_API_URL }}
+
+      - name: Deploy the site to Pages
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy dist --project-name=july-trip
+
+      - name: Deploy the hearts Worker
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          workingDirectory: worker
+          command: deploy

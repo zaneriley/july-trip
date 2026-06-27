@@ -1,0 +1,134 @@
+---
+import Base from '../layouts/Base.astro';
+import DestinationTab from '../components/DestinationTab.astro';
+import Card from '../components/Card.astro';
+import MapEmbed from '../components/MapEmbed.astro';
+
+// The two options we're choosing between. Kurobe is first only because it needs
+// the earlier start; order carries no preference.
+const tabs = [
+  { id: 'kurobe', label: 'Kurobe' },
+  { id: 'atami', label: 'Atami' },
+];
+---
+
+<Base title="July 3–5 — Kurobe or Atami?">
+  <header class="mb-6">
+    <h1 class="m-0 text-2xl font-semibold text-stone-900">Where should we go, July 3 to 5?</h1>
+    <p class="mt-2 text-[15px] leading-relaxed text-stone-600">
+      Two options for the long weekend with the five of us and the little one. Have a
+      look at both and tap the heart on anything you'd want to do. Nothing here is
+      locked in — the hearts just help us see what everyone's drawn to.
+    </p>
+  </header>
+
+  <!--
+    Tabs. Sentence-case labels, no all-caps, no pill styling — just two buttons
+    that swap which destination panel is visible.
+  -->
+  <div role="tablist" aria-label="Destinations" class="mb-6 flex gap-2">
+    {
+      tabs.map((tab, i) => (
+        <button
+          type="button"
+          role="tab"
+          data-tab={tab.id}
+          aria-selected={i === 0 ? 'true' : 'false'}
+          aria-controls={`panel-${tab.id}`}
+          class="rounded-full border border-stone-300 px-4 py-2 text-[15px] text-stone-600 transition aria-selected:border-stone-900 aria-selected:bg-stone-900 aria-selected:text-white"
+        >
+          {tab.label}
+        </button>
+      ))
+    }
+  </div>
+
+  <DestinationTab id="kurobe" label="Kurobe" active={true}>
+    <!--
+      DEMO CARD: replace with real Kurobe content (e.g. Day 1 morning).
+      Kept to facts that are well established and easy to verify; swap in the
+      actual plan, real prices from JR / Booking.com, and a photo from Google
+      Maps user uploads, Wikimedia Commons, or the official tourism site.
+    -->
+    <Card
+      cardId="kurobe-alpine-route"
+      title="Tateyama Kurobe alpine route"
+      price="Total through-ticket runs into the several-thousand-yen range — confirm the current fare before committing."
+      source={{ label: 'alpen-route.com (official)', url: 'https://www.alpen-route.com/en/' }}
+    >
+      <p>
+        The alpine route crosses the Northern Japan Alps between Toyama and Nagano,
+        linking cable cars, a trolley bus, and a ropeway. Its high point is
+        Murodo at about 2,450 metres.
+      </p>
+      <p>
+        Kurobe Dam, at 186 metres, is the tallest dam in Japan and the usual
+        centrepiece of a day here.
+      </p>
+    </Card>
+
+    <!-- A map of the route from Shibuya, and a coffee search near the start. -->
+    <MapEmbed
+      mode="route"
+      destination="Kurobe Dam, Toyama, Japan"
+      label="Transit route from Shibuya Station to Kurobe Dam"
+    />
+    <MapEmbed
+      mode="search"
+      destination="Shibuya Station, Tokyo"
+      query="coffee"
+      label="Coffee places near Shibuya Station, the starting point"
+    />
+  </DestinationTab>
+
+  <DestinationTab id="atami" label="Atami">
+    <!--
+      DEMO CARD: replace with real Atami content (e.g. Day 1 afternoon).
+      Swap in the actual plan, real prices from Rakuten Travel / Booking.com,
+      and a real photo with credit.
+    -->
+    <Card
+      cardId="atami-onsen"
+      title="Atami onsen, on Sagami bay"
+      price="A wide range of ryokan and hotels — pull real per-night prices from Rakuten Travel or Booking.com before deciding."
+      source={{ label: 'Atami City (official)', url: 'https://www.city.atami.lg.jp/' }}
+    >
+      <p>
+        Atami is a hot-spring resort town in Shizuoka prefecture, set on the
+        coast of Sagami Bay. It is one of the closest onsen towns to Tokyo and is
+        reachable by Tokaido Shinkansen.
+      </p>
+      <p>
+        The short travel time makes it the easy-going option — less transit, more
+        time by the water with a three-year-old.
+      </p>
+    </Card>
+
+    <MapEmbed
+      mode="route"
+      destination="Atami Station, Shizuoka, Japan"
+      label="Transit route from Shibuya Station to Atami"
+    />
+    <MapEmbed
+      mode="search"
+      destination="Atami Station, Shizuoka, Japan"
+      query="coffee"
+      label="Coffee places near Atami Station"
+    />
+  </DestinationTab>
+
+  <script>
+    // Swap which destination panel is visible. Pure DOM toggling — no framework,
+    // so it works the instant the HTML lands even before anything else loads.
+    const tabs = [...document.querySelectorAll<HTMLButtonElement>('[data-tab]')];
+    const panels = [...document.querySelectorAll<HTMLElement>('[data-tab-panel]')];
+
+    for (const tab of tabs) {
+      tab.addEventListener('click', () => {
+        const id = tab.dataset.tab;
+        for (const t of tabs) t.setAttribute('aria-selected', String(t === tab));
+        for (const p of panels) p.hidden = p.dataset.tabPanel !== id;
+      });
+    }
+  </script>
+</Base>

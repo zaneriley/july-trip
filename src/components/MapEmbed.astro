@@ -1,0 +1,136 @@
+---
+/*
+  A Google map that only loads when it scrolls into view. We do this because the
+  page may have several maps and the audience is on phones with weak signal —
+  loading the Maps script eagerly would block the whole page on a slow network.
+
+  Three modes:
+    - "place"  : show a single location.
+    - "route"  : draw directions from the origin (Shibuya by default) to a place.
+    - "search" : show places (e.g. coffee) near a point or along a route.
+
+  The API key is read from PUBLIC_GOOGLE_MAPS_API_KEY at build time. While it is
+  blank the component renders a clear "needs API key" note instead of a broken map.
+*/
+interface Props {
+  mode: 'place' | 'route' | 'search';
+  /** Where the map is centred or what the route ends at. A place name works fine. */
+  destination: string;
+  /** Route origin. Defaults to Shibuya Station. */
+  origin?: string;
+  /** For "search" mode: what to look for, e.g. "coffee". */
+  query?: string;
+  /** Accessible description of what this map shows. */
+  label: string;
+}
+
+const {
+  mode,
+  destination,
+  // TODO: swap this free-text origin for Shibuya Station's canonical place id
+  // once it is verified via the Places API. A place id pins the exact station
+  // entrance; the text query is close enough but can drift.
+  origin = 'Shibuya Station, Tokyo',
+  query,
+  label,
+} = Astro.props;
+
+const apiKey = import.meta.env.PUBLIC_GOOGLE_MAPS_API_KEY ?? '';
+const hasKey = apiKey.length > 0;
+
+const config = JSON.stringify({ mode, destination, origin, query, hasKey });
+---
+
+<div
+  data-map
+  data-config={config}
+  role="img"
+  aria-label={label}
+  class="my-4 flex aspect-[4/3] w-full items-center justify-center overflow-hidden rounded-2xl border border-stone-200 bg-stone-100 text-center text-sm text-stone-500"
+>
+  {
+    hasKey ? (
+      <span data-map-placeholder>map loads when you scroll here…</span>
+    ) : (
+      <span class="px-6">
+        map needs a Google Maps API key — set <code>PUBLIC_GOOGLE_MAPS_API_KEY</code> to enable it
+      </span>
+    )
+  }
+</div>
+
+{
+  hasKey && (
+    <script
+      is:inline
+      define:vars={{ apiKey }}
+      type="module"
+    >
+      // Loaded once per page. Watches every [data-map] element and only boots the
+      // Google Maps script after the first map nears the viewport.
+      let mapsReady = null;
+
+      function loadMaps() {
+        if (mapsReady) return mapsReady;
+        mapsReady = new Promise((resolve, reject) => {
+          const s = document.createElement('script');
+          s.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=places`;
+          s.async = true;
+          s.onload = resolve;
+          s.onerror = reject;
+          document.head.appendChild(s);
+        });
+        return mapsReady;
+      }
+
+      async function draw(el) {
+        const cfg = JSON.parse(el.dataset.config);
+        await loadMaps();
+        el.textContent = '';
+        const map = new google.maps.Map(el, { zoom: 12, center: { lat: 35.659, lng: 139.7 }, mapId: undefined });
+
+        if (cfg.mode === 'route') {
+          const svc = new google.maps.DirectionsService();
+          const renderer = new google.maps.DirectionsRenderer({ map });
+          const res = await svc.route({
+            origin: cfg.origin,
+            destination: cfg.destination,
+            travelMode: google.maps.TravelMode.TRANSIT,
+          });
+          renderer.setDirections(res);
+        } else if (cfg.mode === 'search') {
+          const geocoder = new google.maps.Geocoder();
+          const { results } = await geocoder.geocode({ address: cfg.destination });
+          const center = results[0].geometry.location;
+          map.setCenter(center);
+          const places = new google.maps.places.PlacesService(map);
+          places.nearbySearch(
+            { location: center, radius: 1500, keyword: cfg.query ?? 'coffee' },
+            (list) => {
+              (list ?? []).forEach((p) => new google.maps.Marker({ map, position: p.geometry.location, title: p.name }));
+            },
+          );
+        } else {
+          const geocoder = new google.maps.Geocoder();
+          const { results } = await geocoder.geocode({ address: cfg.destination });
+          const loc = results[0].geometry.location;
+          map.setCenter(loc);
+          new google.maps.Marker({ map, position: loc, title: cfg.destination });
+        }
+      }
+
+      const observer = new IntersectionObserver((entries, obs) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            obs.unobserve(entry.target);
+            draw(entry.target).catch(() => {
+              entry.target.textContent = 'map could not load — check signal and try again';
+            });
+          }
+        }
+      }, { rootMargin: '200px' });
+
+      document.querySelectorAll('[data-map]').forEach((el) => observer.observe(el));
+    </script>
+  )
+}

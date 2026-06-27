@@ -1,0 +1,26 @@
+---
+/*
+  One of the two destination panels (Kurobe or Atami). The tab buttons that
+  switch between panels live in the page itself; this component is just the
+  content region for one destination. It starts hidden unless it is the one
+  shown first, and the page's small switching script flips `hidden`.
+*/
+interface Props {
+  id: string;
+  /** Sentence-case label, e.g. "Kurobe" — used by the matching tab button. */
+  label: string;
+  active?: boolean;
+}
+
+const { id, label, active = false } = Astro.props;
+---
+
+<section
+  id={`panel-${id}`}
+  data-tab-panel={id}
+  role="tabpanel"
+  aria-label={label}
+  hidden={!active}
+>
+  <slot />
+</section>

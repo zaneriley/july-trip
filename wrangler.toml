@@ -1,0 +1,6 @@
+# Config for the Cloudflare Pages project (the static Astro site).
+# The hearts Worker has its own config in worker/wrangler.toml.
+
+name = "july-trip"
+compatibility_date = "2024-11-01"
+pages_build_output_dir = "dist"

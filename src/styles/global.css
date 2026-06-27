@@ -1,0 +1,41 @@
+@import "tailwindcss";
+
+/*
+  Design rules live here as actual CSS, not as a guideline someone has to remember.
+
+  The font stack favours system fonts so the page loads instantly on a phone with
+  one bar of signal in the mountains — no web-font round-trip before text appears.
+*/
+@theme {
+  --font-sans: ui-sans-serif, system-ui, -apple-system, "Hiragino Kaku Gothic ProN",
+    "Hiragino Sans", Meiryo, sans-serif;
+}
+
+/*
+  Rule: no all-caps anywhere. We make lowercase-as-authored the default for every
+  element so nothing shouts, and we hard-disable Tailwind's `uppercase` utility so
+  it cannot be reached for by accident later. `capitalize` (sentence case) is fine
+  and stays available.
+*/
+@layer base {
+  *,
+  ::before,
+  ::after {
+    text-transform: none;
+  }
+}
+
+/* If someone types `class="uppercase"`, neutralise it rather than honour it. */
+.uppercase {
+  text-transform: none !important;
+}
+
+html {
+  font-family: var(--font-sans);
+  /* Comfortable reading on a phone held one-handed. */
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+}

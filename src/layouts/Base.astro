@@ -1,0 +1,32 @@
+---
+/*
+  The shared shell for the one page this site has. It sets the mobile viewport,
+  loads the design-rule stylesheet, and nothing else — there is no header chrome,
+  no nav bar, because the whole site is a single scrollable page.
+*/
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+    <!-- viewport-fit=cover lets the page reach into the iPhone safe areas. -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+  </head>
+  <body class="bg-stone-50 text-stone-900 antialiased">
+    <main class="mx-auto max-w-xl px-4 pb-24 pt-8">
+      <slot />
+    </main>
+  </body>
+</html>
