@@ -1,56 +1,117 @@
 ---
 import Base from '../layouts/Base.astro';
+import DestinationMap from '../components/DestinationMap.astro';
+import { CATEGORY_META } from '../lib/categories';
 import { comparisonColumns } from '../lib/compare';
+import { getCollection } from 'astro:content';
 
-// Home is the decision: Kurobe vs Atami, side by side. The actual deciding happens
-// in the group thread — this page is the shared evidence everyone links to. Each
-// destination's own page (the map + the places) is one tap away.
+// Home is everything in one place: a single map carrying both cities' points, and
+// the places we're looking at as a grid of real photos. The deciding happens in
+// the group thread — this is the shared board it points at.
+const pois = await getCollection('pois');
+const paths = await getCollection('paths');
+const photos = await getCollection('photos');
 const columns = await comparisonColumns();
+
+// Group photos by the subject (place/poi/route) they depict.
+const photosBySubject = new Map<string, typeof photos>();
+for (const photo of photos) {
+  const list = photosBySubject.get(photo.data.subject) ?? [];
+  list.push(photo);
+  photosBySubject.set(photo.data.subject, list);
+}
+
+// A couple of photo subjects aren't map points (the route as a whole); name them
+// here so every tile resolves. Everything else is looked up from its poi.
+const extraSubjects: Record<string, { name: string; category: string; destination: string; sourceUrl: string }> = {
+  'alpine-route': {
+    name: 'Tateyama Kurobe alpine route',
+    category: 'sightseeing',
+    destination: 'kurobe',
+    sourceUrl: 'https://www.alpen-route.com/en/',
+  },
+};
+
+// Build one tile per subject that has photos, ordered Kurobe first then Atami.
+const destOrder: Record<string, number> = { kurobe: 0, atami: 1 };
+const tiles = [...photosBySubject.keys()]
+  .map((subject) => {
+    const poi = pois.find((p) => p.id === subject);
+    const meta = poi
+      ? {
+          name: poi.data.name,
+          category: poi.data.category,
+          destination: poi.data.destination.id,
+          sourceUrl: poi.data.source.url,
+        }
+      : extraSubjects[subject];
+    if (!meta) return null;
+    return { subject, ...meta, photo: photosBySubject.get(subject)![0] };
+  })
+  .filter((t): t is NonNullable<typeof t> => t !== null)
+  .sort((a, b) => (destOrder[a.destination] ?? 9) - (destOrder[b.destination] ?? 9));
 ---
 
 <Base
   title="Kurobe or Atami? — July 3 to 5"
-  description="Two options for the long weekend, side by side: the alpine route at Kurobe, or onsen by the sea at Atami. Have a look, then we'll sort it out in the chat."
+  description="Both options on one map, with photos of every place: the alpine route at Kurobe, or onsen by the sea at Atami. We'll sort it out in the chat."
   ogImage="/og/home.png"
+  wide={true}
 >
-  <header class="mb-6">
+  <header class="mb-5">
     <h1 class="m-0 text-2xl font-semibold text-stone-900">Where should we go, July 3 to 5?</h1>
     <p class="mt-2 text-[15px] leading-relaxed text-stone-600">
-      Two options, side by side. Have a look at both — then we'll sort it out in the chat.
+      Both options on one map. {' '}
+      {
+        columns.map((c, i) => (
+          <>
+            {i > 0 && ' · '}
+            <a href={`/${c.dest.id}`} class="text-stone-800 underline decoration-stone-300 underline-offset-2 hover:text-stone-900">
+              {c.dest.data.name}
+            </a>
+            {c.time && <> {c.time} from Shibuya</>}
+          </>
+        ))
+      }.
     </p>
   </header>
 
-  <!-- The two options as a side-by-side, each tapping through to its own map. -->
-  <div class="grid grid-cols-2 gap-3">
+  <!-- One giant map carrying every point from both cities. -->
+  <DestinationMap destinationId="all" pois={pois} paths={paths} />
+
+  <!-- The places, as a grid of real photos. Names and sources only — no invented copy. -->
+  <h2 class="mt-8 mb-3 text-lg font-semibold text-stone-900">The places</h2>
+  <div class="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4">
     {
-      columns.map(({ dest, time, cost }) => (
-        <a
-          href={`/${dest.id}`}
-          class="group flex flex-col overflow-hidden rounded-2xl border border-stone-200 bg-white shadow-sm transition hover:border-stone-400"
-        >
-          <img
-            src={dest.data.heroImage}
-            alt={dest.data.name}
-            class="aspect-[4/3] w-full object-cover"
-          />
-          <div class="flex flex-1 flex-col px-3 py-3">
-            <h2 class="m-0 text-lg font-semibold text-stone-900">{dest.data.name}</h2>
-            <p class="mt-1 text-[13px] leading-snug text-stone-500">{dest.data.tagline}</p>
-            <dl class="mt-3 space-y-1.5 text-[13px]">
-              <div>
-                <dt class="text-stone-400">getting there</dt>
-                <dd class="m-0 text-stone-800">{time ?? '—'}</dd>
+      tiles.map((tile) => (
+        <div class="flex flex-col overflow-hidden rounded-xl border border-stone-200 bg-white transition hover:border-stone-400">
+          <a href={`/${tile.destination}`} class="block">
+            <img
+              src={tile.photo.data.src}
+              alt={tile.photo.data.alt}
+              loading="lazy"
+              class="aspect-[4/3] w-full object-cover"
+            />
+            <div class="px-3 pt-2.5">
+              <div class="flex items-center gap-1.5">
+                <span
+                  class="inline-block h-2 w-2 shrink-0 rounded-full"
+                  style={`background:${CATEGORY_META[tile.category]?.color ?? '#888'}`}
+                />
+                <span class="text-xs text-stone-400">{tile.destination === 'kurobe' ? 'Kurobe' : 'Atami'}</span>
               </div>
-              <div>
-                <dt class="text-stone-400">cost per adult</dt>
-                <dd class="m-0 text-stone-800">{cost ?? '—'}</dd>
-              </div>
-            </dl>
-            <span class="mt-3 text-sm text-stone-500 group-hover:text-stone-800">
-              see the map and places →
-            </span>
-          </div>
-        </a>
+              <h3 class="m-0 mt-1 text-[15px] font-medium leading-snug text-stone-900">{tile.name}</h3>
+            </div>
+          </a>
+          <a
+            href={tile.photo.data.creditUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="mt-auto px-3 pb-2.5 pt-2 text-[11px] text-stone-400 hover:text-stone-600"
+          >
+            {tile.photo.data.credit}
+          </a>
+        </div>
       ))
     }
   </div>

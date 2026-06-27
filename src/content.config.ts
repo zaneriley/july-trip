@@ -183,4 +183,19 @@ const paths = defineCollection({
   }),
 });
 
-export const collections = { sources, destinations, places, journeys, pois, paths };
+// Real, license-confirmed photos. `subject` ties a photo to the place/poi/route
+// it depicts, so a tile or card can pull every photo of its subject. Provenance
+// (credit + link + licence) travels with each photo (ADR 0003).
+const photos = defineCollection({
+  loader: file('./src/data/photos.yaml'),
+  schema: z.object({
+    subject: z.string(),
+    src: z.string(),
+    alt: z.string(),
+    credit: z.string(),
+    creditUrl: z.url(),
+    license: z.string(),
+  }),
+});
+
+export const collections = { sources, destinations, places, journeys, pois, paths, photos };
