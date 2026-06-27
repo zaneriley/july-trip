@@ -31,8 +31,24 @@ These are enforced in CSS and component shapes, not left to memory:
 Evidence-only. Real photos (Google Maps user uploads, Wikimedia Commons, official
 tourism sources), real prices (Booking.com / Rakuten / JR / official attraction
 sites), real maps, real coffee places. No fabricated descriptions, no AI-imagined
-places, no placeholder filler that survives to commit. The scaffold ships one
-clearly-marked demo card per destination — replace them with real content.
+places, no placeholder filler that survives to commit. This is enforced
+structurally: trip content is a graph (see below) where every fact must name its
+source, and a figure we couldn't confirm at first hand is shown marked
+"unverified", not dressed up as solid.
+
+## Content model
+
+Trip content lives in `src/data` as a small graph of Astro content collections,
+defined in `src/content.config.ts`:
+
+- `sources` — citations (url, accessed date, type, reliability). The spine.
+- `destinations` — Kurobe, Atami (prose in the markdown body).
+- `places` — a thing within a destination (alpine route, onsen town).
+- `journeys` — a way to get from Shibuya to a place, with per-leg figures.
+
+References between them are the graph edges. The page renders from the graph and
+holds no hardcoded trip facts — to add or correct content, edit the data, not the
+markup. Full rationale in `docs/decisions/0004-provenance-content-graph.md`.
 
 ## Local dev
 

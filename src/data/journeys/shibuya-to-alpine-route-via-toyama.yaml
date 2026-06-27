@@ -1,0 +1,53 @@
+from: Shibuya
+to: kurobe-dam-alpine-route
+label: to the route from the west, via Toyama (Tateyama entrance)
+legs:
+  - mode: local-train
+    service: Yamanote Line
+    from: Shibuya
+    to: Tokyo
+    durationMin:
+      value: 28
+      sources: [trip-com-shibuya-tokyo]
+    fareYen:
+      value: 210
+      sources: [trip-com-shibuya-tokyo]
+  - mode: shinkansen
+    service: Kagayaki
+    from: Tokyo
+    to: Toyama
+    durationMin:
+      value: 128
+      sources: [japan-guide-toyama]
+    fareYen:
+      value: 13180
+      sources: [tetsutabilife-hokuriku-fares]
+  - mode: local-train
+    service: Toyama Chiho Railway
+    from: Toyama
+    to: Tateyama
+    durationMin:
+      value: 60
+      sources: [snowmonkey-chiho-railway]
+    fareYen:
+      value: 1230
+      sources: [snowmonkey-chiho-railway]
+totalDurationMin:
+  value: 216
+  sources: [japan-guide-toyama, snowmonkey-chiho-railway, trip-com-shibuya-tokyo]
+totalFareYen:
+  value: 14620
+  sources: [tetsutabilife-hokuriku-fares, snowmonkey-chiho-railway, trip-com-shibuya-tokyo]
+seatNote: >-
+  This reaches the western (Tateyama) entrance, the better side if you mean to
+  cross the whole route rather than just see the dam.
+verified: partially-verified
+caveat: >-
+  The Toyama fare is from a fare table that reproduces the JR chart, not a JR
+  first-party page, and the Chiho Railway is a private line not covered by JR
+  passes. Confirm both before booking.
+sources:
+  - japan-guide-toyama
+  - tetsutabilife-hokuriku-fares
+  - snowmonkey-chiho-railway
+  - trip-com-shibuya-tokyo

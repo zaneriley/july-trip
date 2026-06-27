@@ -1,0 +1,58 @@
+---
+/*
+  Renders the ways to get to one place, each as a short prose paragraph carrying
+  its own time, fare, and sources. The figures live in the content graph (see
+  src/content.config.ts) and the references on each journey are resolved here, so
+  every number you read links back to where it came from.
+
+  Honest-by-construction: a journey whose figures we could not confirm first-hand
+  is shown with its caveat in plain words, not dressed up as settled fact.
+*/
+import { getEntries, type CollectionEntry } from 'astro:content';
+import { formatDuration, formatYen } from '../lib/format';
+import SourceLinks from './SourceLinks.astro';
+
+interface Props {
+  journeys: CollectionEntry<'journeys'>[];
+}
+
+const { journeys } = Astro.props;
+
+// Resolve each journey's source references up front so the markup stays flat.
+const resolved = await Promise.all(
+  journeys.map(async (journey) => ({
+    journey,
+    sources: await getEntries(journey.data.sources),
+    // The path of stops, e.g. "Shibuya → Shinagawa → Atami".
+    path: [journey.data.from, ...journey.data.legs.map((leg) => leg.to)].join(' → '),
+  })),
+);
+---
+
+{
+  resolved.length > 0 && (
+    <div class="mt-4 border-t border-stone-100 pt-3">
+      <p class="m-0 text-[13px] text-stone-500">Getting there from Shibuya</p>
+
+      {resolved.map(({ journey, sources, path }) => (
+        <div class="mt-3">
+          <p class="m-0 text-[15px] text-stone-800">
+            <span class="font-medium">{journey.data.label}</span>
+            {journey.data.totalDurationMin && (
+              <> — {formatDuration(journey.data.totalDurationMin.value)} door to door</>
+            )}
+            {journey.data.totalFareYen && <>, {formatYen(journey.data.totalFareYen.value)} one way</>}
+          </p>
+          <p class="m-0 text-[13px] text-stone-500">{path}</p>
+          {journey.data.seatNote && (
+            <p class="mt-1 text-[13px] leading-relaxed text-stone-600">{journey.data.seatNote}</p>
+          )}
+          {journey.data.verified !== 'verified' && journey.data.caveat && (
+            <p class="mt-1 text-xs italic leading-relaxed text-stone-500">{journey.data.caveat}</p>
+          )}
+          <SourceLinks entries={sources} lead="figures from" />
+        </div>
+      ))}
+    </div>
+  )
+}

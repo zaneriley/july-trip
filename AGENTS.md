@@ -21,13 +21,17 @@ breaks one of them does not merge.
 - No badges, chips, tags, pills, or labels. `Card` has no slot for a category or
   tag — keep it that way. Don't add a badge/chip/eyebrow component.
 
-**Content rules** (see ADR 0003):
+**Content rules** (see ADR 0003 and ADR 0004):
 - Evidence-only. Every fact, price, photo, and map traces to a real source
   (Google Maps user uploads, Wikimedia Commons, official tourism sites,
   Booking.com / Rakuten / JR / official attraction pages).
 - No fabricated descriptions, no AI-imagined places, no Lorem Ipsum that survives
-  to a commit. The two `DEMO CARD` placeholders in `src/pages/index.astro` are to
-  be replaced with the real plan, not multiplied.
+  to a commit. A figure you can't confirm at a first-party source is marked
+  `unverified` in the data and shown with its caveat — never presented as solid.
+- Trip content is a graph under `src/data` (schema in `src/content.config.ts`):
+  sources, destinations, places, journeys. The page renders from it and holds no
+  hardcoded facts. **Edit the data, not the markup.** You cannot add a journey or
+  place without naming its sources — that's the rule doing its job.
 
 ## Conventions
 

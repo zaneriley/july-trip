@@ -1,0 +1,47 @@
+---
+/*
+  Renders provenance as prose, not chips. Given a set of resolved source entries
+  it prints "sources: publisher a, publisher b" with each linking out. This is the
+  visible end of the evidence-only rule — every figure on a card can be traced by
+  tapping through. Sources marked unverified are noted in words, never colour-coded.
+*/
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  entries: CollectionEntry<'sources'>[];
+  // A short lead word, e.g. "source" or "fares from".
+  lead?: string;
+}
+
+const { entries, lead = 'sources' } = Astro.props;
+
+// De-duplicate: the same source often backs several figures on one card.
+const seen = new Set<string>();
+const unique = entries.filter((entry) => {
+  if (seen.has(entry.id)) return false;
+  seen.add(entry.id);
+  return true;
+});
+---
+
+{
+  unique.length > 0 && (
+    <p class="mt-1 text-xs leading-relaxed text-stone-400">
+      {lead}:{' '}
+      {unique.map((entry, i) => (
+        <>
+          {i > 0 && ', '}
+          <a
+            href={entry.data.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="underline decoration-stone-300 underline-offset-2 hover:text-stone-600"
+          >
+            {entry.data.publisher}
+          </a>
+          {entry.data.reliability === 'unverified' && ' (unverified)'}
+        </>
+      ))}
+    </p>
+  )
+}

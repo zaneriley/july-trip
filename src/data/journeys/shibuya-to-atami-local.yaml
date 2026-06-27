@@ -1,0 +1,40 @@
+from: Shibuya
+to: atami-onsen
+label: by local train (cheapest)
+legs:
+  - mode: local-train
+    service: Yamanote Line
+    from: Shibuya
+    to: Tokyo
+    durationMin:
+      value: 28
+      sources: [trip-com-shibuya-tokyo]
+    fareYen:
+      value: 210
+      sources: [trip-com-shibuya-tokyo]
+  - mode: local-train
+    service: Tokaido Line
+    from: Tokyo
+    to: Atami
+    durationMin:
+      value: 100
+      sources: [japan-guide-izu-access]
+    fareYen:
+      value: 1980
+      sources: [japan-guide-izu-access]
+totalDurationMin:
+  value: 128
+  sources: [japan-guide-izu-access, trip-com-shibuya-tokyo]
+totalFareYen:
+  value: 2190
+  sources: [japan-guide-izu-access, trip-com-shibuya-tokyo]
+seatNote: >-
+  No reserved seats on the local, so with a tired toddler you may end up standing
+  at busy times — the trade for the lowest fare.
+verified: partially-verified
+caveat: >-
+  Times and fare from a travel guide rather than a JR first-party page; treat as
+  close, not exact.
+sources:
+  - japan-guide-izu-access
+  - trip-com-shibuya-tokyo

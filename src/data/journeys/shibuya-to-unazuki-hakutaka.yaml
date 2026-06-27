@@ -1,0 +1,42 @@
+from: Shibuya
+to: unazuki-onsen
+label: by shinkansen (Hakutaka)
+legs:
+  - mode: local-train
+    service: Yamanote Line
+    from: Shibuya
+    to: Tokyo
+    durationMin:
+      value: 28
+      sources: [trip-com-shibuya-tokyo]
+    fareYen:
+      value: 210
+      sources: [trip-com-shibuya-tokyo]
+  - mode: shinkansen
+    service: Hakutaka
+    from: Tokyo
+    to: Kurobe-Unazuki-Onsen
+    durationMin:
+      value: 140
+      sources: [shinkansen-ticket-kurobe]
+    fareYen:
+      value: 12300
+      sources: [tetsutabilife-hokuriku-fares]
+totalDurationMin:
+  value: 168
+  sources: [shinkansen-ticket-kurobe, trip-com-shibuya-tokyo]
+totalFareYen:
+  value: 12510
+  sources: [tetsutabilife-hokuriku-fares, trip-com-shibuya-tokyo]
+seatNote: >-
+  The one part of Kurobe you reach on a single train. Only Hakutaka stops at
+  Kurobe-Unazuki-Onsen — the faster Kagayaki passes it by.
+verified: partially-verified
+caveat: >-
+  Fare from a JR fare chart reproduction and timing from a ticket aggregator,
+  neither a JR first-party page. Confirm the live timetable before booking.
+sources:
+  - tetsutabilife-hokuriku-fares
+  - shinkansen-ticket-kurobe
+  - uenostation-hokuriku
+  - trip-com-shibuya-tokyo

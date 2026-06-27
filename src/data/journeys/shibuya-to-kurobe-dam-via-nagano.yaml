@@ -1,0 +1,62 @@
+from: Shibuya
+to: kurobe-dam-alpine-route
+label: to Kurobe Dam, via Nagano (eastern entrance)
+legs:
+  - mode: local-train
+    service: Yamanote Line
+    from: Shibuya
+    to: Tokyo
+    durationMin:
+      value: 28
+      sources: [trip-com-shibuya-tokyo]
+    fareYen:
+      value: 210
+      sources: [trip-com-shibuya-tokyo]
+  - mode: shinkansen
+    service: Hokuriku Shinkansen
+    from: Tokyo
+    to: Nagano
+    durationMin:
+      value: 100
+      sources: [japan-guide-alpine-route]
+    fareYen:
+      value: 8500
+      sources: [japan-guide-alpine-route]
+  - mode: bus
+    from: Nagano
+    to: Ogizawa
+    durationMin:
+      value: 105
+      sources: [japan-guide-alpine-route]
+    fareYen:
+      value: 4300
+      sources: [japan-guide-alpine-route]
+  - mode: bus
+    service: Kanden tunnel electric bus
+    from: Ogizawa
+    to: Kurobe Dam
+    durationMin:
+      value: 16
+      sources: [alpen-route-transportation, japan-guide-alpine-route]
+    fareYen:
+      value: 1800
+      sources: [alpen-route-transportation, japan-guide-alpine-route]
+totalDurationMin:
+  value: 255
+  sources: [japan-guide-alpine-route, alpen-route-transportation, trip-com-shibuya-tokyo]
+totalFareYen:
+  value: 14810
+  sources: [japan-guide-alpine-route, alpen-route-transportation, trip-com-shibuya-tokyo]
+seatNote: >-
+  This is the shortest way to the dam itself, but it's still over four hours of
+  trains and buses each way — a lot for a three-year-old in one go.
+verified: partially-verified
+caveat: >-
+  The Nagano–Ogizawa bus and the tunnel bus are not JR services and aren't covered
+  by a JR pass. The route's season is confirmed open in July, but verify the day's
+  segment timetable on the official site before locking an itinerary.
+sources:
+  - japan-guide-alpine-route
+  - alpen-route-transportation
+  - alpen-route-open-2026
+  - trip-com-shibuya-tokyo

@@ -1,0 +1,40 @@
+from: Shibuya
+to: atami-onsen
+label: by limited express (Odoriko)
+legs:
+  - mode: local-train
+    service: Yamanote Line
+    from: Shibuya
+    to: Tokyo
+    durationMin:
+      value: 28
+      sources: [trip-com-shibuya-tokyo]
+    fareYen:
+      value: 210
+      sources: [trip-com-shibuya-tokyo]
+  - mode: limited-express
+    service: Odoriko
+    from: Tokyo
+    to: Atami
+    durationMin:
+      value: 80
+      sources: [jreast-odoriko]
+    fareYen:
+      value: 3560
+      sources: [jreast-odoriko]
+totalDurationMin:
+  value: 108
+  sources: [jreast-odoriko, trip-com-shibuya-tokyo]
+totalFareYen:
+  value: 3770
+  sources: [jreast-odoriko, trip-com-shibuya-tokyo]
+seatNote: >-
+  All Odoriko seats are reserved, so the child gets a guaranteed seat. One calm
+  coastal ride with wide windows past Odawara — gentler than changing trains.
+verified: partially-verified
+caveat: >-
+  Fare is the base plus the reserved limited-express charge from JR East's pages;
+  exact timing varies by service, so check the day's timetable.
+sources:
+  - jreast-odoriko
+  - trip-com-shibuya-tokyo

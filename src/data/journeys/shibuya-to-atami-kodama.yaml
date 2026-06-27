@@ -1,0 +1,42 @@
+from: Shibuya
+to: atami-onsen
+label: by shinkansen (Kodama)
+legs:
+  - mode: local-train
+    service: Yamanote Line
+    from: Shibuya
+    to: Shinagawa
+    durationMin:
+      value: 15
+      sources: [shinjukustation-yamanote]
+    fareYen:
+      value: 210
+      sources: [shinjukustation-yamanote]
+  - mode: shinkansen
+    service: Kodama
+    from: Shinagawa
+    to: Atami
+    durationMin:
+      value: 38
+      sources: [ekitan-tokyo-atami]
+    fareYen:
+      value: 4650
+      sources: [ekitan-tokyo-atami]
+totalDurationMin:
+  value: 60
+  sources: [ekitan-tokyo-atami, shinjukustation-yamanote]
+totalFareYen:
+  value: 4860
+  sources: [ekitan-tokyo-atami, shinjukustation-yamanote]
+seatNote: >-
+  A three-year-old rides free as an infant, but a reserved seat is worth the
+  small surcharge so they're guaranteed a place beside you. The fastest Nozomi
+  trains skip Atami, so plan around Kodama.
+verified: partially-verified
+caveat: >-
+  Shinkansen fares come from a fare aggregator, not JR Central's own page. They're
+  consistent across sources, but confirm a live timetable and fare before booking.
+sources:
+  - ekitan-tokyo-atami
+  - shinjukustation-yamanote
+  - smartex-child-fare

@@ -1,26 +1,27 @@
 ---
 /*
-  A card is a piece of content, not a row of chips. It is a title, some real
-  prose, maybe a photo, maybe a price written as a sentence, and a link to where
-  the facts came from. That is the whole shape — deliberately there is no slot
-  for a category, tag, badge, or label, so none can creep in.
+  A card is a piece of content, not a row of chips. It is a title, real prose
+  (passed in as the slot), maybe a photo, the provenance for the prose, and a
+  heart. There is deliberately no slot for a category, tag, badge, or label, so
+  none can creep in (ADR 0001).
 
-  Price is plain text on purpose: "about ¥12,000 for a twin room" reads like a
-  human wrote it, not "¥12,000" stamped in a coloured pill.
+  Provenance is first-class: a card takes the resolved source entries behind its
+  prose and prints them as plain links at the foot, so any claim can be traced.
 */
+import type { CollectionEntry } from 'astro:content';
+import Heart from './Heart.astro';
+import SourceLinks from './SourceLinks.astro';
+
 interface Props {
   cardId: string;
   title: string;
-  /** Where the facts came from. Shown as a small "source" link at the bottom. */
-  source?: { label: string; url: string };
-  /** A real price stated in words, e.g. "about ¥12,000 per night". */
-  price?: string;
-  /** One photo: a real image with a credit, never a stock placeholder. */
+  // The sources behind this card's prose, already resolved from references.
+  sourceEntries?: CollectionEntry<'sources'>[];
+  // One photo: a real image with a credit, never a stock placeholder.
   image?: { src: string; alt: string; credit?: string };
 }
 
-const { cardId, title, source, price, image } = Astro.props;
-import Heart from './Heart.astro';
+const { cardId, title, sourceEntries = [], image } = Astro.props;
 ---
 
 <article class="mb-5 overflow-hidden rounded-2xl border border-stone-200 bg-white shadow-sm">
@@ -38,28 +39,15 @@ import Heart from './Heart.astro';
   <div class="px-4 py-4">
     <h3 class="m-0 text-lg font-semibold text-stone-900">{title}</h3>
 
-    <!-- The description is authored as real prose between these tags. -->
-    <div class="prose-trip mt-2 space-y-2 text-[15px] leading-relaxed text-stone-700">
+    <!-- The description and any journeys are passed in as real prose. -->
+    <div class="mt-2 space-y-2 text-[15px] leading-relaxed text-stone-700">
       <slot />
     </div>
 
-    {price && <p class="mt-3 text-[15px] text-stone-600">{price}</p>}
-
     <div class="mt-4 flex items-end justify-between gap-3">
-      {
-        source ? (
-          <a
-            href={source.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="text-sm text-stone-500 underline decoration-stone-300 underline-offset-2 hover:text-stone-800"
-          >
-            source: {source.label}
-          </a>
-        ) : (
-          <span></span>
-        )
-      }
+      <div class="min-w-0">
+        <SourceLinks entries={sourceEntries} lead="about this place" />
+      </div>
       <Heart cardId={cardId} />
     </div>
   </div>

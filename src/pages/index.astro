@@ -2,120 +2,113 @@
 import Base from '../layouts/Base.astro';
 import DestinationTab from '../components/DestinationTab.astro';
 import Card from '../components/Card.astro';
+import Journeys from '../components/Journeys.astro';
+import SourceLinks from '../components/SourceLinks.astro';
 import MapEmbed from '../components/MapEmbed.astro';
+import { getCollection, getEntries, render } from 'astro:content';
 
-// The two options we're choosing between. Kurobe is first only because it needs
-// the earlier start; order carries no preference.
-const tabs = [
-  { id: 'kurobe', label: 'Kurobe' },
-  { id: 'atami', label: 'Atami' },
-];
+// The whole page is built from the content graph (see src/content.config.ts).
+// Nothing here is hardcoded trip prose — destinations, the places inside them,
+// and the journeys to each place all come from src/data, every figure carrying
+// its source. To add or correct anything, edit the data, not this file.
+const destinations = (await getCollection('destinations')).sort(
+  (a, b) => a.data.order - b.data.order,
+);
+const allPlaces = await getCollection('places');
+const allJourneys = await getCollection('journeys');
+
+// Resolve everything once, here, so the markup below stays flat and readable.
+const view = await Promise.all(
+  destinations.map(async (dest) => {
+    const { Content: DestBody } = await render(dest);
+    const destSources = await getEntries(dest.data.sources);
+    const places = await Promise.all(
+      allPlaces
+        .filter((place) => place.data.destination.id === dest.id)
+        .map(async (place) => {
+          const { Content: PlaceBody } = await render(place);
+          return {
+            place,
+            PlaceBody,
+            placeSources: await getEntries(place.data.sources),
+            journeys: allJourneys.filter((j) => j.data.to.id === place.id),
+          };
+        }),
+    );
+    return { dest, DestBody, destSources, places };
+  }),
+);
+
+// Maps are live Google data, not graph facts, so they're configured here per
+// destination rather than stored as content.
+const mapsByDestination: Record<string, { route: string; coffee: string; label: string }> = {
+  kurobe: { route: 'Kurobe Dam, Toyama, Japan', coffee: 'Shibuya Station, Tokyo', label: 'Kurobe Dam' },
+  atami: { route: 'Atami Station, Shizuoka, Japan', coffee: 'Atami Station, Shizuoka, Japan', label: 'Atami' },
+};
 ---
 
 <Base title="July 3–5 — Kurobe or Atami?">
   <header class="mb-6">
     <h1 class="m-0 text-2xl font-semibold text-stone-900">Where should we go, July 3 to 5?</h1>
-    <p class="mt-2 text-[15px] leading-relaxed text-stone-600">
-      Two options for the long weekend with the five of us and the little one. Have a
-      look at both and tap the heart on anything you'd want to do. Nothing here is
-      locked in — the hearts just help us see what everyone's drawn to.
-    </p>
   </header>
 
   <!--
-    Tabs. Sentence-case labels, no all-caps, no pill styling — just two buttons
-    that swap which destination panel is visible.
+    Tabs. Sentence-case labels, no all-caps, no pill styling — just buttons that
+    swap which destination panel is visible.
   -->
   <div role="tablist" aria-label="Destinations" class="mb-6 flex gap-2">
     {
-      tabs.map((tab, i) => (
+      view.map(({ dest }, i) => (
         <button
           type="button"
           role="tab"
-          data-tab={tab.id}
+          data-tab={dest.id}
           aria-selected={i === 0 ? 'true' : 'false'}
-          aria-controls={`panel-${tab.id}`}
+          aria-controls={`panel-${dest.id}`}
           class="rounded-full border border-stone-300 px-4 py-2 text-[15px] text-stone-600 transition aria-selected:border-stone-900 aria-selected:bg-stone-900 aria-selected:text-white"
         >
-          {tab.label}
+          {dest.data.name}
         </button>
       ))
     }
   </div>
 
-  <DestinationTab id="kurobe" label="Kurobe" active={true}>
-    <!--
-      DEMO CARD: replace with real Kurobe content (e.g. Day 1 morning).
-      Kept to facts that are well established and easy to verify; swap in the
-      actual plan, real prices from JR / Booking.com, and a photo from Google
-      Maps user uploads, Wikimedia Commons, or the official tourism site.
-    -->
-    <Card
-      cardId="kurobe-alpine-route"
-      title="Tateyama Kurobe alpine route"
-      price="Total through-ticket runs into the several-thousand-yen range — confirm the current fare before committing."
-      source={{ label: 'alpen-route.com (official)', url: 'https://www.alpen-route.com/en/' }}
-    >
-      <p>
-        The alpine route crosses the Northern Japan Alps between Toyama and Nagano,
-        linking cable cars, a trolley bus, and a ropeway. Its high point is
-        Murodo at about 2,450 metres.
-      </p>
-      <p>
-        Kurobe Dam, at 186 metres, is the tallest dam in Japan and the usual
-        centrepiece of a day here.
-      </p>
-    </Card>
+  {
+    view.map(({ dest, DestBody, destSources, places }, i) => {
+      const maps = mapsByDestination[dest.id];
+      return (
+        <DestinationTab id={dest.id} label={dest.data.name} active={i === 0}>
+          <div class="mb-5 text-[15px] leading-relaxed text-stone-600">
+            <DestBody />
+            <SourceLinks entries={destSources} lead="sources" />
+          </div>
 
-    <!-- A map of the route from Shibuya, and a coffee search near the start. -->
-    <MapEmbed
-      mode="route"
-      destination="Kurobe Dam, Toyama, Japan"
-      label="Transit route from Shibuya Station to Kurobe Dam"
-    />
-    <MapEmbed
-      mode="search"
-      destination="Shibuya Station, Tokyo"
-      query="coffee"
-      label="Coffee places near Shibuya Station, the starting point"
-    />
-  </DestinationTab>
+          {places.map(({ place, PlaceBody, placeSources, journeys }) => (
+            <Card cardId={place.id} title={place.data.name} sourceEntries={placeSources}>
+              <PlaceBody />
+              <Journeys journeys={journeys} />
+            </Card>
+          ))}
 
-  <DestinationTab id="atami" label="Atami">
-    <!--
-      DEMO CARD: replace with real Atami content (e.g. Day 1 afternoon).
-      Swap in the actual plan, real prices from Rakuten Travel / Booking.com,
-      and a real photo with credit.
-    -->
-    <Card
-      cardId="atami-onsen"
-      title="Atami onsen, on Sagami bay"
-      price="A wide range of ryokan and hotels — pull real per-night prices from Rakuten Travel or Booking.com before deciding."
-      source={{ label: 'Atami City (official)', url: 'https://www.city.atami.lg.jp/' }}
-    >
-      <p>
-        Atami is a hot-spring resort town in Shizuoka prefecture, set on the
-        coast of Sagami Bay. It is one of the closest onsen towns to Tokyo and is
-        reachable by Tokaido Shinkansen.
-      </p>
-      <p>
-        The short travel time makes it the easy-going option — less transit, more
-        time by the water with a three-year-old.
-      </p>
-    </Card>
-
-    <MapEmbed
-      mode="route"
-      destination="Atami Station, Shizuoka, Japan"
-      label="Transit route from Shibuya Station to Atami"
-    />
-    <MapEmbed
-      mode="search"
-      destination="Atami Station, Shizuoka, Japan"
-      query="coffee"
-      label="Coffee places near Atami Station"
-    />
-  </DestinationTab>
+          {maps && (
+            <>
+              <MapEmbed
+                mode="route"
+                destination={maps.route}
+                label={`Transit route from Shibuya Station to ${maps.label}`}
+              />
+              <MapEmbed
+                mode="search"
+                destination={maps.coffee}
+                query="coffee"
+                label={`Coffee places near ${maps.coffee}`}
+              />
+            </>
+          )}
+        </DestinationTab>
+      );
+    })
+  }
 
   <script>
     // Swap which destination panel is visible. Pure DOM toggling — no framework,
