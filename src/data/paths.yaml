@@ -1,0 +1,31 @@
+# Suggested routes drawn on the map as a line through an ordered set of points.
+# These are curated orderings of real, sourced points (see pois.yaml) — a way to
+# picture a day, not a claimed timetable. Each `stops` entry is a poi id.
+
+- id: alpine-route-crossing
+  label: the alpine route crossing, west to east
+  destination: kurobe
+  stops:
+    - tateyama-station
+    - murodo
+    - daikanbo
+    - kurobedaira-station
+    - kurobe-dam
+
+- id: kurobe-gorge-railway
+  label: the gorge railway, Unazuki up to Keyakidaira
+  destination: kurobe
+  stops:
+    - unazuki-station
+    - keyakidaira-station
+
+- id: atami-on-foot
+  label: a day on foot in central Atami
+  destination: atami
+  stops:
+    - atami-station
+    - bonnet
+    - oyu-geyser
+    - atami-sun-beach
+    - moon-terrace
+    - atami-castle

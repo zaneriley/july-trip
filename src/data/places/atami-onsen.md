@@ -1,7 +1,6 @@
 ---
 name: Atami onsen
 destination: atami
-mapQuery: Atami Station, Shizuoka, Japan
 image:
   src: /photos/atami-panorama.jpg
   alt: Panorama of Atami's townscape climbing the hillside around Sagami bay, seen from Atami Castle

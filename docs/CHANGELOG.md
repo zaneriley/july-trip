@@ -24,3 +24,9 @@
   transit in Japan, so each place now shows a Maps Embed location map plus
   deep-links to the Google Maps app for train directions and coffee — which need
   no key and where Japan transit actually works. See ADR 0005.
+- Added a per-destination planning map (Google Maps JavaScript API): real,
+  sourced points categorized as train stops, sightseeing, viewpoints, onsen,
+  third-wave coffee, kissaten, and neighborhoods; author-drawn routes; and a
+  show/hide category filter. Map-left / cards-right on desktop, stacked on a
+  phone. Categories drive the map only, never a chip on a card (ADR 0001 amended;
+  see ADR 0006). New `pois` and `paths` collections hold the points and routes.

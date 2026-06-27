@@ -14,8 +14,9 @@ purpose: it's a quiet way to decide together, not a brochure.
 - **Astro** static site, TypeScript (strict), **Tailwind** for utility CSS.
 - **Cloudflare Pages** hosts the static build.
 - A small **Cloudflare Worker** backed by **KV** holds the anonymous heart counts.
-- **Google Maps Embed API** shows each place inline. Train directions and coffee
-  searches are Google Maps deep-links, so the route links work without an API key.
+- **Google Maps JavaScript API** powers a per-destination planning map: categorized
+  pins, author-drawn routes, and a show/hide filter. Per-point train directions
+  hand off to the Google Maps app (the only place Japan transit routing works).
 
 ## Design rules
 
@@ -45,10 +46,13 @@ defined in `src/content.config.ts`:
 - `destinations` — Kurobe, Atami (prose in the markdown body).
 - `places` — a thing within a destination (alpine route, onsen town).
 - `journeys` — a way to get from Shibuya to a place, with per-leg figures.
+- `pois` — categorized map points with real coordinates and an inline source.
+- `paths` — author-drawn routes: an ordered list of poi ids drawn on the map.
 
 References between them are the graph edges. The page renders from the graph and
 holds no hardcoded trip facts — to add or correct content, edit the data, not the
-markup. Full rationale in `docs/decisions/0004-provenance-content-graph.md`.
+markup. Rationale in `docs/decisions/0004-provenance-content-graph.md` (the graph)
+and `0006-planning-map.md` (the map).
 
 ## Local dev
 
@@ -68,20 +72,17 @@ create it once and paste the id into `worker/wrangler.toml`.
 
 ## Maps and the Maps key
 
-Google's developer map APIs **do not provide transit (train) routing for Japan** —
-it's a licensing exclusion, not a key or signal problem. So the page doesn't try
-to draw a route. Instead each place shows an inline location map (Maps Embed API)
-and two deep-links into the Google Maps app — "train directions from Shibuya" and
-"coffee nearby" — where Japan transit actually works. Those links need no key. See
-`docs/decisions/0005-maps-deep-link-japan-transit.md`.
+The planning map uses the **Maps JavaScript API** to plot our own categorized pins
+and draw our own routes. It does **not** ask Google to route transit — Google's
+developer APIs can't route transit in Japan at all (a licensing exclusion). For
+actual train directions, each pin deep-links to the Google Maps app, where Japan
+transit works. See `docs/decisions/0006-planning-map.md` and `0005-…`.
 
-Only the inline place map uses the key, so **enable "Maps Embed API"** on it
-(Directions/Places aren't needed). The key is **public by design** — Astro bakes
-`PUBLIC_*` variables into the client bundle, and an Embed key is meant to ship to
-the browser. Secrecy is **not** the security boundary.
+So **enable the "Maps JavaScript API"** on the key. The key is **public by design**
+— Astro bakes `PUBLIC_*` variables into the client bundle, and a Maps key is meant
+to ship to the browser. Secrecy is **not** the security boundary.
 
 The real boundary is the **HTTP-referrer restriction** you set in the Google Cloud
 console: limit the key to `*.pages.dev` and `localhost` so it only works from this
 site. Holding it as a repo secret only keeps the value out of git history; the
-referrer rule is what actually protects it. Left unset, the inline maps show a note
-and the deep-links still work.
+referrer rule is what actually protects it. Left unset, the map shows a note.

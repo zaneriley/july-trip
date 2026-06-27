@@ -1,7 +1,6 @@
 ---
 name: Unazuki onsen
 destination: kurobe
-mapQuery: Unazuki Onsen, Kurobe, Toyama, Japan
 image:
   src: /photos/unazuki-gorge-train.jpg
   alt: A Kurobe Gorge Railway sightseeing train crossing the red Shin-Yamabiko bridge above the gorge

@@ -1,6 +1,6 @@
 import { defineCollection, reference } from 'astro:content';
 import { z } from 'zod';
-import { glob } from 'astro/loaders';
+import { glob, file } from 'astro/loaders';
 
 /*
   The content graph. Four node types, linked by reference() — those references
@@ -88,11 +88,6 @@ const places = defineCollection({
         license: z.string(), // e.g. "CC BY 3.0"
       })
       .optional(),
-    // A geocodable location string for the map and the Google Maps deep-links,
-    // e.g. "Kurobe Dam, Toyama, Japan". Google's developer APIs don't do transit
-    // routing in Japan, so the route is a deep-link to Google Maps, not a drawn
-    // line — see MapEmbed.astro.
-    mapQuery: z.string().optional(),
     sources: z.array(reference('sources')).default([]),
   }),
 });
@@ -133,4 +128,54 @@ const journeys = defineCollection({
   }),
 });
 
-export const collections = { sources, destinations, places, journeys };
+// The categories a map point can have. These drive pin colour and the show/hide
+// filter on the map — and ONLY that. They are never rendered as a chip or label
+// on a card; a category is a way to filter the map, not a thing that answers a
+// question on its own (see ADR 0001, amended, and ADR 0006).
+export const POI_CATEGORIES = [
+  'train-stop',
+  'sightseeing',
+  'viewpoint',
+  'onsen',
+  'coffee', // third-wave / specialty
+  'kissaten', // traditional Showa-era coffee houses
+  'neighborhood',
+] as const;
+
+// A single map point. Many per destination. Provenance is inline here rather than
+// a reference to the `sources` spine: these are mostly one-off Wikipedia/Tabelog
+// citations, not figures reused across the graph, so a link + type per point is
+// the honest, low-overhead way to keep the evidence-only rule (ADR 0003).
+const pois = defineCollection({
+  loader: file('./src/data/pois.yaml'),
+  schema: z.object({
+    name: z.string(),
+    category: z.enum(POI_CATEGORIES),
+    lat: z.number(),
+    lng: z.number(),
+    note: z.string(),
+    destination: reference('destinations'),
+    source: z.object({
+      url: z.url(),
+      type: z.enum(['official', 'tourism-board', 'wikimedia', 'wikidata', 'google-maps', 'tabelog', 'osm']),
+    }),
+    // True when the coordinate is approximate (e.g. derived from a street address
+    // rather than a published lat/long). Shown honestly, never hidden.
+    coordsUnverified: z.boolean().default(false),
+  }),
+});
+
+// An author-curated route drawn on the map as a line through an ordered set of
+// points — "the alpine route crossing", "a day on foot in central Atami". It is a
+// suggested ordering of real, sourced points, not a claimed transit timetable.
+const paths = defineCollection({
+  loader: file('./src/data/paths.yaml'),
+  schema: z.object({
+    label: z.string(),
+    destination: reference('destinations'),
+    // Ordered poi ids. The map looks each up and draws a line through them.
+    stops: z.array(z.string()),
+  }),
+});
+
+export const collections = { sources, destinations, places, journeys, pois, paths };

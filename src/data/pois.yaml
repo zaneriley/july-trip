@@ -1,0 +1,425 @@
+# Real, sourced map points. Coordinates trace to the source on each entry
+# (Wikipedia/Wikidata infoboxes for stations and landmarks; Tabelog/official for
+# cafes, address-geocoded; OSM/Mapion for a few). coordsUnverified marks an
+# approximate coordinate honestly. Categories drive pin colour and the map filter
+# only — never a chip on a card.
+
+# ─── Kurobe ────────────────────────────────────────────────────────────────
+
+- id: toyama-station
+  name: Toyama Station
+  category: train-stop
+  lat: 36.701217
+  lng: 137.213209
+  note: Regional gateway — Hokuriku Shinkansen plus the local railways toward Tateyama and Unazuki.
+  destination: kurobe
+  source: { url: https://en.wikipedia.org/wiki/Toyama_Station, type: wikimedia }
+
+- id: kurobe-unazukionsen-station
+  name: Kurobe-Unazuki-Onsen Station
+  category: train-stop
+  lat: 36.87472
+  lng: 137.48222
+  note: The Hokuriku Shinkansen stop for Unazuki and the gorge (Hakutaka services only).
+  destination: kurobe
+  source: { url: https://en.wikipedia.org/wiki/Kurobe-Unazukionsen_Station, type: wikimedia }
+
+- id: shin-kurobe-station
+  name: Shin-Kurobe Station
+  category: train-stop
+  lat: 36.873139
+  lng: 137.480972
+  note: Toyama Chiho Railway station beside the shinkansen stop; transfer toward Unazuki.
+  destination: kurobe
+  source: { url: https://en.wikipedia.org/wiki/Shin-Kurobe_Station, type: wikimedia }
+
+- id: unazuki-onsen-station
+  name: Unazuki Onsen Station
+  category: train-stop
+  lat: 36.8158
+  lng: 137.5833
+  note: Toyama Chiho Railway terminus; main rail arrival for the onsen town.
+  destination: kurobe
+  source: { url: https://en.wikipedia.org/wiki/Unazuki_Onsen_Station, type: wikimedia }
+
+- id: unazuki-station
+  name: Unazuki Station
+  category: train-stop
+  lat: 36.8150167
+  lng: 137.5859611
+  note: Departure terminus of the Kurobe Gorge Railway sightseeing train.
+  destination: kurobe
+  source: { url: https://en.wikipedia.org/wiki/Unazuki_Station, type: wikimedia }
+
+- id: keyakidaira-station
+  name: Keyakidaira Station
+  category: train-stop
+  lat: 36.6969
+  lng: 137.6580
+  note: Upstream terminus of the gorge railway, deep in the canyon; trailheads and viewpoints.
+  destination: kurobe
+  source: { url: https://en.wikipedia.org/wiki/Keyakidaira_Station, type: wikimedia }
+
+- id: tateyama-station
+  name: Tateyama Station
+  category: train-stop
+  lat: 36.5833137
+  lng: 137.4453163
+  note: Western start of the alpine route and base of the Tateyama cable car.
+  destination: kurobe
+  source: { url: https://en.wikipedia.org/wiki/Tateyama_Station_(Toyama), type: wikimedia }
+
+- id: kurobedaira-station
+  name: Kurobedaira Station
+  category: train-stop
+  lat: 36.581750
+  lng: 137.452472
+  note: Transfer between the Tateyama ropeway and the Kurobe cable car, about 1,828 m.
+  destination: kurobe
+  source: { url: https://en.wikipedia.org/wiki/Kurobedaira_Station, type: wikimedia }
+
+- id: murodo
+  name: Murodo
+  category: viewpoint
+  lat: 36.5773
+  lng: 137.5955
+  note: Highest point on the alpine route, about 2,450 m — alpine plateau with Mikurigaike pond.
+  destination: kurobe
+  source: { url: https://en.wikipedia.org/wiki/Murod%C5%8D_Station, type: wikimedia }
+
+- id: daikanbo
+  name: Daikanbo
+  category: viewpoint
+  lat: 36.5696919
+  lng: 137.6316977
+  note: Cliffside panorama over Lake Kurobe and the Ushiro-Tateyama range.
+  destination: kurobe
+  source: { url: https://www.wikidata.org/wiki/Q5209165, type: wikidata }
+
+- id: kurobe-dam
+  name: Kurobe Dam
+  category: sightseeing
+  lat: 36.56639
+  lng: 137.66139
+  note: Japan's tallest dam (186 m); the summer water discharge is the signature sight.
+  destination: kurobe
+  source: { url: https://en.wikipedia.org/wiki/Kurobe_Dam, type: wikimedia }
+
+- id: kurobe-gorge
+  name: Kurobe Gorge
+  category: sightseeing
+  lat: 36.644444
+  lng: 137.683333
+  note: V-shaped granite canyon and designated Place of Scenic Beauty, traversed by the gorge railway.
+  destination: kurobe
+  source: { url: https://www.wikidata.org/wiki/Q11179607, type: wikidata }
+
+- id: unazuki-dam
+  name: Unazuki Dam
+  category: sightseeing
+  lat: 36.80944
+  lng: 137.59028
+  note: A 97 m gravity dam (2001), the most downstream of the Kurobe River dams, near the onsen.
+  destination: kurobe
+  source: { url: https://en.wikipedia.org/wiki/Unazuki_Dam, type: wikimedia }
+
+- id: unazuki-onsen
+  name: Unazuki onsen
+  category: onsen
+  lat: 36.817083
+  lng: 137.581528
+  note: Hot-spring resort town at the mouth of the gorge (established 1923).
+  destination: kurobe
+  source: { url: https://en.wikipedia.org/wiki/Unazuki_Onsen, type: wikimedia }
+
+- id: cafe-serene
+  name: Cafe Serene
+  category: coffee
+  lat: 36.813528
+  lng: 137.58528
+  note: Cafe at the Serene art-museum complex by the gorge entrance; coffee brewed with Kurobe water.
+  destination: kurobe
+  source: { url: https://www.unazuki-selene.com/, type: official }
+
+- id: cafe-mozart
+  name: Cafe Mozart
+  category: kissaten
+  lat: 36.8156
+  lng: 137.5840
+  note: Retro Mozart-themed kissaten in central Unazuki Onsen, known for morning sets.
+  destination: kurobe
+  coordsUnverified: true
+  source: { url: https://tabelog.com/en/toyama/A1602/A160201/16000182/, type: tabelog }
+
+# ─── Atami ─────────────────────────────────────────────────────────────────
+
+- id: atami-station
+  name: Atami Station
+  category: train-stop
+  lat: 35.10333
+  lng: 139.07778
+  note: Tokaido Shinkansen and Tokaido Main Line junction, and the start of the Ito Line.
+  destination: atami
+  source: { url: https://en.wikipedia.org/wiki/Atami_Station, type: wikimedia }
+
+- id: kinomiya-station
+  name: Kinomiya Station
+  category: train-stop
+  lat: 35.09864
+  lng: 139.06588
+  note: First Ito Line stop south of Atami, near the Kinomiya shrine.
+  destination: atami
+  source: { url: https://en.wikipedia.org/wiki/Kinomiya_Station, type: wikimedia }
+
+- id: izu-taga-station
+  name: Izu-Taga Station
+  category: train-stop
+  lat: 35.05889
+  lng: 139.06694
+  note: Ito Line station serving the southern Taga coast.
+  destination: atami
+  source: { url: https://en.wikipedia.org/wiki/Izu-Taga_Station, type: wikimedia }
+
+- id: ajiro-station
+  name: Ajiro Station
+  category: train-stop
+  lat: 35.04364
+  lng: 139.08121
+  note: Ito Line and Odoriko stop in the Ajiro fishing-port district.
+  destination: atami
+  source: { url: https://en.wikipedia.org/wiki/Ajiro_Station, type: wikimedia }
+
+- id: moa-museum
+  name: MOA Museum of Art
+  category: sightseeing
+  lat: 35.10931
+  lng: 139.07520
+  note: Hillside art museum holding three National Treasures, with a wide bay view.
+  destination: atami
+  source: { url: https://en.wikipedia.org/wiki/MOA_Museum_of_Art, type: wikimedia }
+
+- id: kiunkaku
+  name: Kiunkaku
+  category: sightseeing
+  lat: 35.09286
+  lng: 139.07094
+  note: A 1919 villa turned ryokan, now a city cultural property with a garden.
+  destination: atami
+  source: { url: https://ja.wikipedia.org/wiki/起雲閣, type: wikimedia }
+
+- id: atami-plum-garden
+  name: Atami plum garden
+  category: sightseeing
+  lat: 35.09725
+  lng: 139.06050
+  note: Municipal strolling garden (1886) with around 470 plum trees; open year-round.
+  destination: atami
+  source: { url: https://ja.wikipedia.org/wiki/熱海梅園, type: wikimedia }
+
+- id: izusan-shrine
+  name: Izusan Shrine
+  category: sightseeing
+  lat: 35.11546
+  lng: 139.08256
+  note: Historic hillside shrine north of central Atami, above the coast.
+  destination: atami
+  source: { url: https://en.wikipedia.org/wiki/Izusan_Shrine, type: wikimedia }
+
+- id: atami-sun-beach
+  name: Atami Sun Beach
+  category: sightseeing
+  lat: 35.09803
+  lng: 139.07683
+  note: Central palm-lined city beach, lit up in the evening.
+  destination: atami
+  source: { url: https://www.mapion.co.jp/m2/35.09803474,139.0768331,16/poi=ILSP0000122660_ipclm, type: google-maps }
+
+- id: hatsushima
+  name: Hatsushima
+  category: sightseeing
+  lat: 35.03750
+  lng: 139.16944
+  note: Inhabited island in Sagami Bay, reached by ferry; resort and walking trails.
+  destination: atami
+  source: { url: https://en.wikipedia.org/wiki/Hatsushima, type: wikimedia }
+
+- id: acao-forest
+  name: ACAO Forest
+  category: sightseeing
+  lat: 35.07989
+  lng: 139.07261
+  note: Hillside resort garden over the bay; includes Kengo Kuma's Coeda House cafe.
+  destination: atami
+  source: { url: https://ja.wikipedia.org/wiki/ACAO_FOREST, type: wikimedia }
+
+- id: atami-castle
+  name: Atami Castle
+  category: viewpoint
+  lat: 35.08644
+  lng: 139.07866
+  note: A 1959 replica castle on Nishikigaura, about 120 m up, with a bay observation deck.
+  destination: atami
+  source: { url: https://en.wikipedia.org/wiki/Atami_Castle, type: wikimedia }
+
+- id: atami-ropeway
+  name: Atami ropeway
+  category: viewpoint
+  lat: 35.08817
+  lng: 139.07930
+  note: Base of the ropeway up Hachiman mountain, beside the Korakuen resort and Fuua spa.
+  destination: atami
+  source: { url: https://www.mapion.co.jp/m2/35.08816721,139.07930037,16/poi=22230436382, type: google-maps }
+
+- id: moon-terrace
+  name: Moon Terrace
+  category: viewpoint
+  lat: 35.09419
+  lng: 139.07507
+  note: Waterfront terrace and promenade between Sun Beach and the marina.
+  destination: atami
+  source: { url: https://nominatim.openstreetmap.org/search?q=渚親水公園&format=json, type: osm }
+
+- id: oyu-geyser
+  name: Oyu Geyser
+  category: onsen
+  lat: 35.09772
+  lng: 139.07164
+  note: Historic intermittent geyser, once one of Japan's three great geysers.
+  destination: atami
+  source: { url: https://www.wikidata.org/wiki/Q65258433, type: wikidata }
+
+- id: atami-onsen
+  name: Atami onsen district
+  category: onsen
+  lat: 35.10336
+  lng: 139.07906
+  note: The historic central hot-springs district, with hundreds of springs.
+  destination: atami
+  source: { url: https://en.wikipedia.org/wiki/Atami_Onsen, type: wikimedia }
+
+- id: hashiriyu
+  name: Hashiriyu
+  category: onsen
+  lat: 35.11159
+  lng: 139.08646
+  note: A rare horizontal cave hot spring at the foot of Izusan, about 70 degrees.
+  destination: atami
+  source: { url: https://nominatim.openstreetmap.org/search?q=走り湯+Atami&format=json, type: osm }
+
+- id: izusan
+  name: Izusan
+  category: neighborhood
+  lat: 35.11546
+  lng: 139.08256
+  note: Northern coastal district, centred on Izusan shrine.
+  destination: atami
+  source: { url: https://www.wikidata.org/wiki/Q611460, type: wikidata }
+
+- id: ajiro
+  name: Ajiro
+  category: neighborhood
+  lat: 35.04364
+  lng: 139.08121
+  note: Fishing-port district in southern Atami.
+  destination: atami
+  source: { url: https://en.wikipedia.org/wiki/Ajiro_Station, type: wikimedia }
+
+- id: taga
+  name: Taga
+  category: neighborhood
+  lat: 35.05889
+  lng: 139.06694
+  note: Coastal district south of central Atami.
+  destination: atami
+  source: { url: https://en.wikipedia.org/wiki/Izu-Taga_Station, type: wikimedia }
+
+- id: atami-ekimae
+  name: Ekimae (station front)
+  category: neighborhood
+  lat: 35.10333
+  lng: 139.07778
+  note: The central station-front area; shopping streets and the onsen district run downhill to the bay.
+  destination: atami
+  source: { url: https://en.wikipedia.org/wiki/Atami_Station, type: wikimedia }
+
+- id: rolling-roasters
+  name: Rolling Roasters
+  category: coffee
+  lat: 35.125099
+  lng: 139.080521
+  note: Specialty roaster run by a Q-grader, in the Izusan villa area; score-based single beans.
+  destination: atami
+  source: { url: https://tabelog.com/en/shizuoka/A2205/A220502/22040011/, type: tabelog }
+
+- id: aizome-coffee
+  name: Aizome Coffee
+  category: coffee
+  lat: 35.110649
+  lng: 139.084839
+  note: Pour-over specialty cafe with a Sagami Bay view, on the 4th floor opposite Izusan shrine's approach.
+  destination: atami
+  source: { url: https://aizome-coffee.com/, type: official }
+
+- id: kamome-coffee
+  name: Kamome Coffee Roastery
+  category: coffee
+  lat: 35.096378
+  lng: 139.072632
+  note: Small-batch self-roastery near Kinomiya; beans and takeout, no seating.
+  destination: atami
+  source: { url: https://tabelog.com/en/shizuoka/A2205/A220502/22034317/, type: tabelog }
+
+- id: aibana
+  name: Aibana
+  category: coffee
+  lat: 35.102661
+  lng: 139.077927
+  note: Long-running self-roast cafe on the Nakamise shopping street; daily roasting, hand-drip.
+  destination: atami
+  source: { url: https://www.aibana.com/, type: official }
+
+- id: chitose-105
+  name: Chitose 105
+  category: coffee
+  lat: 35.140446
+  lng: 139.084015
+  note: Direct-flame self-roaster at Atami's northern Izumi edge (toward Yugawara). Search by name on maps.
+  destination: atami
+  coordsUnverified: true
+  source: { url: https://chitose105.com/, type: official }
+
+- id: bonnet
+  name: Bonnet
+  category: kissaten
+  lat: 35.096607
+  lng: 139.073456
+  note: Atami's flagship retro kissaten (1952), the first place in town to serve a hamburger.
+  destination: atami
+  source: { url: https://tabelog.com/en/shizuoka/A2205/A220502/22013777/, type: tabelog }
+
+- id: pine-tree
+  name: Pine Tree
+  category: kissaten
+  lat: 35.096691
+  lng: 139.073776
+  note: Time-capsule kissaten on Atami Ginza with vintage table-arcade consoles and iron-plate Napolitan.
+  destination: atami
+  source: { url: https://www.siz-sba.or.jp/atamignz/pine-tree/, type: official }
+
+- id: sunbird
+  name: Sunbird
+  category: kissaten
+  lat: 35.097137
+  lng: 139.075043
+  note: Seaside Showa kissaten (1968) facing the Pacific; iron-plate Napolitan and pudding a la mode.
+  destination: atami
+  source: { url: https://tabelog.com/en/shizuoka/A2205/A220502/22013558/, type: tabelog }
+
+- id: denen
+  name: Denen
+  category: kissaten
+  lat: 35.095627
+  lng: 139.074600
+  note: A 1959 pure-kissaten with an indoor koi inlet and a sculpture by Tatebayashi Kosei.
+  destination: atami
+  source: { url: https://tabelog.com/en/shizuoka/A2205/A220502/22013996/, type: tabelog }

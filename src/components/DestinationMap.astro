@@ -1,0 +1,232 @@
+---
+/*
+  The planning map for one destination. It plots every real, sourced point
+  (pois.yaml) coloured by category, draws the suggested routes (paths.yaml) as
+  dashed lines, and gives a show/hide filter so you can, say, look at only the
+  coffee and the train stops.
+
+  Why Google Maps' JS API here (we'd moved away from it in ADR 0005): that move
+  was specifically because Google can't route transit in Japan. We don't ask it
+  to — we plot our own pins and draw our own lines. For per-point train directions
+  the marker still hands off to the Google Maps app, where Japan transit works.
+
+  The map needs the key with the Maps JavaScript API enabled. Without a key the
+  block shows a note; the cards beside it still carry the journey details.
+*/
+import type { CollectionEntry } from 'astro:content';
+import { CATEGORY_META } from '../lib/categories';
+
+interface Props {
+  destinationId: string;
+  pois: CollectionEntry<'pois'>[];
+  paths: CollectionEntry<'paths'>[];
+}
+
+const { destinationId, pois, paths } = Astro.props;
+
+const apiKey = import.meta.env.PUBLIC_GOOGLE_MAPS_API_KEY ?? '';
+const hasKey = apiKey.length > 0;
+
+// Only the categories that actually have points in this destination get a filter.
+const categoriesPresent = Object.keys(CATEGORY_META).filter((cat) =>
+  pois.some((poi) => poi.data.category === cat),
+);
+
+const poiData = pois.map((poi) => ({
+  id: poi.id,
+  name: poi.data.name,
+  category: poi.data.category,
+  lat: poi.data.lat,
+  lng: poi.data.lng,
+  note: poi.data.note,
+  url: poi.data.source.url,
+  approx: poi.data.coordsUnverified,
+}));
+
+const pathData = paths.map((path) => ({ label: path.data.label, stops: path.data.stops }));
+---
+
+{
+  hasKey ? (
+    <div
+      data-map-block
+      data-destination={destinationId}
+      data-pois={JSON.stringify(poiData)}
+      data-paths={JSON.stringify(pathData)}
+    >
+      <div
+        role="group"
+        aria-label="Show or hide categories"
+        class="mb-2 flex flex-wrap gap-x-3 gap-y-1.5"
+      >
+        {categoriesPresent.map((cat) => (
+          <label class="inline-flex cursor-pointer items-center gap-1.5 text-sm text-stone-600">
+            <input type="checkbox" checked data-filter={cat} class="accent-stone-800" />
+            <span
+              class="inline-block h-2.5 w-2.5 rounded-full"
+              style={`background:${CATEGORY_META[cat].color}`}
+            />
+            {CATEGORY_META[cat].label}
+          </label>
+        ))}
+      </div>
+
+      <div data-map class="h-80 w-full rounded-2xl border border-stone-200 bg-stone-100 sm:h-96 md:h-[70vh]" />
+    </div>
+  ) : (
+    <div class="flex h-80 w-full items-center justify-center rounded-2xl border border-stone-200 bg-stone-100 px-6 text-center text-sm text-stone-500 md:h-[70vh]">
+      the map needs a Google Maps key with the Maps JavaScript API enabled
+    </div>
+  )
+}
+
+<script>
+  import { CATEGORY_META } from '../lib/categories';
+
+  const KEY = import.meta.env.PUBLIC_GOOGLE_MAPS_API_KEY ?? '';
+
+  // Load the Maps JS library exactly once, the first time any map needs it.
+  let mapsPromise: Promise<void> | null = null;
+  function loadMaps(): Promise<void> {
+    if (mapsPromise) return mapsPromise;
+    mapsPromise = new Promise((resolve, reject) => {
+      const s = document.createElement('script');
+      s.src = `https://maps.googleapis.com/maps/api/js?key=${KEY}&v=weekly`;
+      s.async = true;
+      s.onload = () => resolve();
+      s.onerror = reject;
+      document.head.appendChild(s);
+    });
+    return mapsPromise;
+  }
+
+  type Poi = {
+    id: string;
+    name: string;
+    category: string;
+    lat: number;
+    lng: number;
+    note: string;
+    url: string;
+    approx: boolean;
+  };
+  type Path = { label: string; stops: string[] };
+
+  const inited = new WeakSet<Element>();
+
+  async function initBlock(block: HTMLElement) {
+    const mapEl = block.querySelector<HTMLElement>('[data-map]');
+    if (!mapEl) return;
+
+    const pois: Poi[] = JSON.parse(block.dataset.pois ?? '[]');
+    const paths: Path[] = JSON.parse(block.dataset.paths ?? '[]');
+    const byId = new Map(pois.map((p) => [p.id, p]));
+
+    await loadMaps();
+    const g = (window as any).google;
+
+    const map = new g.maps.Map(mapEl, {
+      mapTypeControl: false,
+      streetViewControl: false,
+      // One-finger panning on a phone, rather than the two-finger default.
+      gestureHandling: 'greedy',
+    });
+
+    const bounds = new g.maps.LatLngBounds();
+    const info = new g.maps.InfoWindow();
+    const markersByCategory: Record<string, any[]> = {};
+
+    for (const poi of pois) {
+      const color = CATEGORY_META[poi.category]?.color ?? '#666';
+      const marker = new g.maps.Marker({
+        position: { lat: poi.lat, lng: poi.lng },
+        map,
+        title: poi.name,
+        icon: {
+          path: g.maps.SymbolPath.CIRCLE,
+          scale: 7,
+          fillColor: color,
+          fillOpacity: 0.95,
+          strokeColor: '#ffffff',
+          strokeWeight: 1.5,
+        },
+      });
+
+      // Hand transit routing to the Google Maps app — the only place it works for
+      // Japan — and link the source so any point can be checked.
+      const dir = `https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent('Shibuya Station, Tokyo')}&destination=${poi.lat},${poi.lng}&travelmode=transit`;
+      marker.addListener('click', () => {
+        info.setContent(
+          `<div style="font:14px/1.45 system-ui,sans-serif;max-width:220px">
+             <strong>${poi.name}</strong><br>
+             <span style="color:#555">${poi.note}</span>
+             ${poi.approx ? '<br><span style="color:#999;font-size:12px">approximate location</span>' : ''}
+             <br><a href="${dir}" target="_blank" rel="noopener">train directions from Shibuya</a>
+             &nbsp;·&nbsp;<a href="${poi.url}" target="_blank" rel="noopener">source</a>
+           </div>`,
+        );
+        info.open(map, marker);
+      });
+
+      (markersByCategory[poi.category] ??= []).push(marker);
+      bounds.extend(marker.getPosition());
+    }
+
+    // Draw each suggested route as a dashed line through its points.
+    for (const path of paths) {
+      const pts = path.stops.map((id) => byId.get(id)).filter(Boolean).map((p) => ({ lat: p!.lat, lng: p!.lng }));
+      if (pts.length < 2) continue;
+      new g.maps.Polyline({
+        path: pts,
+        map,
+        strokeColor: '#57534e',
+        strokeOpacity: 0,
+        icons: [
+          {
+            icon: { path: 'M 0,-1 0,1', strokeOpacity: 0.7, scale: 3 },
+            offset: '0',
+            repeat: '10px',
+          },
+        ],
+      });
+    }
+
+    if (!bounds.isEmpty()) {
+      map.fitBounds(bounds, 48);
+      // Don't zoom in too far when the points happen to sit close together.
+      const once = g.maps.event.addListenerOnce(map, 'idle', () => {
+        if (map.getZoom() > 15) map.setZoom(15);
+      });
+      void once;
+    }
+
+    // Wire the show/hide filter for this block.
+    block.querySelectorAll<HTMLInputElement>('[data-filter]').forEach((input) => {
+      input.addEventListener('change', () => {
+        const cat = input.dataset.filter!;
+        for (const marker of markersByCategory[cat] ?? []) marker.setVisible(input.checked);
+      });
+    });
+
+    inited.add(block);
+    return map;
+  }
+
+  // Initialise a map when its block scrolls into view — which also covers a tab
+  // becoming visible, since a hidden panel reports as not intersecting until shown.
+  const observer = new IntersectionObserver(
+    (entries) => {
+      for (const entry of entries) {
+        if (entry.isIntersecting && !inited.has(entry.target)) {
+          initBlock(entry.target as HTMLElement).catch(() => {
+            const el = entry.target.querySelector('[data-map]');
+            if (el) el.textContent = 'the map could not load — check the API key and signal';
+          });
+        }
+      }
+    },
+    { rootMargin: '150px' },
+  );
+
+  document.querySelectorAll<HTMLElement>('[data-map-block]').forEach((block) => observer.observe(block));
+</script>

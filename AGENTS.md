@@ -4,10 +4,10 @@ The contract for working in this repo. Read it before changing anything.
 
 ## What this repo is
 
-A single-page, phone-first site that offers two trip destinations (Kurobe and
-Atami) as tabs, with anonymous shared heart reactions, inline place maps, and
-Google Maps deep-links for train directions from Shibuya. Astro static site + a
-Cloudflare Worker (KV) for the hearts. See
+A single-page, phone-first site for planning around two trip destinations (Kurobe
+and Atami), shown as tabs. Each has a Google Maps planning map (categorized pins,
+drawn routes, a show/hide filter) beside prose place cards with anonymous shared
+heart reactions. Astro static site + a Cloudflare Worker (KV) for the hearts. See
 `README.md` for the full picture and `docs/decisions/` for the locked decisions.
 
 ## Acceptance gates — non-negotiable
@@ -30,9 +30,11 @@ breaks one of them does not merge.
   to a commit. A figure you can't confirm at a first-party source is marked
   `unverified` in the data and shown with its caveat — never presented as solid.
 - Trip content is a graph under `src/data` (schema in `src/content.config.ts`):
-  sources, destinations, places, journeys. The page renders from it and holds no
-  hardcoded facts. **Edit the data, not the markup.** You cannot add a journey or
-  place without naming its sources — that's the rule doing its job.
+  sources, destinations, places, journeys, pois, paths. The page renders from it
+  and holds no hardcoded facts. **Edit the data, not the markup.** You cannot add a
+  journey, place, or map point without naming its source — that's the rule working.
+- Categories (on `pois`) drive map pin colour and the map's show/hide filter only.
+  Never a chip/label on a card (ADR 0001, amended).
 
 ## Conventions
 
