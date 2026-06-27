@@ -6,13 +6,6 @@ import { comparisonColumns } from '../lib/compare';
 // in the group thread — this page is the shared evidence everyone links to. Each
 // destination's own page (the map + the places) is one tap away.
 const columns = await comparisonColumns();
-
-// The qualitative rows, in the order they help the decision.
-const rows = [
-  { label: 'the pace', key: 'pace' as const },
-  { label: 'with a three-year-old', key: 'withChild' as const },
-  { label: 'early July', key: 'weather' as const },
-];
 ---
 
 <Base
@@ -58,22 +51,6 @@ const rows = [
             </span>
           </div>
         </a>
-      ))
-    }
-  </div>
-
-  <!-- The softer, side-by-side comparison for the things numbers don't capture. -->
-  <div class="mt-6 overflow-hidden rounded-2xl border border-stone-200 bg-white">
-    {
-      rows.map((row, i) => (
-        <div class={`grid grid-cols-2 gap-4 px-4 py-3 ${i > 0 ? 'border-t border-stone-100' : ''}`}>
-          {columns.map(({ dest }) => (
-            <div>
-              <p class="m-0 text-xs text-stone-400">{row.label}</p>
-              <p class="mt-0.5 text-[14px] leading-snug text-stone-700">{dest.data[row.key]}</p>
-            </div>
-          ))}
-        </div>
       ))
     }
   </div>

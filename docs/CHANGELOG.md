@@ -3,9 +3,12 @@
 ## Unreleased
 
 - Rebuilt around the iMessage group thread (ADR 0007): home is now the Kurobe-vs-
-  Atami comparison (figures from the journey data + the feel of each), and each
-  destination has its own URL (`/kurobe`, `/atami`) with its map and places. Tabs
-  removed.
+  Atami comparison, and each destination has its own URL (`/kurobe`, `/atami`) with
+  its map and places. Tabs removed.
+- The comparison shows the easiest way in (fastest time, cheapest fare) rather than
+  a worst-case range — so reaching Kurobe reads as the ~2h48 direct shinkansen to
+  the town, with the longer alpine-route journeys kept on the destination page.
+  Dropped the vague pace/with-a-child/weather cells.
 - Added Open Graph link previews generated at build (satori + resvg) from the same
   sourced data — the home preview is the comparison itself; each destination's is
   its photo and figures. The link bubble is the page's first surface in a chat.

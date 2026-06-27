@@ -15,17 +15,12 @@ export function summarizeJourneys(journeys: CollectionEntry<'journeys'>[]) {
     .map((j) => j.data.totalFareYen?.value)
     .filter((n): n is number => typeof n === 'number');
 
-  const range = (values: number[], fmt: (n: number) => string) => {
-    if (values.length === 0) return null;
-    const lo = Math.min(...values);
-    const hi = Math.max(...values);
-    return lo === hi ? fmt(lo) : `${fmt(lo)} – ${fmt(hi)}`;
-  };
-
+  // Show the easiest way in, not a worst-case range. "Getting to Kurobe" means
+  // the town (one direct shinkansen, ~2h48) — the longer alpine-route journeys
+  // are excursions from there, and live on the destination page, not the headline.
   return {
-    // e.g. "about 1 hr – about 4 hr 15 min" and "about ¥2,190 – about ¥14,810".
-    time: range(durations, formatDuration),
-    cost: range(fares, formatYen),
+    time: durations.length ? formatDuration(Math.min(...durations)) : null,
+    cost: fares.length ? formatYen(Math.min(...fares)) : null,
   };
 }
 
