@@ -9,6 +9,7 @@ export const CATEGORY_META: Record<string, { label: string; color: string }> = {
   sightseeing: { label: 'sightseeing', color: '#dc2626' },
   viewpoint: { label: 'viewpoints', color: '#7c3aed' },
   onsen: { label: 'onsen', color: '#db2777' },
+  food: { label: 'places to eat', color: '#ea580c' },
   coffee: { label: 'third-wave coffee', color: '#92400e' },
   kissaten: { label: 'kissaten', color: '#b45309' },
   neighborhood: { label: 'neighborhoods', color: '#059669' },

@@ -1,0 +1,50 @@
+# Decision facts for July 3–5, from the conditions and food research. Each is a
+# sourced statement attributed to where it came from — not editorial.
+
+- id: tsuyu
+  destination: both
+  order: 1
+  text: Early July normally falls inside Japan's rainy season (tsuyu) for both areas — the Hokuriku rainy season normally ends around July 23, the Tokai/Izu region around July 19.
+  source: { label: japan-guide / JMA, url: https://www.japan-guide.com/e/e2277.html }
+
+- id: gorge-shuttle
+  destination: kurobe
+  order: 2
+  text: "In 2026 the Kurobe Gorge Railway runs only as a shuttle between Unazuki and Nekomata, through September 30 — the full ride to Keyakidaira is closed for earthquake restoration."
+  source: { label: Kurobe Gorge Railway, url: https://www.kurotetu.co.jp/news-detail/?post=572 }
+
+- id: dam-discharge
+  destination: kurobe
+  order: 3
+  text: Kurobe Dam's tourist water discharge runs late June to mid-October, so it's on during the trip (the rainbow-in-the-spray view).
+  source: { label: Kurobe Dam, url: https://www.kurobe-dam.com/kankou/housui.html }
+
+- id: white-shrimp
+  destination: kurobe
+  order: 4
+  text: White shrimp, the Toyama Bay signature, is in season April to November — so early July catches it.
+  source: { label: Toyama tourism, url: https://www.info-toyama.com/stories/toyama-gourmet }
+
+- id: murodo-cold
+  destination: kurobe
+  order: 5
+  text: Up on the alpine route, Murodo (about 2,450 m) runs roughly 15°C colder than sea level — a July high near 16°C, so pack a layer even at midday.
+  source: { label: Tateyama Kurobe Alpine Route, url: https://www.alpen-route.com/en/faq/ }
+
+- id: atami-beach
+  destination: atami
+  order: 6
+  text: Atami's beach season opens July 11 — the beach isn't officially open for swimming during a July 3–5 trip (the seafront is still walkable).
+  source: { label: Atami Tourism Association, url: https://www.ataminews.gr.jp/event/142 }
+
+- id: atami-events-gap
+  destination: atami
+  order: 7
+  text: Early July sits between Atami's seasonal draws — fireflies end June 7, the beach opens July 11, and the fireworks start July 20.
+  source: { label: Atami Tourism Association, url: https://www.ataminews.gr.jp/event/785 }
+
+- id: atami-covered-arcade
+  destination: atami
+  order: 8
+  text: The food-walking arcades right by Atami station are covered, so they hold up on a rainy day.
+  source: { label: JAL ontrip, url: https://ontrip.jal.co.jp/tokai/17608117 }

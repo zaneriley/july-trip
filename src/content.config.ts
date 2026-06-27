@@ -142,6 +142,7 @@ export const POI_CATEGORIES = [
   'sightseeing',
   'viewpoint',
   'onsen',
+  'food', // restaurants, seafood houses, the food-walking arcade
   'coffee', // third-wave / specialty
   'kissaten', // traditional Showa-era coffee houses
   'neighborhood',
@@ -198,4 +199,19 @@ const photos = defineCollection({
   }),
 });
 
-export const collections = { sources, destinations, places, journeys, pois, paths, photos };
+// Decision facts for the trip dates — the operating, seasonal, and weather notes
+// that bear on choosing. Each is a sourced statement (not editorial), attributed
+// to the page it came from, so the "good to know" section stays evidence-only.
+const notes = defineCollection({
+  loader: file('./src/data/notes.yaml'),
+  schema: z.object({
+    // Which option it bears on: kurobe, atami, or both.
+    destination: z.enum(['kurobe', 'atami', 'both']),
+    text: z.string(),
+    source: z.object({ label: z.string(), url: z.url() }),
+    // Order within the section; lower first.
+    order: z.number().default(0),
+  }),
+});
+
+export const collections = { sources, destinations, places, journeys, pois, paths, photos, notes };

@@ -50,6 +50,17 @@ const tiles = [...photosBySubject.keys()]
   })
   .filter((t): t is NonNullable<typeof t> => t !== null)
   .sort((a, b) => (destOrder[a.destination] ?? 9) - (destOrder[b.destination] ?? 9));
+
+// Places to eat, from the Japanese food research — split by town.
+const food = pois.filter((p) => p.data.category === 'food');
+const foodColumns = [
+  { title: 'Kurobe', items: food.filter((f) => f.data.destination.id === 'kurobe') },
+  { title: 'Atami', items: food.filter((f) => f.data.destination.id === 'atami') },
+];
+
+// Decision facts for these dates — sourced, ordered.
+const notes = (await getCollection('notes')).sort((a, b) => a.data.order - b.data.order);
+const noteTag: Record<string, string> = { both: 'Both', kurobe: 'Kurobe', atami: 'Atami' };
 ---
 
 <Base
@@ -111,6 +122,56 @@ const tiles = [...photosBySubject.keys()]
           >
             {tile.photo.data.credit}
           </a>
+        </div>
+      ))
+    }
+  </div>
+
+  <!-- Where to eat. The names link to the source; the notes and ratings are theirs. -->
+  <h2 class="mt-8 mb-3 text-lg font-semibold text-stone-900">Where to eat</h2>
+  <div class="grid gap-4 md:grid-cols-2">
+    {
+      foodColumns.map((col) => (
+        <div class="rounded-2xl border border-stone-200 bg-white p-4">
+          <h3 class="m-0 text-[15px] font-semibold text-stone-900">{col.title}</h3>
+          <ul class="m-0 mt-3 list-none space-y-3 p-0">
+            {col.items.map((f) => (
+              <li>
+                <a
+                  href={f.data.source.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="text-[15px] font-medium text-stone-900 underline decoration-stone-300 underline-offset-2 hover:text-stone-950"
+                >
+                  {f.data.name}
+                </a>
+                <p class="m-0 mt-0.5 text-[13px] leading-snug text-stone-600">{f.data.note}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))
+    }
+  </div>
+
+  <!-- Sourced facts that bear on the dates — not editorial; each links its source. -->
+  <h2 class="mt-8 mb-3 text-lg font-semibold text-stone-900">Good to know for July 3 to 5</h2>
+  <div class="overflow-hidden rounded-2xl border border-stone-200 bg-white">
+    {
+      notes.map((n, i) => (
+        <div class={`px-4 py-3 ${i > 0 ? 'border-t border-stone-100' : ''}`}>
+          <p class="m-0 text-[14px] leading-relaxed text-stone-700">
+            <span class="mr-1.5 text-xs text-stone-400">{noteTag[n.data.destination]}</span>
+            {n.data.text}{' '}
+            <a
+              href={n.data.source.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="whitespace-nowrap text-stone-500 underline decoration-stone-300 underline-offset-2 hover:text-stone-800"
+            >
+              — {n.data.source.label}
+            </a>
+          </p>
         </div>
       ))
     }

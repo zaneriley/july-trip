@@ -12,12 +12,9 @@
     - kurobedaira-station
     - kurobe-dam
 
-- id: kurobe-gorge-railway
-  label: the gorge railway, Unazuki up to Keyakidaira
-  destination: kurobe
-  stops:
-    - unazuki-station
-    - keyakidaira-station
+# The gorge railway path was removed: in 2026 it runs shuttle-only to Nekomata,
+# not up to Keyakidaira (see notes.yaml / gorge-shuttle), so a line to Keyakidaira
+# would misrepresent what's actually running.
 
 - id: atami-on-foot
   label: a day on foot in central Atami

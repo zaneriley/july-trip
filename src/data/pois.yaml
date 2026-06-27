@@ -423,3 +423,103 @@
   note: A 1959 pure-kissaten with an indoor koi inlet and a sculpture by Tatebayashi Kosei.
   destination: atami
   source: { url: https://tabelog.com/en/shizuoka/A2205/A220502/22013996/, type: tabelog }
+
+# ── Places to eat (from Japanese-source food research) ───────────────────────
+# Kurobe
+- id: kajika
+  name: Kajika (河鹿)
+  category: food
+  lat: 36.815804
+  lng: 137.582690
+  note: Cook-to-order clay-pot kamameshi and fresh white-shrimp sashimi, by Unazuki Onsen station. Tabelog about 3.44; closed Tuesdays, and each pot is roughly a 20-minute wait.
+  destination: kurobe
+  source: { url: https://tabelog.com/toyama/A1602/A160201/16000090/, type: tabelog }
+- id: kurobe-soba-ya
+  name: Kurobe Soba-ya (黒部 そば屋)
+  category: food
+  lat: 36.870784
+  lng: 137.455618
+  note: The top-rated lunch in Kurobe city (Tabelog about 3.59) — handmade soba; closes once the soba sells out, closed Tuesdays. In central Kurobe, not Unazuki.
+  destination: kurobe
+  source: { url: https://tabelog.com/toyama/A1602/A160201/16000623/, type: tabelog }
+- id: kashiwaya
+  name: Rest Plaza Kashiwaya (柏や)
+  category: food
+  lat: 36.815652
+  lng: 137.583298
+  note: Right in front of Unazuki Onsen station; the local white-shrimp kakiage donburi (about ¥1,300).
+  destination: kurobe
+  source: { url: https://tabelog.com/toyama/A1602/A160201/16002884/, type: tabelog }
+- id: kitokito-an
+  name: Ariiso Kitokito-an (有磯 きときと庵)
+  category: food
+  lat: 36.815312
+  lng: 137.584270
+  note: A minute from Unazuki Onsen station; trout sushi (masu-no-sushi) and white shrimp.
+  destination: kurobe
+  source: { url: https://tabelog.com/toyama/A1602/A160201/16004154/, type: tabelog }
+- id: uo-no-eki-ikuji
+  name: Fish Station Ikuji (魚の駅 生地)
+  category: food
+  lat: 36.891351
+  lng: 137.419109
+  note: A working fish market on Toyama Bay in Kurobe's Ikuji district; kaisen-don and kelp-cured sashimi (kombujime).
+  destination: kurobe
+  source: { url: https://tabelog.com/toyama/A1602/A160201/16009022/, type: tabelog }
+# Atami
+- id: uosei
+  name: Chuka Soba Uosei (中華そば うお静)
+  category: food
+  lat: 35.044376
+  lng: 139.081583
+  note: Tabelog 4.03, a 2025 ramen "hyakumeiten" — but down in Ajiro, not walkable from Atami station; queues from the morning, closed Sundays and Mondays.
+  destination: atami
+  source: { url: https://tabelog.com/shizuoka/A2205/A220502/22041254/, type: tabelog }
+- id: soba-asada
+  name: Soba Asada (蕎麦あさ田)
+  category: food
+  lat: 35.104851
+  lng: 139.080543
+  note: Often called Atami's best soba, about 5 minutes from the station. Hours and reservations vary across sources — phone first.
+  destination: atami
+  source: { url: https://tabelog.com/shizuoka/A2205/A220502/22027903/, type: tabelog }
+- id: washoku-kobayashi
+  name: Washoku Kobayashi (和食処 こばやし)
+  category: food
+  lat: 35.102081
+  lng: 139.076940
+  note: Tabelog about 3.69, on Heiwa-dori a few minutes from the station; a daily chirashi and a raw-shirasu bowl; closed Tuesdays.
+  destination: atami
+  source: { url: https://tabelog.com/shizuoka/A2205/A220502/22001229/, type: tabelog }
+- id: kamatsuru
+  name: Kamatsuru (海幸楽膳 釜つる)
+  category: food
+  lat: 35.096687
+  lng: 139.074410
+  note: Tabelog about 3.69; seafood washoku from an old dried-fish house, known for simmered kinmedai; reservation slots, closed Wednesdays.
+  destination: atami
+  source: { url: https://tabelog.com/shizuoka/A2205/A220502/22000010/, type: tabelog }
+- id: atami-purin
+  name: Atami Purin (熱海プリン)
+  category: food
+  lat: 35.102040
+  lng: 139.077351
+  note: The milk-bottle pudding shop near the station — the signature Atami sweet, and a regular queue.
+  destination: atami
+  source: { url: https://www.atami-purin.com/, type: official }
+- id: kome-to-sakana
+  name: Kome to Sakana (米と魚)
+  category: food
+  lat: 35.101839
+  lng: 139.077340
+  note: A small, well-liked seafood-bowl spot near the station — fresh sashimi, a calmer alternative to the busy "mountain bowl" chains.
+  destination: atami
+  source: { url: https://tabelog.com/shizuoka/A2205/A220502/22044687/, type: tabelog }
+- id: heiwa-dori
+  name: Heiwa-dori arcade (平和通り)
+  category: food
+  lat: 35.102794
+  lng: 139.077537
+  note: The covered food-walking arcade right at Atami station — himono, takoyaki, sweets. Being covered, it's rain-proof for a wet day.
+  destination: atami
+  source: { url: https://ontrip.jal.co.jp/tokai/17608117, type: tourism-board }
