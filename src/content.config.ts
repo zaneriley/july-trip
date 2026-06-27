@@ -67,6 +67,10 @@ const destinations = defineCollection({
     order: z.number().default(0),
     // A one-line "what it is", for the comparison and the link preview.
     tagline: z.string(),
+    // Two more comparison dimensions, one specific line each, so the home can put
+    // the same rows side by side. Kept concrete (names real things), not vague.
+    kidNote: z.string(),
+    foodNote: z.string(),
     // The destination's hero photo (a /photos path), reused in the comparison and
     // the generated link-preview image.
     heroImage: z.string(),

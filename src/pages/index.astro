@@ -3,134 +3,81 @@ import Base from '../layouts/Base.astro';
 import { comparisonColumns } from '../lib/compare';
 import { getCollection } from 'astro:content';
 
-// Home is the decision, not the browse. Two options side by side — read across
-// (Kurobe's time vs Atami's time, Kurobe's facts vs Atami's) to pick one. The
-// map, the photo grid, and the food all live on each city's own page, reachable
-// once you're leaning. See docs/decisions/0008-decision-first-home.md.
+// Home is one aligned comparison: two photo-headed columns and the same set of
+// rows for both, so you read straight across — Kurobe's time vs Atami's time,
+// Kurobe's weather vs Atami's — and decide. Depth lives behind each "look closer".
 const columns = await comparisonColumns();
-const photos = await getCollection('photos');
-const notes = await getCollection('notes');
+type Col = (typeof columns)[number];
+
 const weather = await getCollection('weather');
+const wByDest = new Map(weather.map((w) => [w.data.destination.id, w.data]));
 
-const photoBySubject = new Map<string, (typeof photos)[number]>();
-for (const photo of photos) {
-  if (!photoBySubject.has(photo.data.subject)) photoBySubject.set(photo.data.subject, photo);
-}
-
-// A few signature shots per city — "what you'd actually do here", not the catalog.
-const signatures: Record<string, string[]> = {
-  kurobe: ['kurobe-dam', 'murodo', 'kurobe-gorge'],
-  atami: ['atami-onsen', 'atami-sun-beach', 'atami-castle'],
-};
-
-const view = columns.map((c) => ({
-  dest: c.dest,
-  time: c.time,
-  cost: c.cost,
-  hero: photoBySubject.get(c.dest.id === 'kurobe' ? 'kurobe-dam' : 'atami-onsen'),
-  shots: (signatures[c.dest.id] ?? []).map((s) => photoBySubject.get(s)).filter(Boolean),
-  weather: weather.find((w) => w.data.destination.id === c.dest.id),
-  facts: notes.filter((n) => n.data.destination === c.dest.id).sort((a, b) => a.data.order - b.data.order),
-}));
-const bothFacts = notes
-  .filter((n) => n.data.destination === 'both')
-  .sort((a, b) => a.data.order - b.data.order);
+// The deciding dimensions, in the order a toddler weekend weighs them. Every row
+// resolves to a value for both cities, so the comparison never goes lopsided.
+const rows: { label: string; val: (c: Col) => string }[] = [
+  { label: 'getting there', val: (c) => c.time ?? '—' },
+  { label: 'cost per adult', val: (c) => c.cost ?? '—' },
+  { label: 'weather', val: (c) => wByDest.get(c.dest.id)?.headline ?? '—' },
+  { label: 'with a three-year-old', val: (c) => c.dest.data.kidNote },
+  { label: 'food', val: (c) => c.dest.data.foodNote },
+];
 ---
 
 <Base
   title="Kurobe or Atami? — July 3 to 5"
-  description="Two options for the long weekend, side by side: the alpine route at Kurobe, or onsen by the sea at Atami. Pick one — we'll settle it in the chat."
+  description="Two options for the long weekend, compared row by row: the alpine route at Kurobe, or onsen by the sea at Atami. Pick one — we'll settle it in the chat."
   ogImage="/og/home.png"
-  wide={true}
+  wide={false}
 >
   <header class="mb-6">
     <h1 class="m-0 text-2xl font-semibold text-stone-900">Where should we go, July 3 to 5?</h1>
     <p class="mt-2 text-[15px] leading-relaxed text-stone-600">
-      Two options, a few hours apart — pick one. Read across, then we'll settle it in the chat.
+      Two options, the same questions for each — read across, then we'll settle it in the chat.
     </p>
   </header>
 
-  <!-- The two options as columns. The strongest line on the page is the gap between them. -->
-  <div class="grid gap-4 md:grid-cols-2">
+  <div class="overflow-hidden rounded-2xl border border-stone-200 bg-white">
+    {/* Two photo-headed columns. */}
+    <div class="grid grid-cols-2">
+      {
+        columns.map((c, i) => (
+          <a href={`/${c.dest.id}`} class={`block ${i === 0 ? 'border-r border-stone-100' : ''}`}>
+            <img src={c.dest.data.heroImage} alt={c.dest.data.name} class="aspect-[16/9] w-full object-cover" />
+            <div class="px-3 py-2.5">
+              <h2 class="m-0 text-lg font-semibold text-stone-900">{c.dest.data.name}</h2>
+              <p class="m-0 mt-0.5 text-[13px] leading-snug text-stone-500">{c.dest.data.tagline}</p>
+            </div>
+          </a>
+        ))
+      }
+    </div>
+
+    {/* The same row for both cities — the value columns sit under the photo columns. */}
     {
-      view.map(({ dest, time, cost, hero, shots, weather, facts }) => (
-        <section class="flex flex-col overflow-hidden rounded-2xl border border-stone-200 bg-white shadow-sm">
-          {hero && <img src={hero.data.src} alt={hero.data.alt} class="aspect-[16/9] w-full object-cover" />}
-
-          <div class="flex flex-1 flex-col px-4 py-4">
-            <h2 class="m-0 text-xl font-semibold text-stone-900">{dest.data.name}</h2>
-            <p class="mt-1 text-[14px] leading-snug text-stone-600">{dest.data.tagline}</p>
-
-            {/* The aligned numbers — same row position in both columns, to read across. */}
-            <dl class="mt-4 grid grid-cols-2 gap-3 border-y border-stone-100 py-3">
-              <div>
-                <dt class="text-xs text-stone-400">getting there</dt>
-                <dd class="m-0 text-[15px] font-medium text-stone-900">{time ?? '—'}</dd>
-              </div>
-              <div>
-                <dt class="text-xs text-stone-400">cost per adult</dt>
-                <dd class="m-0 text-[15px] font-medium text-stone-900">{cost ?? '—'}</dd>
-              </div>
-            </dl>
-
-            {weather && (
-              <p class="mt-3 text-[13px] leading-snug text-stone-600">
-                <span class="text-stone-400">weather: </span>
-                {weather.data.headline}
-              </p>
-            )}
-
-            {shots.length > 0 && (
-              <div class="mt-3 grid grid-cols-3 gap-1.5">
-                {shots.map((s) => (
-                  <img src={s!.data.src} alt={s!.data.alt} loading="lazy" class="aspect-square w-full rounded-md object-cover" />
-                ))}
-              </div>
-            )}
-
-            {facts.length > 0 && (
-              <div class="mt-4">
-                <p class="m-0 text-xs text-stone-400">for July 3 to 5</p>
-                <ul class="m-0 mt-1 list-none space-y-1.5 p-0">
-                  {facts.map((n) => (
-                    <li class="text-[13px] leading-snug text-stone-700">
-                      {n.data.text}{' '}
-                      <a href={n.data.source.url} target="_blank" rel="noopener noreferrer" class="whitespace-nowrap text-stone-400 underline decoration-stone-300 underline-offset-2 hover:text-stone-700">
-                        — {n.data.source.label}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-
-            <a
-              href={`/${dest.id}`}
-              class="mt-5 inline-flex items-center justify-center rounded-lg border border-stone-300 px-4 py-2.5 text-[15px] font-medium text-stone-800 transition hover:border-stone-900 hover:bg-stone-900 hover:text-white"
-            >
-              Look closer at {dest.data.name} — map, places, food →
-            </a>
+      rows.map((row) => (
+        <div class="border-t border-stone-100 px-4 py-3">
+          <p class="m-0 text-xs text-stone-400">{row.label}</p>
+          <div class="mt-1 grid grid-cols-2 gap-4">
+            {columns.map((c) => (
+              <p class="m-0 text-[14px] leading-snug text-stone-800">{row.val(c)}</p>
+            ))}
           </div>
-        </section>
+        </div>
       ))
     }
-  </div>
 
-  {
-    bothFacts.length > 0 && (
-      <div class="mt-6 rounded-2xl border border-stone-200 bg-white px-4 py-3">
-        <p class="m-0 text-xs text-stone-400">good to know for both</p>
-        <ul class="m-0 mt-1 list-none space-y-1.5 p-0">
-          {bothFacts.map((n) => (
-            <li class="text-[13px] leading-snug text-stone-700">
-              {n.data.text}{' '}
-              <a href={n.data.source.url} target="_blank" rel="noopener noreferrer" class="whitespace-nowrap text-stone-400 underline decoration-stone-300 underline-offset-2 hover:text-stone-700">
-                — {n.data.source.label}
-              </a>
-            </li>
-          ))}
-        </ul>
-      </div>
-    )
-  }
+    {/* Into the depth, once you're leaning. */}
+    <div class="grid grid-cols-2 gap-px border-t border-stone-100 bg-stone-100">
+      {
+        columns.map((c) => (
+          <a
+            href={`/${c.dest.id}`}
+            class="bg-white px-4 py-3 text-center text-[15px] font-medium text-stone-800 transition hover:bg-stone-50"
+          >
+            Look closer at {c.dest.data.name} →
+          </a>
+        ))
+      }
+    </div>
+  </div>
 </Base>
