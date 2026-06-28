@@ -54,6 +54,7 @@ const goodToKnow = (await getCollection('notes')).filter((n) => n.data.destinati
 const todo = (await getCollection('todo')).filter((t) => t.data.destination.id === destId).sort((a, b) => a.data.order - b.data.order);
 const popculture = (await getCollection('popculture')).filter((p) => p.data.destination.id === destId).sort((a, b) => a.data.order - b.data.order);
 const lodging = (await getCollection('lodging')).filter((l) => l.data.destination.id === destId).sort((a, b) => a.data.order - b.data.order);
+const neat = (await getCollection('neat')).filter((n) => n.data.destination.id === destId).sort((a, b) => a.data.order - b.data.order);
 
 // The section nav — decision-weight order, only what's present.
 const nav = [
@@ -67,6 +68,7 @@ const nav = [
   { id: 'photos', label: 'Photos', show: gallery.length > 0 },
   { id: 'more', label: 'More to do', show: todo.length > 0 },
   { id: 'culture', label: 'Pop culture', show: popculture.length > 0 },
+  { id: 'neat', label: 'Neat stuff', show: neat.length > 0 },
   { id: 'good', label: 'Good to know', show: goodToKnow.length > 0 },
 ].filter((s) => s.show);
 
@@ -383,6 +385,35 @@ const locateBtn = 'cursor-pointer border border-stone-300 text-stone-600 hover:b
               </p>
               </div>
             </div>
+            );
+          })}
+        </div>
+      </section>
+    )
+  }
+
+  {/* Neat stuff I found — the genuinely offbeat. */}
+  {
+    neat.length > 0 && (
+      <section id="neat" class={section}>
+        <h2 class="m-0 mb-3 text-lg font-semibold text-stone-900">Neat stuff I found</h2>
+        <div class="grid gap-2.5 sm:grid-cols-2">
+          {neat.map((n) => {
+            const photo = photoBySubject.get(n.id);
+            return (
+              <div class="overflow-hidden rounded-xl border border-stone-200 bg-white">
+                {photo && <img src={photo.data.src} alt={photo.data.alt} loading="lazy" class="aspect-[16/9] w-full object-cover" />}
+                <div class="px-4 py-3">
+                  <div class="flex items-baseline justify-between gap-2">
+                    <p class="m-0 text-[15px] font-medium text-stone-900">{n.data.name}</p>
+                    {n.data.flag && <span class="shrink-0 rounded-full bg-amber-50 px-2 py-0.5 text-[11px] text-amber-700">{n.data.flag}</span>}
+                  </div>
+                  <p class="m-0 mt-0.5 text-[13px] leading-snug text-stone-600">
+                    {n.data.note}{' '}
+                    <a href={n.data.source.url} target="_blank" rel="noopener noreferrer" class={srcLink}>— {n.data.source.label}</a>
+                  </p>
+                </div>
+              </div>
             );
           })}
         </div>

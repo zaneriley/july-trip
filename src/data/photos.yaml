@@ -211,3 +211,11 @@
 - { id: ph-g-shuzenji-2, subject: g-shuzenji, src: /photos/g-shuzenji-2.jpg, alt: The cottage living room, credit: via source, creditUrl: https://www.izu-beach.com/forest/, license: see source }
 - { id: ph-g-shuzenji-3, subject: g-shuzenji, src: /photos/g-shuzenji-3.jpg, alt: Inside a cottage, credit: via source, creditUrl: https://www.izu-beach.com/forest/, license: see source }
 - { id: ph-g-shuzenji-4, subject: g-shuzenji, src: /photos/g-shuzenji-4.jpg, alt: The river and grounds for kids, credit: via source, creditUrl: https://www.izu-beach.com/forest/, license: see source }
+
+# ── Neat stuff I found (subject = neat item id) ──
+- { id: ph-neat-hihokan, subject: neat-hihokan, src: /photos/hihokan.jpg, alt: The Atami Hihokan museum, credit: via source, creditUrl: https://commons.wikimedia.org/wiki/File:Atami_Hihoukan,_Atami,_Shizuoka,_Japan.JPG, license: see source }
+- { id: ph-neat-atami-castle, subject: neat-atami-castle, src: /photos/atami-castle.jpg, alt: Atami's 1959 concrete castle, credit: via source, creditUrl: https://ja.wikipedia.org/wiki/熱海城, license: see source }
+- { id: ph-neat-frog-hall, subject: neat-frog-hall, src: /photos/frog-hall.jpg, alt: The frog hall on Awashima island, credit: via source, creditUrl: https://www.marinepark.jp/, license: see source }
+- { id: ph-neat-coelacanth, subject: neat-coelacanth, src: /photos/coelacanth.webp, alt: A frozen coelacanth at the deep-sea aquarium, credit: via source, creditUrl: https://www.numazu-deepsea.com/concept/coelacanth/, license: see source }
+- { id: ph-neat-mandara-yuen, subject: neat-mandara-yuen, src: /photos/mandara-yuen.jpg, alt: The red Hell corridor at Mandara Yuen, credit: via source, creditUrl: https://intojapanwaraku.com/rock/culture-rock/42935/, license: see source }
+- { id: ph-neat-highheat-tunnel, subject: neat-highheat-tunnel, src: /photos/highheat-tunnel.jpg, alt: The high-heat tunnel on the Kurobe Canyon Route, credit: via source, creditUrl: https://canyon-route.jp/, license: see source }

@@ -335,4 +335,19 @@ const glamping = defineCollection({
   }),
 });
 
-export const collections = { sources, destinations, places, journeys, pois, paths, photos, notes, kids, weather, todo, popculture, lodging, glamping };
+// "Neat stuff I found" — the genuinely offbeat, cult, surprising curiosities of
+// each place, the stuff that's not on the standard sight list. A flag carries a
+// caveat where one matters (adults-only, not reachable this year).
+const neat = defineCollection({
+  loader: file('./src/data/neat.yaml'),
+  schema: z.object({
+    destination: reference('destinations'),
+    name: z.string(),
+    note: z.string(),
+    flag: z.string().optional(),
+    order: z.number().default(0),
+    source: z.object({ label: z.string(), url: z.url() }),
+  }),
+});
+
+export const collections = { sources, destinations, places, journeys, pois, paths, photos, notes, kids, weather, todo, popculture, lodging, glamping, neat };

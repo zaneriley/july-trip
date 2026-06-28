@@ -1,0 +1,45 @@
+# Neat stuff I found — the genuinely offbeat, not the standard sights.
+
+# Atami
+- id: neat-hihokan
+  destination: atami
+  order: 1
+  name: The Atami Hihokan
+  note: The last surviving "secret-treasure museum" in all of Japan — a Showa-era cabinet of kitsch erotica-as-folk-culture, with motorized wax dioramas and mirror rooms, freshly renovated in 2024. It sits at the top of the Atami ropeway, right by the castle.
+  flag: adults only (18+)
+  source: { label: Atami Ropeway, url: https://www.atami-ropeway.jp/atami-hihoukan/access/ }
+- id: neat-atami-castle
+  destination: atami
+  order: 2
+  name: Atami's castle that never was
+  note: A nine-storey concrete "castle" built in 1959 that no lord ever held and that has no historical record at all — inside it's a gloriously incoherent Showa amusement hall with a jet foot-bath and a free basement arcade, and the best rooftop view in town.
+  source: { label: Wikipedia, url: https://ja.wikipedia.org/wiki/熱海城 }
+
+# Numazu & Mishima
+- id: neat-frog-hall
+  destination: numazu
+  order: 1
+  name: The frog hall on an island
+  note: Awashima, an island reached only by a 3-minute ferry, holds one of Japan's biggest frog collections and a serious breeding lab — including Surinam toads whose eggs hatch out of the mother's back. It announced its closure in 2024, got mobbed, then was bought and reopened by a TV comedy writer.
+  source: { label: Awashima Marine Park, url: https://www.marinepark.jp/ }
+- id: neat-coelacanth
+  destination: numazu
+  order: 2
+  name: The world's only frozen coelacanth
+  note: The deep-sea aquarium by Numazu port keeps two coelacanths frozen at minus 20°C — a display it credibly claims exists nowhere else, since the rules around the "living fossil" mean no one else shows frozen ones.
+  source: { label: Numazu Deep-Sea Aquarium, url: https://www.numazu-deepsea.com/concept/coelacanth/ }
+
+# Kurobe
+- id: neat-mandara-yuen
+  destination: kurobe
+  order: 1
+  name: A walk-through Buddhist hell and heaven
+  note: Near Tateyama, an art park where you physically walk a groaning red "Hell" corridor and then climb to an underground "Heaven" of egg-shaped meditation chambers with colour-shifting lacquer floors. ¥400, open April to November.
+  source: { label: Into Japan Waraku, url: https://intojapanwaraku.com/rock/culture-rock/42935/ }
+- id: neat-highheat-tunnel
+  destination: kurobe
+  order: 2
+  name: The high-heat tunnel
+  note: Deep in the gorge runs a prewar power-construction tunnel where the rock hit 160°C during digging (dynamite ignited on its own) and still sits around 40°C, served by a 200-metre elevator that swallows whole freight cars. The wildest thing here.
+  flag: tour-only, and not reachable in 2026
+  source: { label: Canyon Route, url: https://canyon-route.jp/ }
