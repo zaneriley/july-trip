@@ -179,7 +179,7 @@ const pois = defineCollection({
     reservation: z.string().optional(), // "reserve", "book ahead", "walk-in", "queues"
     source: z.object({
       url: z.url(),
-      type: z.enum(['official', 'tourism-board', 'wikimedia', 'wikidata', 'google-maps', 'tabelog', 'osm']),
+      type: z.enum(['official', 'tourism-board', 'wikimedia', 'wikidata', 'google-maps', 'tabelog', 'osm', 'blog']),
     }),
     // True when the coordinate is approximate (e.g. derived from a street address
     // rather than a published lat/long). Shown honestly, never hidden.

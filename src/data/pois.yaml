@@ -163,7 +163,7 @@
   reach: walk
   lat: 36.8156
   lng: 137.5840
-  note: Retro Mozart-themed kissaten in central Unazuki Onsen, known for morning sets.
+  note: A Unazuki kissaten with Mozart on loop and coffee dripped through Kurobe's hundred-famous-waters spring water, plus a locally legendary success seat.
   destination: kurobe
   accessFromStation: "central Unazuki Onsen"
   coordsUnverified: true
@@ -420,7 +420,7 @@
   reach: walk
   lat: 35.102661
   lng: 139.077927
-  note: Long-running self-roast cafe on the Nakamise shopping street; daily roasting, hand-drip.
+  note: A high-ceilinged wood-and-lattice tea house and craft gallery a few minutes from the station; house-roasted coffee and Izu-agar anmitsu.
   destination: atami
   accessFromStation: "on Nakamise, a few min from the station"
   source: { url: https://www.aibana.com/, type: official }
@@ -443,7 +443,7 @@
   reach: walk
   lat: 35.096607
   lng: 139.073456
-  note: Atami's flagship retro kissaten (1952), the first place in town to serve a hamburger.
+  note: A 1952 cafe whose master learned hamburgers at a Ginza officers' club; Tanizaki and Mishima were regulars. The Japanese-style hamburger is the thing. Parties capped at four.
   destination: atami
   accessFromStation: "Atami Ginza — about 10 min walk"
   source: { url: https://tabelog.com/en/shizuoka/A2205/A220502/22013777/, type: tabelog }
@@ -465,7 +465,7 @@
   reach: walk
   lat: 35.097137
   lng: 139.075043
-  note: Seaside Showa kissaten (1968) facing the Pacific; iron-plate Napolitan and pudding a la mode.
+  note: A 1968 kissaten converted from an old inn, with a second-floor glass wall over Sun Beach; the fizzing fruit punch comes in a footed retro glass.
   destination: atami
   accessFromStation: "Atami seafront — about 10 min walk"
   source: { url: https://tabelog.com/en/shizuoka/A2205/A220502/22013558/, type: tabelog }
@@ -476,7 +476,7 @@
   reach: walk
   lat: 35.095627
   lng: 139.074600
-  note: A 1959 pure-kissaten with an indoor koi inlet and a sculpture by Tatebayashi Kosei.
+  note: A 1959 kissaten where the room is the draw — a live koi pond set into the floor and tall white sculptures by the maker of Atami's Konjiki-Yasha statue. Meat-sauce Napolitan and a house pudding.
   destination: atami
   accessFromStation: "Atami seafront — about 10 min walk"
   source: { url: https://tabelog.com/en/shizuoka/A2205/A220502/22013996/, type: tabelog }
@@ -511,33 +511,6 @@
   closedDay: "Tue"
   reservation: "walk-in"
   source: { url: https://tabelog.com/toyama/A1602/A160201/16000623/, type: tabelog }
-- id: kashiwaya
-  name: Rest Plaza Kashiwaya (柏や)
-  category: food
-  reach: walk
-  lat: 36.815652
-  lng: 137.583298
-  note: Right in front of Unazuki Onsen station; the local white-shrimp kakiage donburi.
-  destination: kurobe
-  accessFromStation: "by Unazuki Onsen station"
-  rating: "3.15"
-  priceBand: "¥1–2k"
-  reservation: "reserve"
-  source: { url: https://tabelog.com/toyama/A1602/A160201/16002884/, type: tabelog }
-- id: kitokito-an
-  name: Ariiso Kitokito-an (有磯 きときと庵)
-  category: food
-  reach: walk
-  lat: 36.815312
-  lng: 137.584270
-  note: A minute from Unazuki Onsen station; trout sushi (masu-no-sushi) and white shrimp.
-  destination: kurobe
-  accessFromStation: "1 min from Unazuki Onsen station"
-  rating: "3.10"
-  priceBand: "¥1–2k"
-  closedDay: "none"
-  reservation: "reserve"
-  source: { url: https://tabelog.com/toyama/A1602/A160201/16004154/, type: tabelog }
 - id: uo-no-eki-ikuji
   name: Fish Station Ikuji (魚の駅 生地)
   category: food
@@ -601,7 +574,7 @@
   reach: walk
   lat: 35.096687
   lng: 139.074410
-  note: Seafood washoku from an old dried-fish house, known for simmered kinmedai.
+  note: The restaurant of a roughly 150-year-old dried-fish house; a Tabelog Teishoku 100 pick known for simmered kinmedai and a three-colour bowl.
   destination: atami
   accessFromStation: "Atami Ginza — about 10 min walk"
   rating: "3.68"
@@ -622,20 +595,6 @@
   closedDay: "none"
   reservation: "walk-in"
   source: { url: https://www.atami-purin.com/, type: official }
-- id: kome-to-sakana
-  name: Kome to Sakana (米と魚)
-  category: food
-  reach: walk
-  lat: 35.101839
-  lng: 139.077340
-  note: A small, well-liked seafood-bowl spot near the station — fresh sashimi, a calmer alternative to the busy mountain-bowl chains.
-  destination: atami
-  accessFromStation: "near Atami station"
-  rating: "3.29"
-  priceBand: "¥2–3k"
-  closedDay: "none"
-  reservation: "reserve"
-  source: { url: https://tabelog.com/shizuoka/A2205/A220502/22044687/, type: tabelog }
 - id: heiwa-dori
   name: Heiwa-dori arcade (平和通り)
   category: food
@@ -646,3 +605,98 @@
   destination: atami
   accessFromStation: "at Atami station"
   source: { url: https://ontrip.jal.co.jp/tokai/17608117, type: tourism-board }
+
+# ─── More interesting picks (from the food /literature review) ───────────────
+- id: atami-scott
+  name: Restaurant Scott (レストラン スコット)
+  category: food
+  lat: 35.0942
+  lng: 139.0746
+  note: A 1946 yoshoku shinise near the seafront; the demi-glace has been kept going since opening, and the beef stew is the signature — a Tabelog Yoshoku 100 pick.
+  destination: atami
+  accessFromStation: "Nagisa — about 12 min walk"
+  reach: walk
+  rating: "3.73"
+  priceBand: "¥3–4k"
+  closedDay: "Thu"
+  reservation: "reserve"
+  source: { url: https://tabelog.com/shizuoka/A2205/A220502/22003041/, type: tabelog }
+  coordsUnverified: true
+
+- id: atami-yushima-jazz
+  name: Yushima Jazz Kissaten (ゆしまジャズ喫茶)
+  category: kissaten
+  lat: 35.0960
+  lng: 139.0700
+  note: Atami's first jazz kissaten — a coffee house from 1952, jazz since 1966 — a tiny room packed with about 4,000 LPs, old posters and JBL speakers behind a bright-yellow door.
+  destination: atami
+  accessFromStation: "central Atami — about 13 min walk"
+  reach: walk
+  priceBand: "~¥600"
+  closedDay: "Sun"
+  reservation: "walk-in"
+  source: { url: https://www.kamometomachi.com/yushima-jazz, type: blog }
+  coordsUnverified: true
+
+- id: toyama-gejo
+  name: GEJO (ゲジョウ)
+  category: food
+  lat: 36.758186
+  lng: 137.22872
+  note: An eight-seat omakase sushiya in Toyama's old Iwase port district — Tabelog 3.76 with omakase from ¥6,000, a Sushi 100 selection and the best value among Toyama's top sushi.
+  destination: kurobe
+  accessFromStation: "Toyama city, Iwase — a train trip on the way"
+  reach: train
+  rating: "3.76"
+  priceBand: "¥6k+"
+  reservation: "book ahead"
+  source: { url: https://tabelog.com/en/toyama/A1601/A160101/16009475/, type: tabelog }
+  coordsUnverified: true
+
+- id: toyama-taiki
+  name: Nishicho Taiki (西町大喜)
+  category: food
+  lat: 36.6920
+  lng: 137.2110
+  note: The 1947 birthplace of Toyama black ramen — a jet-black soy bowl first made to replenish salt for postwar laborers, still the founder's recipe, under ¥1,000.
+  destination: kurobe
+  accessFromStation: "central Toyama city — a train trip on the way"
+  reach: train
+  rating: "3.57"
+  priceBand: "~¥900"
+  closedDay: "Wed"
+  reservation: "queues"
+  source: { url: https://tabelog.com/toyama/A1601/A160101/16000030/, type: tabelog }
+  coordsUnverified: true
+
+- id: toyama-tsutaya
+  name: Jun Kissa Tsutaya (純喫茶ツタヤ)
+  category: kissaten
+  lat: 36.6912
+  lng: 137.2118
+  note: Toyama's oldest coffee shop, founded 1923 — a Showa-retro room with morning sets and the house Tsutaya blend, on the city's main tram street.
+  destination: kurobe
+  accessFromStation: "central Toyama city — a train trip on the way"
+  reach: train
+  rating: "3.47"
+  priceBand: "¥1–2k"
+  closedDay: "Wed"
+  reservation: "walk-in"
+  source: { url: https://tabelog.com/toyama/A1601/A160101/16003497/, type: tabelog }
+  coordsUnverified: true
+
+- id: toyama-shiroebitei
+  name: Shiroebitei (白えび亭)
+  category: food
+  lat: 36.7010
+  lng: 137.2130
+  note: The originator of the white-shrimp tempura bowl, inside Toyama Station; the sashimi bowl is built from about 90 hand-peeled Toyama Bay white shrimp — the easiest hit off the shinkansen.
+  destination: kurobe
+  accessFromStation: "inside Toyama Station — on the way"
+  reach: train
+  rating: "3.49"
+  priceBand: "¥2–3k"
+  closedDay: "none"
+  reservation: "walk-in"
+  source: { url: https://tabelog.com/en/toyama/A1601/A160101/16000038/, type: tabelog }
+  coordsUnverified: true
