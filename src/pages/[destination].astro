@@ -39,7 +39,6 @@ for (const photo of photos) {
 const seeCategories = ['sightseeing', 'viewpoint', 'onsen', 'neighborhood'];
 const sightSubjects = new Set(pois.filter((p) => seeCategories.includes(p.data.category)).map((p) => p.id));
 if (destId === 'kurobe') sightSubjects.add('alpine-route');
-const gallery = photos.filter((p) => sightSubjects.has(p.data.subject));
 const captionFor = (subject: string) =>
   poiById.get(subject)?.data.name ?? (subject === 'alpine-route' ? 'Alpine route' : subject);
 
@@ -55,6 +54,19 @@ const todo = (await getCollection('todo')).filter((t) => t.data.destination.id =
 const popculture = (await getCollection('popculture')).filter((p) => p.data.destination.id === destId).sort((a, b) => a.data.order - b.data.order);
 const lodging = (await getCollection('lodging')).filter((l) => l.data.destination.id === destId).sort((a, b) => a.data.order - b.data.order);
 const neat = (await getCollection('neat')).filter((n) => n.data.destination.id === destId).sort((a, b) => a.data.order - b.data.order);
+
+// DRY the photos: a sight that already has its own card (with a photo) in
+// More-to-do / With-a-three-year-old / Neat shouldn't show a third time in the
+// Photos gallery — so the gallery keeps only the pin-only scenery.
+const cardedFiles = new Set(
+  photos.filter((p) => [...kids, ...todo, ...neat].some((x) => x.id === p.data.subject)).map((p) => p.data.src),
+);
+// A sight is "already carded" if any of its photos shares a file with a card —
+// then it drops out of the gallery entirely, so the place is shown once.
+const cardedSights = new Set(
+  [...sightSubjects].filter((s) => photos.some((p) => p.data.subject === s && cardedFiles.has(p.data.src))),
+);
+const gallery = photos.filter((p) => sightSubjects.has(p.data.subject) && !cardedSights.has(p.data.subject));
 
 // The section nav — decision-weight order, only what's present.
 const nav = [
@@ -379,22 +391,16 @@ const locateBtn = 'cursor-pointer border border-stone-300 text-stone-600 hover:b
       <section id="culture" class={section}>
         <h2 class="m-0 mb-3 text-lg font-semibold text-stone-900">You might know it from</h2>
         <div class={`${shelf} sm:grid-cols-2`}>
-          {popculture.map((p) => {
-            const photo = photoBySubject.get(p.id);
-            return (
-            <div class="overflow-hidden rounded-xl border border-stone-200 bg-white">
-              {photo && <img src={photo.data.src} alt={photo.data.alt} loading="lazy" class="aspect-[16/9] w-full object-cover" />}
-              <div class="px-4 py-3">
+          {popculture.map((p) => (
+            <div class="rounded-xl border border-stone-200 bg-white px-4 py-3">
               <p class="m-0 text-xs text-stone-400">{p.data.medium}</p>
               <p class="m-0 text-[15px] font-medium leading-snug text-stone-900">{p.data.title}</p>
               <p class="m-0 mt-0.5 text-[13px] leading-snug text-stone-600">
                 {p.data.note}{' '}
                 <a href={p.data.source.url} target="_blank" rel="noopener noreferrer" class={srcLink}>— {p.data.source.label}</a>
               </p>
-              </div>
             </div>
-            );
-          })}
+          ))}
         </div>
       </section>
     )

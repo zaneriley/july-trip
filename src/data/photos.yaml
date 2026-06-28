@@ -81,16 +81,6 @@
 - { id: cp-t-kinomiya, subject: t-kinomiya, src: /photos/atami-kinomiya.jpg, alt: The giant sacred camphor tree at Kinomiya Shrine, credit: See source, creditUrl: https://commons.wikimedia.org/wiki/File:Kinomiya-jinja-no-%C5%8Dkusu_20120915.jpg, license: see source }
 - { id: cp-t-yushima, subject: t-yushima, src: /photos/atami-retro-arcade.jpg, alt: Vintage game machines at an Atami retro arcade, credit: See source, creditUrl: https://brutus.jp/wada_tobacco_atami/, license: see source }
 - { id: cp-t-fuua, subject: t-fuua, src: /photos/atami-fuua.jpg, alt: The infinity hot-spring over the bay at Ocean Spa Fuua, credit: See source, creditUrl: https://www.atamibayresort.com/en/fuua/, license: see source }
-- { id: cp-pc-sands, subject: pc-sands, src: /photos/kurobe-dam-discharge.jpg, alt: Kurobe Dam's water discharge, credit: See source, creditUrl: https://commons.wikimedia.org/wiki/File:KurobeDamDownstream.JPG, license: see source }
-- { id: cp-pc-projectx, subject: pc-projectx, src: /photos/kurobe-dam-rainbow.jpg, alt: A rainbow in Kurobe Dam's discharge spray, credit: See source, creditUrl: https://commons.wikimedia.org/wiki/File:Rainbow_at_Kurobe_Dam_20070814113044.jpg, license: see source }
-- { id: cp-pc-whiteout, subject: pc-whiteout, src: /photos/kurobe-dam-discharge.jpg, alt: Kurobe Dam, where Whiteout was filmed, credit: See source, creditUrl: https://commons.wikimedia.org/wiki/File:KurobeDamDownstream.JPG, license: see source }
-- { id: cp-pc-anime-kurobe, subject: pc-anime-kurobe, src: /photos/kurobe-gorge-train.jpg, alt: The gorge railway, a setting in recent anime, credit: See source, creditUrl: https://commons.wikimedia.org/wiki/File:Kurobe_Gorge_Train_on_the_Bridge.JPG, license: see source }
-- { id: cp-pc-tallest, subject: pc-tallest, src: /photos/kurobe-dam-rainbow.jpg, alt: Kurobe Dam, Japan's tallest, credit: See source, creditUrl: https://commons.wikimedia.org/wiki/File:Rainbow_at_Kurobe_Dam_20070814113044.jpg, license: see source }
-- { id: cp-pc-konjiki, subject: pc-konjiki, src: /photos/atami-statue.jpg, alt: The Kan'ichi-Omiya statue on the Atami seafront, credit: See source, creditUrl: https://livejapan.com/en/in-tokyo/in-pref-shizuoka/in-atami/spot-lj0003879/, license: see source }
-- { id: cp-pc-honeymoon, subject: pc-honeymoon, src: /photos/atami-from-mountain.jpg, alt: Atami town and bay from above, credit: See source, creditUrl: https://commons.wikimedia.org/wiki/File:Atami_from_the_mountain_top,_Atami,_Shizuoka,_Japan.JPG, license: see source }
-- { id: cp-pc-films, subject: pc-films, src: /photos/atami-castle.jpg, alt: Atami Castle, staged in the 1962 monster film, credit: See source, creditUrl: https://commons.wikimedia.org/wiki/File:Atami_castle_170211.jpg, license: see source }
-- { id: cp-pc-kiunkaku, subject: pc-kiunkaku, src: /photos/kiunkaku-villa.jpg, alt: The Kiunkaku villa, where writers stayed, credit: See source, creditUrl: https://commons.wikimedia.org/wiki/File:181123_Kiunkaku_Atami_Shizuoka_pref_Japan01n.jpg, license: see source }
-- { id: cp-pc-anime-atami, subject: pc-anime-atami, src: /photos/atami-city.jpg, alt: The Atami townscape above the bay, credit: See source, creditUrl: https://commons.wikimedia.org/wiki/File:Atami_city_20100612.jpg, license: see source }
 
 # ── New interesting food/cafe picks (food /literature review) ──
 - { id: ph-atami-scott, subject: atami-scott, src: /photos/atami-scott.jpg, alt: Beef stew at Restaurant Scott, credit: via source, creditUrl: https://tabelog.com/shizuoka/A2205/A220502/22003041/, license: see source }
@@ -159,8 +149,6 @@
 - { id: ph-nt-taisha, subject: nt-taisha, src: /photos/mishima-taisha.jpg, alt: Mishima Taisha shrine, credit: via source, creditUrl: https://commons.wikimedia.org/wiki/File:Mishima-taisha_Honden.jpg, license: see source }
 - { id: ph-nt-kissaten, subject: nt-kissaten, src: /photos/koln.jpg, alt: A Showa kissaten in Numazu, credit: via source, creditUrl: https://tabelog.com/shizuoka/A2205/A220501/22008772/, license: see source }
 - { id: ph-nt-skywalk, subject: nt-skywalk, src: /photos/mishima-skywalk.jpg, alt: The Mishima Skywalk, credit: via source, creditUrl: https://commons.wikimedia.org/wiki/File:Mishima_Skywalk_North_Facade2023.jpg, license: see source }
-- { id: ph-pc-mishima-tokaido, subject: pc-mishima-tokaido, src: /photos/mishima-taisha.jpg, alt: Mishima, an old Tokaido post town, credit: via source, creditUrl: https://commons.wikimedia.org/wiki/File:Mishima-taisha_Honden.jpg, license: see source }
-- { id: ph-pc-numazu-lovelive, subject: pc-numazu-lovelive, src: /photos/numazu-port.jpg, alt: Numazu port, the Love Live Sunshine setting, credit: via source, creditUrl: https://commons.wikimedia.org/wiki/File:Kaisendon_(15650467898).jpg, license: see source }
 
 # ── Numazu lodging interior galleries (carousel, room-first) ──
 - { id: ph-numazu-sunvalley-1, subject: numazu-sunvalley, src: /photos/stay-numazu-sunvalley-1.jpg, alt: A Japanese guest room at Hotel Sun Valley, credit: via source, creditUrl: https://www.jalan.net/yad345636/, license: see source }
