@@ -100,3 +100,13 @@
 - { id: ph-toyama-shiroebitei, subject: toyama-shiroebitei, src: /photos/toyama-shiroebitei.jpg, alt: A white-shrimp bowl at Shiroebitei, credit: via source, creditUrl: https://tabelog.com/en/toyama/A1601/A160101/16000038/, license: see source }
 - { id: ph-aibana, subject: aibana, src: /photos/aibana.jpg, alt: The wood-and-lattice room at Saboh Aibana, credit: via source, creditUrl: https://tabelog.com/shizuoka/A2205/A220502/22002627/, license: see source }
 - { id: ph-bonnet, subject: bonnet, src: /photos/bonnet.jpg, alt: The Japanese-style hamburger at Bonnet, credit: via source, creditUrl: https://tabelog.com/shizuoka/A2205/A220502/22013777/, license: see source }
+
+# ── Lodging hero photos (subject = lodging id) ──
+- { id: ph-kurobe-yamanoha, subject: kurobe-yamanoha, src: /photos/stay-yamanoha.jpg, alt: The forest-view onsen bath at Yamanoha, credit: via source, creditUrl: https://yamanoha.orixhotelsandresorts.com/, license: see source }
+- { id: ph-kurobe-oedo, subject: kurobe-oedo, src: /photos/stay-oedo-unazuki.jpg, alt: A tatami room at the Unazuki Grand Hotel, credit: via source, creditUrl: https://www.jalan.net/yad376285/, license: see source }
+- { id: ph-kurobe-tougen, subject: kurobe-tougen, src: /photos/stay-tougen.jpg, alt: The open-air bath over the gorge at Hotel Tougen, credit: via source, creditUrl: https://www.h-togen.com/, license: see source }
+- { id: ph-kurobe-enraku, subject: kurobe-enraku, src: /photos/stay-enraku.jpg, alt: A room bath over the Kurobe Gorge at Enraku, credit: via source, creditUrl: https://enraku.com/, license: see source }
+- { id: ph-atami-seaside, subject: atami-seaside, src: /photos/stay-seaside.jpg, alt: A private bath at Atami Seaside Spa and Resort, credit: via source, creditUrl: https://www.atamiseaside.com/, license: see source }
+- { id: ph-atami-risonare, subject: atami-risonare, src: /photos/stay-risonare.jpg, alt: A bay-view room at RISONARE Atami, credit: via source, creditUrl: https://hotel.travel.rakuten.co.jp/hotelinfo/plan/136112, license: see source }
+- { id: ph-atami-korakuen, subject: atami-korakuen, src: /photos/stay-korakuen.jpg, alt: The Atami Korakuen Hotel building, credit: via source, creditUrl: https://www.atamikorakuen.co.jp/, license: see source }
+- { id: ph-atami-oedo, subject: atami-oedo, src: /photos/stay-oedo-atami.jpg, alt: An ocean-facing room at Ooedo Onsen Premium Atami, credit: via source, creditUrl: https://hotel.travel.rakuten.co.jp/hotelinfo/plan/136832, license: see source }
