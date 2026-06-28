@@ -151,9 +151,6 @@
 - { id: ph-mishima-skywalk, subject: mishima-skywalk, src: /photos/mishima-skywalk.jpg, alt: The Mishima Skywalk suspension bridge, credit: via source, creditUrl: https://commons.wikimedia.org/wiki/File:Mishima_Skywalk_North_Facade2023.jpg, license: see source }
 - { id: ph-numazu-port, subject: numazu-port, src: /photos/numazu-port.jpg, alt: A seafood rice bowl at Numazu port, credit: via source, creditUrl: https://commons.wikimedia.org/wiki/File:Kaisendon_(15650467898).jpg, license: see source }
 - { id: ph-numazu-deepsea-aquarium, subject: numazu-deepsea-aquarium, src: /photos/numazu-deepsea-aquarium.jpg, alt: The Numazu deep-sea aquarium by the port, credit: via source, creditUrl: https://commons.wikimedia.org/wiki/File:Numazu_20190812150214_(49844582111).jpg, license: see source }
-- { id: ph-numazu-sunvalley, subject: numazu-sunvalley, src: /photos/stay-numazu-sunvalley.jpg, alt: The hinoki bath hall at Hotel Sun Valley, credit: via source, creditUrl: https://izu3800.jp/, license: see source }
-- { id: ph-numazu-innthepark, subject: numazu-innthepark, src: /photos/stay-numazu-innthepark.jpg, alt: A suspended sphere tent at INN THE PARK, credit: via source, creditUrl: https://www.innthepark.jp/, license: see source }
-- { id: ph-numazu-ufufu, subject: numazu-ufufu, src: /photos/stay-numazu-ufufu.jpg, alt: A dome at UFUFU Village, credit: via source, creditUrl: https://ufufu-village.jp/, license: see source }
 - { id: ph-n-rakuju, subject: n-rakuju, src: /photos/rakuju-en.jpg, alt: Animals at Rakuju-en park, credit: via source, creditUrl: https://commons.wikimedia.org/wiki/File:Mishima,_20110918_a.jpg, license: see source }
 - { id: ph-n-deepsea, subject: n-deepsea, src: /photos/numazu-deepsea-aquarium.jpg, alt: The Numazu deep-sea aquarium, credit: via source, creditUrl: https://commons.wikimedia.org/wiki/File:Numazu_20190812150214_(49844582111).jpg, license: see source }
 - { id: ph-n-genbe, subject: n-genbe, src: /photos/genbe-gawa.jpg, alt: Wading the Genbe-gawa stream, credit: via source, creditUrl: https://commons.wikimedia.org/wiki/File:Genbei_River_2011-09-18_(a).jpg, license: see source }
@@ -164,3 +161,23 @@
 - { id: ph-nt-skywalk, subject: nt-skywalk, src: /photos/mishima-skywalk.jpg, alt: The Mishima Skywalk, credit: via source, creditUrl: https://commons.wikimedia.org/wiki/File:Mishima_Skywalk_North_Facade2023.jpg, license: see source }
 - { id: ph-pc-mishima-tokaido, subject: pc-mishima-tokaido, src: /photos/mishima-taisha.jpg, alt: Mishima, an old Tokaido post town, credit: via source, creditUrl: https://commons.wikimedia.org/wiki/File:Mishima-taisha_Honden.jpg, license: see source }
 - { id: ph-pc-numazu-lovelive, subject: pc-numazu-lovelive, src: /photos/numazu-port.jpg, alt: Numazu port, the Love Live Sunshine setting, credit: via source, creditUrl: https://commons.wikimedia.org/wiki/File:Kaisendon_(15650467898).jpg, license: see source }
+
+# ── Numazu lodging interior galleries (carousel, room-first) ──
+- { id: ph-numazu-sunvalley-1, subject: numazu-sunvalley, src: /photos/stay-numazu-sunvalley-1.jpg, alt: A Japanese guest room at Hotel Sun Valley, credit: via source, creditUrl: https://www.jalan.net/yad345636/, license: see source }
+- { id: ph-numazu-sunvalley-2, subject: numazu-sunvalley, src: /photos/stay-numazu-sunvalley-2.jpg, alt: The hinoki hot-spring bath hall, credit: via source, creditUrl: https://www.jalan.net/yad345636/, license: see source }
+- { id: ph-numazu-sunvalley-3, subject: numazu-sunvalley, src: /photos/stay-numazu-sunvalley-3.jpg, alt: The reservable open-air private baths, credit: via source, creditUrl: https://www.jalan.net/yad345636/, license: see source }
+- { id: ph-numazu-sunvalley-4, subject: numazu-sunvalley, src: /photos/stay-numazu-sunvalley-4.jpg, alt: The buffet dining hall, credit: via source, creditUrl: https://www.jalan.net/yad345636/, license: see source }
+- { id: ph-numazu-innthepark-1, subject: numazu-innthepark, src: /photos/stay-numazu-innthepark-1.jpg, alt: A cottage room at INN THE PARK, credit: via source, creditUrl: https://www.innthepark.jp/, license: see source }
+- { id: ph-numazu-innthepark-2, subject: numazu-innthepark, src: /photos/stay-numazu-innthepark-2.jpg, alt: Inside a suspended sphere tent, credit: via source, creditUrl: https://www.innthepark.jp/, license: see source }
+- { id: ph-numazu-innthepark-3, subject: numazu-innthepark, src: /photos/stay-numazu-innthepark-3.jpg, alt: The public bathhouse, credit: via source, creditUrl: https://www.innthepark.jp/, license: see source }
+- { id: ph-numazu-ufufu-1, subject: numazu-ufufu, src: /photos/stay-numazu-ufufu-1.jpg, alt: A glamping dome interior at UFUFU Village, credit: via source, creditUrl: https://ufufu-village.jp/, license: see source }
+- { id: ph-numazu-ufufu-2, subject: numazu-ufufu, src: /photos/stay-numazu-ufufu-2.jpg, alt: An oval dome with twin beds, credit: via source, creditUrl: https://ufufu-village.jp/, license: see source }
+- { id: ph-numazu-ufufu-3, subject: numazu-ufufu, src: /photos/stay-numazu-ufufu-3.jpg, alt: The reservable private onsen bath, credit: via source, creditUrl: https://ufufu-village.jp/, license: see source }
+- { id: ph-numazu-ufufu-4, subject: numazu-ufufu, src: /photos/stay-numazu-ufufu-4.jpg, alt: The public bath at UFUFU, credit: via source, creditUrl: https://ufufu-village.jp/, license: see source }
+
+# ── Filling the photo-less cards ──
+- { id: ph-mito-sea-paradise, subject: mito-sea-paradise, src: /photos/mito-sea-paradise.jpg, alt: The marine-mammal tank at Izu Mito Sea Paradise, credit: via source, creditUrl: https://www.mitosea.com/, license: see source }
+- { id: ph-n-mito, subject: n-mito, src: /photos/mito-sea-paradise.jpg, alt: The marine-mammal tank at Izu Mito Sea Paradise, credit: via source, creditUrl: https://www.mitosea.com/, license: see source }
+- { id: ph-n-lalaport, subject: n-lalaport, src: /photos/lalaport.jpg, alt: The indoor digital ball-pool at LaLaport Numazu, credit: via source, creditUrl: https://litpla.com/space/litpla_numazu/, license: see source }
+- { id: ph-atami-yushima-jazz, subject: atami-yushima-jazz, src: /photos/yushima-jazz.jpg, alt: The bright-yellow front of the Yushima jazz kissaten, credit: via source, creditUrl: https://www.kamometomachi.com/yushima-jazz, license: see source }
+- { id: ph-k-chitetsu, subject: k-chitetsu, src: /photos/alps-express.jpg, alt: The Alps Express sightseeing train, credit: via source, creditUrl: https://commons.wikimedia.org/wiki/File:Chitetsu_Alpen-Exp_16010.jpg, license: see source }
