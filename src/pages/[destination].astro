@@ -74,6 +74,14 @@ const nav = [
 
 const srcLink = 'whitespace-nowrap text-stone-400 underline decoration-stone-300 underline-offset-2 hover:text-stone-700';
 const section = 'mt-8 scroll-mt-20';
+// On a phone a card collection is a horizontal swipe-shelf (cards ~78% wide, the
+// next peeks) so the section is one card tall and you can see several headers at
+// once; at sm+ it reflows to the normal grid. Keeps breadth visible, not spacing.
+const shelf =
+  '-mx-4 flex snap-x snap-mandatory gap-3 overflow-x-auto px-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden [&>*]:w-[78%] [&>*]:shrink-0 [&>*]:snap-start sm:mx-0 sm:grid sm:gap-3 sm:overflow-visible sm:px-0 sm:[&>*]:w-auto';
+// Photos are smaller, so the shelf shows ~2.3 thumbnails at a time.
+const shelfPhotos =
+  '-mx-4 flex snap-x snap-mandatory gap-2 overflow-x-auto px-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden [&>*]:w-[42%] [&>*]:shrink-0 [&>*]:snap-start sm:mx-0 sm:grid sm:grid-cols-3 sm:gap-2 sm:overflow-visible sm:px-0 sm:[&>*]:w-auto md:grid-cols-4';
 // A walkability chip: amber when it needs a train/bus/car, calm when it's a walk.
 const accessChip = (a?: string) =>
   a?.includes('needs') ? 'bg-amber-50 text-amber-700' : 'bg-stone-100 text-stone-500';
@@ -132,7 +140,7 @@ const locateBtn = 'cursor-pointer border border-stone-300 text-stone-600 hover:b
     journeys.length > 0 && (
       <section id="getting-there" class={section}>
         <h2 class="m-0 mb-3 text-lg font-semibold text-stone-900">Getting there from Shibuya</h2>
-        <div class="grid gap-3 sm:grid-cols-2">
+        <div class={`${shelf} sm:grid-cols-2`}>
           {journeys.map((j) => (
             <div class="rounded-xl border border-stone-200 bg-white px-4 py-3">
               <p class="m-0 text-[15px] font-medium text-stone-900">{j.data.label}</p>
@@ -239,7 +247,7 @@ const locateBtn = 'cursor-pointer border border-stone-300 text-stone-600 hover:b
     restaurants.length > 0 && (
       <section id="eat" class={section}>
         <h2 class="m-0 mb-3 text-lg font-semibold text-stone-900">Restaurants · {restaurants.length}</h2>
-        <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+        <div class={`${shelf} sm:grid-cols-2 lg:grid-cols-3`}>
           {restaurants.map(({ poi, photo }) => (
             <div class="overflow-hidden rounded-xl border border-stone-200 bg-white">
               {photo && <img src={photo.data.src} alt={photo.data.alt} loading="lazy" class="aspect-[16/10] w-full object-cover" />}
@@ -269,7 +277,7 @@ const locateBtn = 'cursor-pointer border border-stone-300 text-stone-600 hover:b
     kids.length > 0 && (
       <section id="kids" class={section}>
         <h2 class="m-0 mb-3 text-lg font-semibold text-stone-900">With a three-year-old · {kids.length}</h2>
-        <div class="grid gap-2.5 sm:grid-cols-2">
+        <div class={`${shelf} sm:grid-cols-2`}>
           {kids.map((k) => {
             const photo = photoBySubject.get(k.id);
             return (
@@ -298,7 +306,7 @@ const locateBtn = 'cursor-pointer border border-stone-300 text-stone-600 hover:b
     cafes.length > 0 && (
       <section id="cafes" class={section}>
         <h2 class="m-0 mb-3 text-lg font-semibold text-stone-900">Cafes &amp; kissaten · {cafes.length}</h2>
-        <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+        <div class={`${shelf} sm:grid-cols-2 lg:grid-cols-3`}>
           {cafes.map(({ poi, photo }) => (
             <div class="overflow-hidden rounded-xl border border-stone-200 bg-white">
               {photo && <img src={photo.data.src} alt={photo.data.alt} loading="lazy" class="aspect-[16/10] w-full object-cover" />}
@@ -324,7 +332,7 @@ const locateBtn = 'cursor-pointer border border-stone-300 text-stone-600 hover:b
     gallery.length > 0 && (
       <section id="photos" class={section}>
         <h2 class="m-0 mb-3 text-lg font-semibold text-stone-900">Photos · {gallery.length}</h2>
-        <div class="grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4">
+        <div class={shelfPhotos}>
           {gallery.map((p) => (
             <figure class="m-0 overflow-hidden rounded-xl border border-stone-200 bg-white">
               <img src={p.data.src} alt={p.data.alt} loading="lazy" class="aspect-[4/3] w-full object-cover" />
@@ -341,7 +349,7 @@ const locateBtn = 'cursor-pointer border border-stone-300 text-stone-600 hover:b
     todo.length > 0 && (
       <section id="more" class={section}>
         <h2 class="m-0 mb-3 text-lg font-semibold text-stone-900">More to do · {todo.length}</h2>
-        <div class="grid gap-2.5 sm:grid-cols-2">
+        <div class={`${shelf} sm:grid-cols-2`}>
           {todo.map((t) => {
             const photo = photoBySubject.get(t.id);
             return (
@@ -370,7 +378,7 @@ const locateBtn = 'cursor-pointer border border-stone-300 text-stone-600 hover:b
     popculture.length > 0 && (
       <section id="culture" class={section}>
         <h2 class="m-0 mb-3 text-lg font-semibold text-stone-900">You might know it from</h2>
-        <div class="grid gap-2.5 sm:grid-cols-2">
+        <div class={`${shelf} sm:grid-cols-2`}>
           {popculture.map((p) => {
             const photo = photoBySubject.get(p.id);
             return (
@@ -397,7 +405,7 @@ const locateBtn = 'cursor-pointer border border-stone-300 text-stone-600 hover:b
     neat.length > 0 && (
       <section id="neat" class={section}>
         <h2 class="m-0 mb-3 text-lg font-semibold text-stone-900">Neat stuff I found</h2>
-        <div class="grid gap-2.5 sm:grid-cols-2">
+        <div class={`${shelf} sm:grid-cols-2`}>
           {neat.map((n) => {
             const photo = photoBySubject.get(n.id);
             return (

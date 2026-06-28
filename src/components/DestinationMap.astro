@@ -96,7 +96,7 @@ const tileBtn =
   </div>
 
   {/* Map + list region: phone = map with a draggable sheet; desktop = two-pane. */}
-  <div class="relative h-[70vh] overflow-hidden rounded-2xl border border-stone-200 md:grid md:h-auto md:grid-cols-[1fr_22rem] md:gap-4 md:overflow-visible md:rounded-none md:border-0">
+  <div class="relative h-[58vh] overflow-hidden rounded-2xl border border-stone-200 md:grid md:h-auto md:grid-cols-[1fr_22rem] md:gap-4 md:overflow-visible md:rounded-none md:border-0">
     {
       hasKey ? (
         <div data-map class="absolute inset-0 bg-stone-100 md:static md:h-[70vh] md:rounded-2xl md:border md:border-stone-200" />
@@ -110,7 +110,7 @@ const tileBtn =
     {/* Bottom sheet (phone) / right rail (desktop). */}
     <div
       data-sheet
-      class="absolute inset-x-0 bottom-0 z-10 flex h-[58vh] flex-col rounded-t-2xl border-t border-stone-200 bg-white shadow-[0_-8px_24px_rgba(0,0,0,0.08)] will-change-transform md:static md:h-[70vh] md:translate-y-0 md:rounded-none md:border-0 md:shadow-none"
+      class="absolute inset-x-0 bottom-0 z-10 flex h-[46vh] flex-col rounded-t-2xl border-t border-stone-200 bg-white shadow-[0_-8px_24px_rgba(0,0,0,0.08)] will-change-transform md:static md:h-[70vh] md:translate-y-0 md:rounded-none md:border-0 md:shadow-none"
     >
       <button data-sheet-handle type="button" aria-label="Expand the place list" class="shrink-0 cursor-grab touch-none select-none pt-2 pb-1 md:hidden">
         <span class="mx-auto block h-1 w-10 rounded-full bg-stone-300" />
