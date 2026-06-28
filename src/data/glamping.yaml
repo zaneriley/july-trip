@@ -6,6 +6,8 @@
   name: "Izu Shaboten Village glamping"
   nameJa: "伊豆シャボテンヴィレッジ"
   area: "Izu Kogen, Shizuoka — base of Mt Omuro"
+  lat: 34.9069
+  lng: 139.0959
   type: glamping
   order: 1
   capacity: "Japanese-style dome, holds 2–6 — fits the group"
@@ -23,6 +25,8 @@
   name: "Grand Dome Fuji Oshino"
   nameJa: "グランドーム富士忍野"
   area: "Oshino, Yamanashi — near Lake Yamanaka"
+  lat: 35.4585
+  lng: 138.834
   type: glamping
   order: 2
   capacity: "Domes hold 2–5; a villa holds up to 6"
@@ -40,6 +44,8 @@
   name: "Glam Aira Izukogen"
   nameJa: "グランアイラ伊豆高原"
   area: "Izu Kogen / Ito, Shizuoka"
+  lat: 34.905
+  lng: 139.095
   type: glamping
   order: 3
   capacity: "An 8m dome — the Suite holds 8, the Deluxe 6; book one of those"
@@ -57,6 +63,8 @@
   name: "Grand Dome Chiba Futtsu"
   nameJa: "グランドーム千葉富津"
   area: "Futtsu, Chiba — the Boso coast"
+  lat: 35.27
+  lng: 139.85
   type: glamping
   order: 4
   capacity: "A 4-bed dome holds 5 with an added mattress"
@@ -74,6 +82,8 @@
   name: "Akagi Glamping Village"
   nameJa: "赤城グランピングヴィレッジ"
   area: "Maebashi, Gunma — Ogikubo Park foothills"
+  lat: 36.428
+  lng: 139.095
   type: glamping
   order: 5
   capacity: "Suite Dome holds 2–6 — fits the group"
@@ -91,6 +101,8 @@
   name: "Tsumugi Kawaguchiko"
   nameJa: "天空の温泉ヴィラ紬"
   area: "Lake Kawaguchi north shore (Oishi), Yamanashi"
+  lat: 35.527
+  lng: 138.748
   type: glamping
   order: 6
   capacity: "Book the Suite Villa (holds 6); the standard villa caps at 4"
@@ -108,6 +120,8 @@
   name: "Shuzenji Forest cottages"
   nameJa: "修善寺フォーレスト"
   area: "Shuzenji, Izu, Shizuoka"
+  lat: 34.965
+  lng: 138.925
   type: cabin
   order: 7
   capacity: "A terrace-onsen cottage holds 2–5; a larger cottage up to 10"

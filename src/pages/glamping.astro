@@ -1,5 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
+import GlampingMap from '../components/GlampingMap.astro';
 import { getCollection } from 'astro:content';
 
 // A low-priority browse list of other glamping & cabins near Tokyo — not part of
@@ -36,12 +37,16 @@ const srcLink = 'text-stone-400 underline decoration-stone-300 underline-offset-
     </p>
   </header>
 
+  {/* Locator map — numbered pins match the numbered cards; Tokyo is the red pin. */}
+  <GlampingMap venues={venues.map((v) => ({ id: v.id, name: v.data.name, lat: v.data.lat, lng: v.data.lng, transitTime: v.data.transitTime, order: v.data.order }))} />
+  <p class="mb-5 mt-2 text-[12px] text-stone-400">Numbered to match the cards below; Tokyo is the red pin. Pins are approximate.</p>
+
   <div class="grid gap-4 sm:grid-cols-2">
     {
       venues.map((v) => {
         const imgs = photosBySubject.get(v.id) ?? [];
         return (
-          <div class="overflow-hidden rounded-2xl border border-stone-200 bg-white">
+          <div id={v.id} class="scroll-mt-4 overflow-hidden rounded-2xl border border-stone-200 bg-white">
             {imgs.length > 0 && (
               <div class="relative">
                 <div class="flex snap-x snap-mandatory gap-1 overflow-x-auto [-webkit-overflow-scrolling:touch] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
@@ -63,8 +68,9 @@ const srcLink = 'text-stone-400 underline decoration-stone-300 underline-offset-
             )}
 
             <div class="px-4 py-3.5">
-              <div class="flex items-baseline justify-between gap-2">
-                <a href={v.data.source.url} target="_blank" rel="noopener noreferrer" class="text-[16px] font-semibold text-stone-900 underline decoration-stone-300 underline-offset-2 hover:text-stone-950">
+              <div class="flex items-baseline gap-2">
+                <span class="inline-flex h-5 w-5 shrink-0 items-center justify-center self-center rounded-full bg-emerald-600 text-[11px] font-semibold text-white">{v.data.order}</span>
+                <a href={v.data.source.url} target="_blank" rel="noopener noreferrer" class="flex-1 text-[16px] font-semibold text-stone-900 underline decoration-stone-300 underline-offset-2 hover:text-stone-950">
                   {v.data.name}
                 </a>
                 <span class="shrink-0 rounded-full bg-stone-100 px-2 py-0.5 text-[11px] text-stone-500">{v.data.type}</span>

@@ -1,0 +1,115 @@
+---
+/*
+  A simple locator map for the glamping browse list — it places the venues
+  in-situ around Tokyo so the geographic spread reads (Izu south, Fuji west,
+  Chiba east, Gunma north). Numbered pins match the numbered cards below; the
+  origin (Tokyo) is a red pin. No key → a note; the cards still work.
+*/
+interface Venue {
+  id: string;
+  name: string;
+  lat: number;
+  lng: number;
+  transitTime: string;
+  order: number;
+}
+interface Props {
+  venues: Venue[];
+}
+const { venues } = Astro.props;
+const apiKey = import.meta.env.PUBLIC_GOOGLE_MAPS_API_KEY ?? '';
+const hasKey = apiKey.length > 0;
+const origin = { name: 'Tokyo', lat: 35.681, lng: 139.767 };
+const data = venues.map((v) => ({ id: v.id, name: v.name, lat: v.lat, lng: v.lng, transit: v.transitTime, n: v.order }));
+---
+
+{
+  hasKey ? (
+    <div
+      data-gmap
+      data-origin={JSON.stringify(origin)}
+      data-venues={JSON.stringify(data)}
+      class="h-72 w-full rounded-2xl border border-stone-200 bg-stone-100 sm:h-80 md:h-[26rem]"
+    />
+  ) : (
+    <div class="flex h-72 w-full items-center justify-center rounded-2xl border border-stone-200 bg-stone-100 px-6 text-center text-sm text-stone-500 sm:h-80 md:h-[26rem]">
+      the map needs a Google Maps key — the list below works without it
+    </div>
+  )
+}
+
+<script>
+  const KEY = import.meta.env.PUBLIC_GOOGLE_MAPS_API_KEY ?? '';
+
+  let mapsPromise: Promise<void> | null = null;
+  function loadMaps(): Promise<void> {
+    if (mapsPromise) return mapsPromise;
+    mapsPromise = new Promise((resolve, reject) => {
+      const s = document.createElement('script');
+      s.src = `https://maps.googleapis.com/maps/api/js?key=${KEY}&v=weekly`;
+      s.async = true;
+      s.onload = () => resolve();
+      s.onerror = reject;
+      document.head.appendChild(s);
+    });
+    return mapsPromise;
+  }
+
+  type V = { id: string; name: string; lat: number; lng: number; transit: string; n: number };
+
+  async function init(el: HTMLElement) {
+    const origin = JSON.parse(el.dataset.origin ?? '{}');
+    const venues: V[] = JSON.parse(el.dataset.venues ?? '[]');
+    await loadMaps();
+    const g = (window as any).google;
+    const map = new g.maps.Map(el, { mapTypeControl: false, streetViewControl: false, gestureHandling: 'greedy' });
+    const info = new g.maps.InfoWindow();
+    const bounds = new g.maps.LatLngBounds();
+
+    // Origin: a default red pin so it reads as "you start here".
+    const om = new g.maps.Marker({ position: { lat: origin.lat, lng: origin.lng }, map, title: 'Tokyo — start' });
+    bounds.extend(om.getPosition());
+
+    for (const v of venues) {
+      const marker = new g.maps.Marker({
+        position: { lat: v.lat, lng: v.lng },
+        map,
+        title: `${v.n}. ${v.name}`,
+        label: { text: String(v.n), color: '#ffffff', fontSize: '12px', fontWeight: '600' },
+        icon: { path: g.maps.SymbolPath.CIRCLE, scale: 12, fillColor: '#059669', fillOpacity: 0.95, strokeColor: '#ffffff', strokeWeight: 2 },
+      });
+      marker.addListener('click', () => {
+        info.setContent(
+          `<div style="font:14px/1.45 system-ui,sans-serif;max-width:220px">
+             <strong>${v.n}. ${v.name}</strong><br>
+             <span style="color:#555">${v.transit} from Tokyo</span><br>
+             <a href="#${v.id}">details below ↓</a>
+           </div>`,
+        );
+        info.open(map, marker);
+      });
+      bounds.extend(marker.getPosition());
+    }
+
+    if (!bounds.isEmpty()) {
+      map.fitBounds(bounds, 56);
+      g.maps.event.addListenerOnce(map, 'idle', () => { if (map.getZoom() > 10) map.setZoom(map.getZoom()); });
+    }
+  }
+
+  const el = document.querySelector<HTMLElement>('[data-gmap]');
+  if (el) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          if (e.isIntersecting) {
+            observer.disconnect();
+            init(el).catch(() => { el.textContent = 'the map could not load — check the API key and signal'; });
+          }
+        }
+      },
+      { rootMargin: '200px' },
+    );
+    observer.observe(el);
+  }
+</script>

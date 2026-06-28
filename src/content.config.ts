@@ -320,6 +320,8 @@ const glamping = defineCollection({
     area: z.string(),
     type: z.string(), // glamping | cabin
     order: z.number().default(0),
+    lat: z.number(),
+    lng: z.number(),
     capacity: z.string(),
     ac: z.string(),
     bath: z.string(),
