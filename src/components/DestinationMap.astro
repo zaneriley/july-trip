@@ -29,7 +29,7 @@ const apiKey = import.meta.env.PUBLIC_GOOGLE_MAPS_API_KEY ?? '';
 const hasKey = apiKey.length > 0;
 
 // The station you arrive at and orient around, per city.
-const baseStationId: Record<string, string> = { kurobe: 'unazuki-onsen-station', atami: 'atami-station' };
+const baseStationId: Record<string, string> = { kurobe: 'unazuki-onsen-station', atami: 'atami-station', numazu: 'mishima-station' };
 const baseId = baseStationId[destinationId] ?? '';
 
 const categoriesPresent = Object.keys(CATEGORY_META).filter((cat) => pois.some((p) => p.data.category === cat));

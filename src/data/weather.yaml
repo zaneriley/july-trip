@@ -34,3 +34,19 @@
       value: Swimmable, but the beach season opens July 11 — it's a stroll, not a swim, on these dates.
       sourceLabel: Atami Tourism Association
       sourceUrl: https://www.ataminews.gr.jp/event/142
+
+- destination: numazu
+  headline: Rainy season, warm and humid by Suruga Bay
+  rows:
+    - label: rainy season
+      value: Mid-tsuyu — the Tokai rainy season normally ends about July 19, so July 3 to 5 is the wet, muggy heart of it. Pack rain gear and indoor backups.
+      sourceLabel: japan-guide / JMA
+      sourceUrl: https://www.japan-guide.com/e/e2277.html
+    - label: temperature
+      value: Warm and humid — about 30°C high, 76% humidity (Mishima July normal).
+      sourceLabel: JMA normals
+      sourceUrl: https://www.data.jma.go.jp/stats/etrn/view/nml_sfc_ym.php?prec_no=50&block_no=47657
+    - label: the sea
+      value: Suruga Bay is about 22 to 24°C, and the city beach (Senbonhama) opens in August — so the coast is for the port, not a swim.
+      sourceLabel: Numazu tourism
+      sourceUrl: https://www.numazukanko.jp/

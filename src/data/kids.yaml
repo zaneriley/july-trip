@@ -88,3 +88,47 @@
   fit: caution
   order: 6
   source: { label: Atami Tourism Association, url: https://www.ataminews.gr.jp/spot/142 }
+
+# Numazu & Mishima
+- id: n-mito
+  destination: numazu
+  name: Izu Mito Sea Paradise
+  note: A Suruga Bay aquarium with a roofed show stadium and an indoor ball-pool and trampoline corner — the best rainy-day half-day, a direct bus from Numazu, free under 4.
+  fit: good
+  order: 1
+  source: { label: Mito Sea Paradise, url: https://www.mitosea.com/ }
+- id: n-deepsea
+  destination: numazu
+  name: Numazu Deep-Sea Aquarium
+  note: Fully indoor by the port — deep-sea oddities and a coelacanth, a rain-proof 30 to 45 minute stop, and the seafood port is right there.
+  fit: good
+  order: 2
+  source: { label: Numazu Deep-Sea Aquarium, url: https://www.numazu-deepsea.com/ }
+- id: n-lalaport
+  destination: numazu
+  name: Indoor play at LaLaport Numazu
+  note: A free indoor kids' park (trampolines, ball pool, slide) on the mall's third floor, plus a digital-play space — all-weather energy-burn, a direct bus from Numazu.
+  fit: good
+  order: 3
+  source: { label: LittlePlanet Numazu, url: https://litpla.com/space/litpla_numazu/ }
+- id: n-rakuju
+  destination: numazu
+  name: Rakuju-en park animals
+  note: A spring-fed park three minutes from Mishima station with alpacas, capybara and a small ride area — free for kids, with covered rest houses for a shower.
+  fit: good
+  order: 4
+  source: { label: Mishima City, url: https://www.city.mishima.shizuoka.jp/site/rakujyuen/5429.html }
+- id: n-genbe
+  destination: numazu
+  name: Wading the Genbe-gawa stream
+  note: Stepping-stones and icy spring water through town — lovely on a dry summer day, but the level rises and the stones submerge after rain, so skip it when it's wet.
+  fit: caution
+  order: 5
+  source: { label: Mishima tourism, url: https://www.mishima-kankou.com/feature/5999/ }
+- id: n-skywalk
+  destination: numazu
+  name: The Skywalk dinosaur maze
+  note: A dinosaur maze for ages three and up at the suspension bridge — but it's open-air, the Fuji view vanishes in cloud, and umbrellas are banned on the bridge. A dry-day pick.
+  fit: caution
+  order: 6
+  source: { label: Mishima Skywalk, url: https://mishima-skywalk.jp/activities/dinosaur/ }

@@ -73,3 +73,19 @@
   title: 「綺麗にしてもらえますか。」, 2026
   note: A current TV anime set in Atami — the station, the Ieyasu footbath, the Heiwa-dori arcade.
   source: { label: Anime pilgrimage DB, url: https://anime-tourism.jp/r/Shizuoka/Atami/ }
+
+# Numazu & Mishima
+- id: pc-numazu-lovelive
+  destination: numazu
+  order: 1
+  medium: anime
+  title: Love Live! Sunshine!!
+  note: The hugely popular idol anime is set in Numazu and nearby Uchiura — the town is a major pilgrimage spot, with the group's posters, manhole covers and collaborations around the port and station.
+  source: { label: Official (Aqours), url: https://lovelive-anime.jp/uranohoshi/ }
+- id: pc-mishima-tokaido
+  destination: numazu
+  order: 2
+  medium: history
+  title: The eleventh Tokaido post town
+  note: Mishima was the eleventh station on the old Tokaido highway and the gateway to the Hakone pass; the shrine and the spring streams are remnants of that road-town past.
+  source: { label: Mishima tourism, url: https://www.mishima-kankou.com/ }

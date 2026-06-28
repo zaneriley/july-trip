@@ -700,3 +700,255 @@
   reservation: "walk-in"
   source: { url: https://tabelog.com/en/toyama/A1601/A160101/16000038/, type: tabelog }
   coordsUnverified: true
+
+# ─── Numazu & Mishima (base: Mishima station) ────────────────────────────────
+- id: mishima-station
+  name: Mishima Station
+  category: train-stop
+  lat: 35.1265
+  lng: 138.9109
+  reach: walk
+  note: The Tokaido Shinkansen stop and the base for both towns — Mishima's sights are on foot, Numazu is one local stop on.
+  destination: numazu
+  accessFromStation: "the base station"
+  source: { url: https://en.wikipedia.org/wiki/Mishima_Station, type: wikimedia }
+  coordsUnverified: true
+
+- id: numazu-station
+  name: Numazu Station
+  category: train-stop
+  lat: 35.0991
+  lng: 138.8636
+  reach: train
+  note: The hub for Numazu's food and the port, one local stop from Mishima.
+  destination: numazu
+  accessFromStation: "one stop from Mishima"
+  source: { url: https://en.wikipedia.org/wiki/Numazu_Station, type: wikimedia }
+  coordsUnverified: true
+
+- id: numazu-port
+  name: Numazu Port (沼津港)
+  category: neighborhood
+  lat: 35.0883
+  lng: 138.8540
+  reach: bus
+  note: Numazu's working fishing port — seafood restaurants, himono stalls and the deep-sea aquarium, about ten minutes by bus from the station.
+  destination: numazu
+  accessFromStation: "about 10 min by bus from Numazu station"
+  source: { url: https://numazuminato.com/, type: tourism-board }
+  coordsUnverified: true
+
+- id: sakuraya
+  name: Unagi Sakuraya (うなぎ 桜家)
+  category: food
+  lat: 35.1192
+  lng: 138.9128
+  reach: walk
+  note: Mishima's iconic charcoal-grilled eel house, founded around 1856 — a high-ceilinged wooden hall with broad tatami. The catch is the weekend queue (phone ahead for a ticket).
+  destination: numazu
+  accessFromStation: "Mishima Hirokoji — about 12 min walk"
+  rating: "3.70"
+  priceBand: "¥4–5k"
+  closedDay: "Wed"
+  reservation: "queues"
+  source: { url: https://tabelog.com/shizuoka/A2205/A220501/22000127/, type: tabelog }
+  coordsUnverified: true
+
+- id: suminobo
+  name: Unagi Suminobo (うなぎ すみの坊 本町店)
+  category: food
+  lat: 35.1196
+  lng: 138.9159
+  reach: walk
+  note: An eel shinise from 1958, rested in Mishima's cold spring water; renovated into a roomy space with private table rooms and reservations — the calm alternative to Sakuraya.
+  destination: numazu
+  accessFromStation: "Honmachi — about 13 min walk"
+  rating: "3.55"
+  priceBand: "¥5–6k"
+  closedDay: "none"
+  reservation: "reserve"
+  source: { url: https://tabelog.com/shizuoka/A2205/A220501/22039644/, type: tabelog }
+  coordsUnverified: true
+
+- id: nishiyo
+  name: Nishiyo (にし与)
+  category: food
+  lat: 35.0875
+  lng: 138.8530
+  reach: bus
+  note: A port workers' canteen open from dawn — Suruga Bay sashimi and oddball set meals at canteen prices, the best value of the port. Cash only.
+  destination: numazu
+  accessFromStation: "Numazu port — about 10 min by bus"
+  rating: "3.55"
+  priceBand: "¥1–2k"
+  closedDay: "Wed & Thu"
+  reservation: "queues"
+  source: { url: https://tabelog.com/shizuoka/A2205/A220501/22000754/, type: tabelog }
+  coordsUnverified: true
+
+- id: maruten-minato
+  name: Uogashi Maruten, Minato (魚河岸 丸天 みなと店)
+  category: food
+  lat: 35.0883
+  lng: 138.8541
+  reach: bus
+  note: The port's landmark since 1966, known for a tower of a seafood kakiage donburi; the Minato branch takes reservations, unlike its queue-only rivals.
+  destination: numazu
+  accessFromStation: "Numazu port — about 10 min by bus"
+  rating: "3.47"
+  priceBand: "¥2–3k"
+  closedDay: "Thu"
+  reservation: "reserve"
+  source: { url: https://tabelog.com/shizuoka/A2205/A220501/22031906/, type: tabelog }
+  coordsUnverified: true
+
+- id: futaba-zushi
+  name: Futaba Zushi (双葉寿司)
+  category: food
+  lat: 35.0870
+  lng: 138.8525
+  reach: bus
+  note: A 70-year port sushi-ya, now run by the fourth-generation master; counter nigiri of local fish — best at lunch, when it is far cheaper.
+  destination: numazu
+  accessFromStation: "Numazu port — about 10 min by bus"
+  rating: "3.50"
+  priceBand: "¥3–4k"
+  closedDay: "Tue"
+  reservation: "reserve"
+  source: { url: https://tabelog.com/shizuoka/A2205/A220501/22000088/, type: tabelog }
+  coordsUnverified: true
+
+- id: donguri
+  name: Donguri (甘味処 どんぐり)
+  category: kissaten
+  lat: 35.0991
+  lng: 138.8636
+  reach: train
+  note: A 40-year retro sweets parlour where parfaits float to your seat in little tubs on a flowing-water counter — a built-in show for a three-year-old.
+  destination: numazu
+  accessFromStation: "central Numazu — about 4 min from the station"
+  rating: "3.47"
+  priceBand: "¥1–2k"
+  closedDay: "Wed"
+  reservation: "walk-in"
+  source: { url: https://tabelog.com/shizuoka/A2205/A220501/22013657/, type: tabelog }
+  coordsUnverified: true
+
+- id: koln
+  name: Koln (喫茶と軽食 ケルン)
+  category: kissaten
+  lat: 35.1003
+  lng: 138.8617
+  reach: train
+  note: Numazu's oldest surviving kissaten, from 1935 — a tatami-room aesthetic, a pink payphone, and an old-style egg-yolk milkshake. A morning stop; it closes mid-afternoon.
+  destination: numazu
+  accessFromStation: "central Numazu — about 6 min from the station"
+  rating: "3.05"
+  priceBand: "~¥600"
+  closedDay: "Sun"
+  reservation: "walk-in"
+  source: { url: https://tabelog.com/shizuoka/A2205/A220501/22008772/, type: tabelog }
+  coordsUnverified: true
+
+- id: gemini
+  name: Gemini (ジェミニ)
+  category: kissaten
+  lat: 35.1255
+  lng: 138.9110
+  reach: walk
+  note: A 1982 Showa kissaten near Mishima station, revived in 2025 by the family after the master fell ill — milk-butter toast, egg sandwiches and cream soda.
+  destination: numazu
+  accessFromStation: "near Mishima station — about 5 min walk"
+  rating: "3.09"
+  priceBand: "¥1–2k"
+  closedDay: "Mon–Wed"
+  reservation: "walk-in"
+  source: { url: https://tabelog.com/shizuoka/A2205/A220501/22013566/, type: tabelog }
+  coordsUnverified: true
+
+- id: anliette
+  name: Anliette (喫茶あんりえっと)
+  category: kissaten
+  lat: 35.1235
+  lng: 138.9189
+  reach: walk
+  note: A Showa kissaten on the Mishima Taisha approach, reopened in 2025 with its vintage counter and a window record player; thick-noodle Napolitan on retro plates.
+  destination: numazu
+  accessFromStation: "Mishima Taisha approach — about 11 min walk"
+  priceBand: "~¥1k"
+  closedDay: "Tue"
+  reservation: "walk-in"
+  source: { url: https://wasabee.media/articles/15900150/, type: blog }
+  coordsUnverified: true
+
+- id: mishima-taisha
+  name: Mishima Taisha (三嶋大社)
+  category: sightseeing
+  lat: 35.1235
+  lng: 138.9189
+  reach: walk
+  note: A major old shrine a flat walk from the station, with a pair of sacred trees; the lively approach has street snacks and kissaten.
+  destination: numazu
+  accessFromStation: "about 10 min walk from Mishima station"
+  source: { url: https://www.mishimataisha.or.jp/, type: official }
+  coordsUnverified: true
+
+- id: genbe-gawa
+  name: Genbe-gawa stream (源兵衛川)
+  category: neighborhood
+  lat: 35.1210
+  lng: 138.9160
+  reach: walk
+  note: A spring-fed stream with stepping-stones running through the centre of Mishima — icy clear water and summer wading spots. Check the level after rain; it runs high and fast.
+  destination: numazu
+  accessFromStation: "about 12 min walk from Mishima station"
+  source: { url: https://www.mishima-kankou.com/feature/5999/, type: tourism-board }
+  coordsUnverified: true
+
+- id: rakuju-en
+  name: Rakuju-en park (楽寿園)
+  category: sightseeing
+  lat: 35.1230
+  lng: 138.9110
+  reach: walk
+  note: A spring-fed park three minutes from Mishima station with an animal corner (alpaca, capybara, red panda) and a small ride area — free for kids, with covered rest houses.
+  destination: numazu
+  accessFromStation: "about 3 min walk from Mishima station"
+  source: { url: https://www.city.mishima.shizuoka.jp/site/rakujyuen/5429.html, type: official }
+  coordsUnverified: true
+
+- id: numazu-deepsea-aquarium
+  name: Numazu Deep-Sea Aquarium (沼津港深海水族館)
+  category: sightseeing
+  lat: 35.0940
+  lng: 138.8570
+  reach: bus
+  note: The world's only coelacanth-themed aquarium, fully indoor by the port — deep-sea oddities, a rain-proof 30 to 45 minute stop.
+  destination: numazu
+  accessFromStation: "Numazu port — about 15 min by bus"
+  source: { url: https://www.numazu-deepsea.com/, type: official }
+  coordsUnverified: true
+
+- id: mito-sea-paradise
+  name: Izu Mito Sea Paradise (伊豆・三津シーパラダイス)
+  category: sightseeing
+  lat: 35.0180
+  lng: 138.8920
+  reach: bus
+  note: A Suruga Bay aquarium with a roofed show stadium and an indoor kids' play corner (ball pool, trampoline) — the best rainy-day half-day, a direct bus from Numazu.
+  destination: numazu
+  accessFromStation: "about 35 min by bus from Numazu station"
+  source: { url: https://www.mitosea.com/, type: official }
+  coordsUnverified: true
+
+- id: mishima-skywalk
+  name: Mishima Skywalk (三島スカイウォーク)
+  category: viewpoint
+  lat: 35.1080
+  lng: 138.9720
+  reach: bus
+  note: Japan's longest suspension footbridge, with a dinosaur maze for ages three and up; an open-air, Fuji-view spot — save it for a dry, clear day.
+  destination: numazu
+  accessFromStation: "about 25 min by bus from Mishima station"
+  source: { url: https://mishima-skywalk.jp/, type: official }
+  coordsUnverified: true

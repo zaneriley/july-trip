@@ -1,0 +1,50 @@
+from: Shibuya
+to: numazu-mishima
+label: by shinkansen (Kodama), on to Numazu
+legs:
+  - mode: local-train
+    service: Yamanote Line
+    from: Shibuya
+    to: Tokyo
+    durationMin:
+      value: 25
+      sources: [trip-com-shibuya-tokyo]
+    fareYen:
+      value: 200
+      sources: [trip-com-shibuya-tokyo]
+  - mode: shinkansen
+    service: Kodama
+    from: Tokyo
+    to: Mishima
+    durationMin:
+      value: 55
+      sources: [tokaido-mishima-fare]
+    fareYen:
+      value: 4070
+      sources: [tokaido-mishima-fare]
+  - mode: local-train
+    service: Tokaido Line
+    from: Mishima
+    to: Numazu
+    durationMin:
+      value: 6
+      sources: [tokaido-mishima-fare]
+    fareYen:
+      value: 190
+      sources: [tokaido-mishima-fare]
+totalDurationMin:
+  value: 86
+  sources: [tokaido-mishima-fare, trip-com-shibuya-tokyo]
+totalFareYen:
+  value: 4460
+  sources: [tokaido-mishima-fare, trip-com-shibuya-tokyo]
+seatNote: >-
+  Numazu has no shinkansen of its own — every Kodama stops at Mishima, then it is
+  one local stop on. Cheaper unreserved, but reserve in rainy-season crowds.
+verified: partially-verified
+caveat: >-
+  Times and fares are from a timetable aggregator, not a JR first-party page.
+  Confirm the day's timetable before booking.
+sources:
+  - tokaido-mishima-fare
+  - trip-com-shibuya-tokyo

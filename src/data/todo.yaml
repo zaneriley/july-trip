@@ -87,3 +87,33 @@
   name: Ocean Spa Fuua
   note: An infinity hot-spring over the bay, plus saunas and rock baths — a weather-proof half-day.
   source: { label: Atami Tourism Association, url: https://www.ataminews.gr.jp/spot/115 }
+
+# Numazu & Mishima
+- id: nt-port
+  destination: numazu
+  order: 1
+  tag: food
+  name: The Numazu port seafood walk
+  note: Numazu's working fish port — seafood bowls, himono stalls and the deep-sea aquarium, a compact stroll about ten minutes by bus from the station.
+  source: { label: Numazu Minato, url: https://numazuminato.com/ }
+- id: nt-taisha
+  destination: numazu
+  order: 2
+  tag: easy
+  name: Mishima Taisha and the spring streams
+  note: A major old shrine a flat walk from Mishima station, with sacred trees and a snack-lined approach, set among the town's clear spring channels.
+  source: { label: Mishima Taisha, url: https://www.mishimataisha.or.jp/ }
+- id: nt-kissaten
+  destination: numazu
+  order: 3
+  tag: retro
+  name: A Showa kissaten crawl
+  note: Both towns keep a run of Showa kissaten — Koln (1935), the floating-tub Donguri, the revived Gemini and Anliette — coffee, cream soda and Napolitan in time-warp rooms.
+  source: { label: at-S feature, url: https://www.at-s.com/life/article/ats/1011624.html }
+- id: nt-skywalk
+  destination: numazu
+  order: 4
+  tag: view
+  name: The Mishima Skywalk
+  note: Japan's longest suspension footbridge, with a Fuji view and a dinosaur maze — a clear-day excursion by bus from Mishima.
+  source: { label: Mishima Skywalk, url: https://mishima-skywalk.jp/ }

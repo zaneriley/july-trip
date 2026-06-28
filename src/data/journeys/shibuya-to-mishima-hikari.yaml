@@ -1,0 +1,42 @@
+from: Shibuya
+to: numazu-mishima
+label: by shinkansen (Hikari)
+legs:
+  - mode: local-train
+    service: Yamanote Line
+    from: Shibuya
+    to: Tokyo
+    durationMin:
+      value: 25
+      sources: [trip-com-shibuya-tokyo]
+    fareYen:
+      value: 200
+      sources: [trip-com-shibuya-tokyo]
+  - mode: shinkansen
+    service: Hikari
+    from: Tokyo
+    to: Mishima
+    durationMin:
+      value: 45
+      sources: [tokaido-mishima-fare]
+    fareYen:
+      value: 4600
+      sources: [tokaido-mishima-fare]
+totalDurationMin:
+  value: 70
+  sources: [tokaido-mishima-fare, trip-com-shibuya-tokyo]
+totalFareYen:
+  value: 4800
+  sources: [tokaido-mishima-fare, trip-com-shibuya-tokyo]
+seatNote: >-
+  Mishima is a Hikari and Kodama stop (Nozomi skips it), so it is one seated ride
+  with no change. Reserve seats to keep the four of you together; the three-year-old
+  rides free on a lap.
+verified: partially-verified
+caveat: >-
+  Times and fares are from a timetable aggregator, not a JR first-party page, and
+  the exact Hikari that stops at Mishima varies by hour — confirm the day's
+  timetable before booking.
+sources:
+  - tokaido-mishima-fare
+  - trip-com-shibuya-tokyo
