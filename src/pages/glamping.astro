@@ -1,0 +1,105 @@
+---
+import Base from '../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+
+// A low-priority browse list of other glamping & cabins near Tokyo — not part of
+// the three-way decision, linked quietly from the bottom of the home. Each card
+// carries multiple photos and the real public-transport route, time and cost,
+// because most of these are otherwise pitched only as "X minutes by car".
+const venues = (await getCollection('glamping')).sort((a, b) => a.data.order - b.data.order);
+
+const photos = await getCollection('photos');
+const photosBySubject = new Map<string, (typeof photos)[number][]>();
+for (const photo of photos) {
+  const list = photosBySubject.get(photo.data.subject) ?? [];
+  list.push(photo);
+  photosBySubject.set(photo.data.subject, list);
+}
+
+const srcLink = 'text-stone-400 underline decoration-stone-300 underline-offset-2 hover:text-stone-700';
+---
+
+<Base
+  title="Other glamping & cabins we found — July trip"
+  description="A side list of glamping and cabins near Tokyo, with photos and the real public-transport route, time and cost from Tokyo. Not part of the main three-way decision."
+  ogImage="/og/home.png"
+  wide={true}
+>
+  <header class="mb-6">
+    <a href="/" class="text-sm text-stone-500 hover:text-stone-800">← back to the three options</a>
+    <h1 class="mt-2 text-2xl font-semibold text-stone-900">Other glamping &amp; cabins we found</h1>
+    <p class="mt-2 max-w-2xl text-[15px] leading-relaxed text-stone-600">
+      A wider net, not part of the main decision — places where the stay is the point. Each shows the real
+      <span class="text-stone-800">public-transport route, time and cost from Tokyo</span> (these are usually
+      pitched "X minutes by car"). All have air-conditioning and fit the five of us in one booking; an in-unit
+      private bath is a bonus here, not a must.
+    </p>
+  </header>
+
+  <div class="grid gap-4 sm:grid-cols-2">
+    {
+      venues.map((v) => {
+        const imgs = photosBySubject.get(v.id) ?? [];
+        return (
+          <div class="overflow-hidden rounded-2xl border border-stone-200 bg-white">
+            {imgs.length > 0 && (
+              <div class="relative">
+                <div class="flex snap-x snap-mandatory gap-1 overflow-x-auto [-webkit-overflow-scrolling:touch] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                  {imgs.map((ph) => (
+                    <img
+                      src={ph.data.src}
+                      alt={ph.data.alt}
+                      loading="lazy"
+                      class={`aspect-[16/9] ${imgs.length > 1 ? 'w-[92%]' : 'w-full'} shrink-0 snap-start object-cover`}
+                    />
+                  ))}
+                </div>
+                {imgs.length > 1 && (
+                  <span class="pointer-events-none absolute right-2 top-2 rounded-full bg-black/55 px-2 py-0.5 text-[11px] font-medium text-white">
+                    {imgs.length} photos · swipe
+                  </span>
+                )}
+              </div>
+            )}
+
+            <div class="px-4 py-3.5">
+              <div class="flex items-baseline justify-between gap-2">
+                <a href={v.data.source.url} target="_blank" rel="noopener noreferrer" class="text-[16px] font-semibold text-stone-900 underline decoration-stone-300 underline-offset-2 hover:text-stone-950">
+                  {v.data.name}
+                </a>
+                <span class="shrink-0 rounded-full bg-stone-100 px-2 py-0.5 text-[11px] text-stone-500">{v.data.type}</span>
+              </div>
+              <p class="m-0 mt-0.5 text-[13px] text-stone-500">{v.data.area}</p>
+
+              {/* Public-transport reality — the thing that's usually hidden behind "by car". */}
+              <div class="mt-3 rounded-xl bg-stone-50 px-3 py-2.5">
+                <p class="m-0 text-[14px] font-semibold text-stone-900">
+                  From Tokyo · {v.data.transitTime} · {v.data.transitCost}
+                </p>
+                <p class="m-0 mt-1 text-[13px] leading-snug text-stone-600">{v.data.transitRoute}</p>
+                <p class="m-0 mt-1 text-[13px] italic leading-snug text-stone-500">{v.data.transitVerdict}</p>
+              </div>
+
+              <dl class="m-0 mt-3 grid grid-cols-[4.5rem_1fr] gap-x-3 gap-y-1.5 text-[13px] leading-snug">
+                <dt class="text-stone-400">room</dt>
+                <dd class="m-0 text-stone-700">{v.data.capacity}</dd>
+                <dt class="text-stone-400">price</dt>
+                <dd class="m-0 text-stone-700">{v.data.price}</dd>
+                <dt class="text-stone-400">bath</dt>
+                <dd class="m-0 text-stone-700">{v.data.bath}</dd>
+                <dt class="text-stone-400">cooling</dt>
+                <dd class="m-0 text-stone-700">{v.data.ac}</dd>
+                <dt class="text-stone-400">with a kid</dt>
+                <dd class="m-0 text-stone-700">{v.data.kidNote}</dd>
+              </dl>
+
+              <p class="m-0 mt-2.5 text-[12px]">
+                <a href={v.data.source.url} target="_blank" rel="noopener noreferrer" class={srcLink}>official site →</a>
+              </p>
+            </div>
+          </div>
+        );
+      })
+    }
+  </div>
+</Base>

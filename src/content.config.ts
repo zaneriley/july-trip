@@ -309,4 +309,28 @@ const lodging = defineCollection({
   }),
 });
 
-export const collections = { sources, destinations, places, journeys, pois, paths, photos, notes, kids, weather, todo, popculture, lodging };
+// Other glamping & cabins we found anywhere near Tokyo — a low-priority browse
+// list, not part of the main decision. Each carries its public-transport reality
+// (route, time, cost) because most are otherwise pitched as "X minutes by car".
+const glamping = defineCollection({
+  loader: file('./src/data/glamping.yaml'),
+  schema: z.object({
+    name: z.string(),
+    nameJa: z.string().optional(),
+    area: z.string(),
+    type: z.string(), // glamping | cabin
+    order: z.number().default(0),
+    capacity: z.string(),
+    ac: z.string(),
+    bath: z.string(),
+    price: z.string(),
+    kidNote: z.string(),
+    transitTime: z.string(),
+    transitCost: z.string(),
+    transitRoute: z.string(),
+    transitVerdict: z.string(),
+    source: z.object({ label: z.string(), url: z.url() }),
+  }),
+});
+
+export const collections = { sources, destinations, places, journeys, pois, paths, photos, notes, kids, weather, todo, popculture, lodging, glamping };

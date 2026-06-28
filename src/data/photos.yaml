@@ -181,3 +181,33 @@
 - { id: ph-n-lalaport, subject: n-lalaport, src: /photos/lalaport.jpg, alt: The indoor digital ball-pool at LaLaport Numazu, credit: via source, creditUrl: https://litpla.com/space/litpla_numazu/, license: see source }
 - { id: ph-atami-yushima-jazz, subject: atami-yushima-jazz, src: /photos/yushima-jazz.jpg, alt: The bright-yellow front of the Yushima jazz kissaten, credit: via source, creditUrl: https://www.kamometomachi.com/yushima-jazz, license: see source }
 - { id: ph-k-chitetsu, subject: k-chitetsu, src: /photos/alps-express.jpg, alt: The Alps Express sightseeing train, credit: via source, creditUrl: https://commons.wikimedia.org/wiki/File:Chitetsu_Alpen-Exp_16010.jpg, license: see source }
+
+# ── Other glamping & cabins (carousel; subject = glamping id) ──
+- { id: ph-g-shaboten-1, subject: g-shaboten, src: /photos/g-shaboten-1.webp, alt: Izu Shaboten Village dome and grounds, credit: via source, creditUrl: https://id-village.jp/glamping/, license: see source }
+- { id: ph-g-shaboten-2, subject: g-shaboten, src: /photos/g-shaboten-2.webp, alt: A glamping unit in the grounds, credit: via source, creditUrl: https://id-village.jp/glamping/, license: see source }
+- { id: ph-g-shaboten-3, subject: g-shaboten, src: /photos/g-shaboten-3.webp, alt: The open-air onsen bath, credit: via source, creditUrl: https://id-village.jp/glamping/, license: see source }
+- { id: ph-g-shaboten-4, subject: g-shaboten, src: /photos/g-shaboten-4.webp, alt: The on-site animal park for kids, credit: via source, creditUrl: https://id-village.jp/glamping/, license: see source }
+- { id: ph-g-oshino-1, subject: g-oshino, src: /photos/g-oshino-1.jpg, alt: A dome interior at Grand Dome Fuji Oshino, credit: via source, creditUrl: https://www.glamping-oshino.com/, license: see source }
+- { id: ph-g-oshino-2, subject: g-oshino, src: /photos/g-oshino-2.jpg, alt: Inside a dome unit, credit: via source, creditUrl: https://www.glamping-oshino.com/, license: see source }
+- { id: ph-g-oshino-3, subject: g-oshino, src: /photos/g-oshino-3.jpg, alt: The private hot-spring bath, credit: via source, creditUrl: https://www.glamping-oshino.com/, license: see source }
+- { id: ph-g-oshino-4, subject: g-oshino, src: /photos/g-oshino-4.jpg, alt: The pool, credit: via source, creditUrl: https://www.glamping-oshino.com/, license: see source }
+- { id: ph-g-glamaira-1, subject: g-glamaira, src: /photos/g-glamaira-1.jpg, alt: A dome room at Glam Aira Izukogen, credit: via source, creditUrl: https://en.glamping-izu.com/, license: see source }
+- { id: ph-g-glamaira-2, subject: g-glamaira, src: /photos/g-glamaira-2.jpg, alt: A dome exterior, credit: via source, creditUrl: https://en.glamping-izu.com/, license: see source }
+- { id: ph-g-glamaira-3, subject: g-glamaira, src: /photos/g-glamaira-3.jpg, alt: The private open-air onsen, credit: via source, creditUrl: https://en.glamping-izu.com/, license: see source }
+- { id: ph-g-glamaira-4, subject: g-glamaira, src: /photos/g-glamaira-4.jpg, alt: The sea-view grounds, credit: via source, creditUrl: https://en.glamping-izu.com/, license: see source }
+- { id: ph-g-futtsu-1, subject: g-futtsu, src: /photos/g-futtsu-1.jpg, alt: A dome interior at Grand Dome Chiba Futtsu, credit: via source, creditUrl: https://www.chibafuttsu-glamping.com/, license: see source }
+- { id: ph-g-futtsu-2, subject: g-futtsu, src: /photos/g-futtsu-2.jpg, alt: The private hinoki bath, credit: via source, creditUrl: https://www.chibafuttsu-glamping.com/, license: see source }
+- { id: ph-g-futtsu-3, subject: g-futtsu, src: /photos/g-futtsu-3.jpg, alt: The private bath with a window, credit: via source, creditUrl: https://www.chibafuttsu-glamping.com/, license: see source }
+- { id: ph-g-futtsu-4, subject: g-futtsu, src: /photos/g-futtsu-4.jpg, alt: The seaside domes at sunset, credit: via source, creditUrl: https://www.chibafuttsu-glamping.com/, license: see source }
+- { id: ph-g-akagi-1, subject: g-akagi, src: /photos/g-akagi-1.jpg, alt: A dome interior at Akagi Glamping Village, credit: via source, creditUrl: https://www.gunma-glampingvillage.com/, license: see source }
+- { id: ph-g-akagi-2, subject: g-akagi, src: /photos/g-akagi-2.jpg, alt: Another dome interior, credit: via source, creditUrl: https://www.gunma-glampingvillage.com/, license: see source }
+- { id: ph-g-akagi-3, subject: g-akagi, src: /photos/g-akagi-3.jpg, alt: The private onsen bath, credit: via source, creditUrl: https://www.gunma-glampingvillage.com/, license: see source }
+- { id: ph-g-akagi-4, subject: g-akagi, src: /photos/g-akagi-4.jpg, alt: A kids facility, credit: via source, creditUrl: https://www.gunma-glampingvillage.com/, license: see source }
+- { id: ph-g-tsumugi-1, subject: g-tsumugi, src: /photos/g-tsumugi-1.jpg, alt: The villa living space at Tsumugi, credit: via source, creditUrl: https://www.privatevilla-kawaguchiko.com/, license: see source }
+- { id: ph-g-tsumugi-2, subject: g-tsumugi, src: /photos/g-tsumugi-2.jpg, alt: The private terrace onsen with a lake view, credit: via source, creditUrl: https://www.privatevilla-kawaguchiko.com/, license: see source }
+- { id: ph-g-tsumugi-3, subject: g-tsumugi, src: /photos/g-tsumugi-3.jpg, alt: The private sauna, credit: via source, creditUrl: https://www.privatevilla-kawaguchiko.com/, license: see source }
+- { id: ph-g-tsumugi-4, subject: g-tsumugi, src: /photos/g-tsumugi-4.jpg, alt: The villa with Mt Fuji behind, credit: via source, creditUrl: https://www.privatevilla-kawaguchiko.com/, license: see source }
+- { id: ph-g-shuzenji-1, subject: g-shuzenji, src: /photos/g-shuzenji-1.jpg, alt: A cottage at Shuzenji Forest, credit: via source, creditUrl: https://www.izu-beach.com/forest/, license: see source }
+- { id: ph-g-shuzenji-2, subject: g-shuzenji, src: /photos/g-shuzenji-2.jpg, alt: The cottage living room, credit: via source, creditUrl: https://www.izu-beach.com/forest/, license: see source }
+- { id: ph-g-shuzenji-3, subject: g-shuzenji, src: /photos/g-shuzenji-3.jpg, alt: Inside a cottage, credit: via source, creditUrl: https://www.izu-beach.com/forest/, license: see source }
+- { id: ph-g-shuzenji-4, subject: g-shuzenji, src: /photos/g-shuzenji-4.jpg, alt: The river and grounds for kids, credit: via source, creditUrl: https://www.izu-beach.com/forest/, license: see source }
