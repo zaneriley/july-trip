@@ -140,11 +140,26 @@ const smsHref = `sms:&body=${encodeURIComponent(shareMsg)}`;
               )}
               {d.backup && <p class="m-0 mt-1 text-[13px] leading-snug text-stone-500">{d.backup}</p>}
 
-              {d.detailUrl && (
-                <p class="m-0 mt-3">
+              <div class="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2">
+                {d.bookUrl && (
+                  <a
+                    href={d.bookUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="rounded-full bg-stone-900 px-4 py-2 text-[13px] font-semibold text-white transition hover:bg-stone-700"
+                  >
+                    Book on Jalan →
+                  </a>
+                )}
+                {d.mapUrl && (
+                  <a href={d.mapUrl} target="_blank" rel="noopener noreferrer" class="text-[13px] font-medium text-stone-600 hover:text-stone-900">
+                    📍 Google Maps
+                  </a>
+                )}
+                {d.detailUrl && (
                   <a href={d.detailUrl} class="text-[13px] font-medium text-stone-500 hover:text-stone-800">more detail →</a>
-                </p>
-              )}
+                )}
+              </div>
             </div>
           </div>
         );

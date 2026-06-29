@@ -25,6 +25,8 @@
   catch: We cook our own meals, and the riverside play area only opens July 18 — just after us.
   backup: ""
   detailUrl: /glamping#g-shuzenji
+  bookUrl: "https://www.jalan.net/yad314863/plan/?stayYear=2026&stayMonth=07&stayDay=03&stayCount=2&roomCount=1&adultNum=4"
+  mapUrl: "https://www.google.com/maps/search/?api=1&query=34.97494,138.98680"
 
 - id: innthepark
   role: safe
@@ -45,6 +47,8 @@
   catch: Public baths only, the price is opaque, and it's down to its last cottage for Saturday — book fast if it's the one.
   backup: ""
   detailUrl: /numazu#stay
+  bookUrl: "https://www.jalan.net/yad340186/plan/?stayYear=2026&stayMonth=07&stayDay=03&stayCount=2&roomCount=1&adultNum=4"
+  mapUrl: "https://www.google.com/maps/search/?api=1&query=35.1591,138.84862"
 
 - id: also-sunvalley
   role: also
@@ -67,6 +71,8 @@
   catch: Priciest on paper, but it's all-meals-included and the least hassle with a kid.
   backup: ""
   detailUrl: /numazu#stay
+  bookUrl: "https://www.jalan.net/yad345636/plan/?stayYear=2026&stayMonth=07&stayDay=03&stayCount=2&roomCount=1&adultNum=4"
+  mapUrl: "https://www.google.com/maps/search/?api=1&query=35.03511,138.92902"
 
 # ── Passed on (named honestly, sorted by the fits-five rule) ──────────────────
 - id: passed-tenku

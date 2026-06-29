@@ -396,6 +396,8 @@ const picks = defineCollection({
     catch: z.string().optional(),
     backup: z.string().optional(),
     detailUrl: z.string().optional(),
+    bookUrl: z.string().optional(),
+    mapUrl: z.string().optional(),
     // Present only on the passed-on entries.
     why: z.string().optional(),
   }),
