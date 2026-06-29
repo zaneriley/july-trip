@@ -385,7 +385,6 @@ const picks = defineCollection({
     ratingSource: z.string().optional(),
     ratingNote: z.string().optional(),
     photoSubject: z.string().optional(),
-    vibe: z.string().optional(),
     onsen: z.string().optional(),
     fits: z.string().optional(),
     getThere: z.string().optional(),

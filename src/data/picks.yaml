@@ -1,9 +1,9 @@
 # The lodging decision layer the home renders. Hard rule the group set: one unit
 # must hold all five of us — no splitting across two domes. Role-tagged: the three
 # that fit five and we'd actually book (pick / safe / also), then the ones we
-# passed on (named honestly). Availability is a dated snapshot (checked in a
-# browser Mon Jun 29) — it moves. Shared facts (photos, fuller detail) live in the
-# lodging/glamping collections; this file holds only the decision framing.
+# passed on. Cards carry DATA only — facts, numbers, specifics; the photos carry
+# the feel. No interpretation. Availability is a dated snapshot (checked in a
+# browser Mon Jun 29) — it moves.
 
 # ── The three that fit all five in one place ─────────────────────────────────
 - id: pick-shuzenji
@@ -12,17 +12,16 @@
   name: Shuzenji Forest
   lat: 34.97494
   lng: 138.98680
-  ratingNote: Small and newer — only ~13 guest reviews so far, so no settled score yet.
+  ratingNote: ~13 guest reviews so far — no overall score published.
   photoSubject: g-shuzenji
-  vibe: A private cabin with its own open-air onsen on the deck — the whole place to ourselves.
-  onsen: Private — our own terrace onsen, any hour, nobody splitting off.
-  fits: One cottage, two tatami bedrooms; the toddler stays free.
+  onsen: Private terrace onsen in the cottage, open any hour.
+  fits: One cottage, two tatami bedrooms; toddler free.
   getThere: About 50 min — Mishima to Shuzenji by train, then a 12-min taxi.
-  meals: Room-only — a kitchen and BBQ, so we shop and cook.
-  toddler: Tatami rooms and a kitchen; calm and self-contained.
-  allIn: Roughly ¥60–80k for all of us, two nights (room only — add groceries).
+  meals: Room-only; kitchen and BBQ, self-catered.
+  toddler: Tatami rooms; full kitchen; ground-level.
+  allIn: About ¥60–80k for five, two nights, room-only (food on top).
   availSat: "2 cottages left"
-  catch: We cook our own meals, and the riverside play area only opens July 18 — just after us.
+  catch: Riverside play area opens July 18 — after our dates.
   backup: ""
   detailUrl: /glamping#g-shuzenji
   bookUrl: "https://www.jalan.net/yad314863/plan/?stayYear=2026&stayMonth=07&stayDay=03&stayCount=2&roomCount=1&adultNum=4"
@@ -34,17 +33,16 @@
   name: INN THE PARK
   lat: 35.1591
   lng: 138.84862
-  ratingNote: Well-reviewed on Jalan (21 reviews) with strong marks, but no single overall score is published.
+  ratingNote: 21 reviews on Jalan — no single overall score published.
   photoSubject: numazu-innthepark
-  vibe: A whole forest cottage to ourselves in a "stayable park" just outside Numazu — woods to roam, a campfire and marshmallows.
-  onsen: Public bathhouse only, men/women split — no private bath. A parent can still bathe with the toddler.
-  fits: A whole cottage with four bedrooms — easily holds the five of us, and it's the closest to Numazu.
+  onsen: Public bathhouse only, men/women split; no private bath.
+  fits: Whole cottage, four bedrooms; in Numazu.
   getThere: In Numazu — about a 20-min taxi from Numazu station (no shuttle).
-  meals: A meal plan is required — a BBQ (about ¥12.8k a person) or a French course (about ¥19.8k); no cook-your-own.
-  toddler: A ground-level cottage (not the suspended sphere tents), with forest, a campfire and marshmallows.
-  allIn: Whole-building rate isn't published; with the required meals, budget about ¥13k+ per adult for food on top — get a quote.
+  meals: Meal plan required — BBQ about ¥12.8k/person or French about ¥19.8k.
+  toddler: Ground-level cottage (not the sphere tents); forest, campfire, marshmallows.
+  allIn: Whole-building rate not published; meals about ¥13k+/adult on top.
   availSat: "1 cottage left"
-  catch: Public baths only, the price is opaque, and it's down to its last cottage for Saturday — book fast if it's the one.
+  catch: ""
   backup: ""
   detailUrl: /numazu#stay
   bookUrl: "https://www.jalan.net/yad340186/plan/?stayYear=2026&stayMonth=07&stayDay=03&stayCount=2&roomCount=1&adultNum=4"
@@ -60,41 +58,40 @@
   ratingCount: "4,359"
   ratingSource: Jalan
   photoSubject: numazu-sunvalley
-  vibe: A proper onsen hotel — a big hinoki bath hall, a free Mishima shuttle, every meal done for us.
-  onsen: Shared hinoki baths (men/women split) plus a free private open-air slot — so a parent and the toddler take the private one.
-  fits: One 53m² room with its own open-air bath, four adults and the toddler.
-  getThere: About 25 min — a free shuttle from Mishima station (reserve the day before).
+  onsen: Shared hinoki baths (men/women split) plus a free reservable private open-air slot.
+  fits: One 53m² room with its own open-air bath; four adults and the toddler.
+  getThere: About 25 min — free shuttle from Mishima station (reserve the day before).
   meals: Dinner and breakfast buffet included.
-  toddler: A kids' game corner and picture-book library, and meals are handled.
-  allIn: Roughly ¥150k for all of us, two nights — but that's with every meal included.
+  toddler: Kids' game corner and picture-book library.
+  allIn: About ¥150k for five, two nights, all meals included.
   availSat: "a few left"
-  catch: Priciest on paper, but it's all-meals-included and the least hassle with a kid.
+  catch: ""
   backup: ""
   detailUrl: /numazu#stay
   bookUrl: "https://www.jalan.net/yad345636/plan/?stayYear=2026&stayMonth=07&stayDay=03&stayCount=2&roomCount=1&adultNum=4"
   mapUrl: "https://www.google.com/maps/search/?api=1&query=35.03511,138.92902"
 
-# ── Passed on (named honestly, sorted by the fits-five rule) ──────────────────
+# ── Passed on (the fact that rules each out) ─────────────────────────────────
 - id: passed-tenku
   role: passed
   order: 4
   name: Tenku Terrace
-  why: A stunning Numazu dome with a Fuji-over-the-bay view, but the domes don't hold all five in one — and we want to stay together, so it's out.
+  why: Domes hold fewer than five — the group would have to split across two, which we ruled out.
 
 - id: passed-glamaira
   role: passed
   order: 5
   name: Glam Aira
-  why: One dome does hold all five and it has its own in-room onsen — but it's about 1.5h from the Numazu sights and pricier, so it's a stretch for this trip.
+  why: One dome holds five with an in-room onsen, but it's about 1.5h from the Numazu sights.
 
 - id: passed-shaboten
   role: passed
   order: 6
   name: Izu Shaboten Village
-  why: One dome fits the five of us and the kid would love the animal park next door — but Saturday July 4 is already sold out, so it can't be our two-night base.
+  why: One dome holds five and there's an animal park next door, but Saturday July 4 is sold out.
 
 - id: passed-ufufu
   role: passed
   order: 7
   name: UFUFU Village
-  why: Lovely onsen domes, but each one caps at four people — the five of us would mean two separate domes, which we ruled out.
+  why: Each dome caps at four — five of us would need two separate domes.
