@@ -368,4 +368,31 @@ const neat = defineCollection({
   }),
 });
 
-export const collections = { sources, destinations, places, journeys, pois, paths, photos, notes, kids, weather, todo, popculture, lodging, glamping, neat };
+// The lodging decision layer the home renders — role-tagged picks with the
+// decision-specific framing (availability snapshot, all-in cost, the catch).
+// Shared facts (photos, fuller detail) stay in lodging/glamping; this is a view.
+const picks = defineCollection({
+  loader: file('./src/data/picks.yaml'),
+  schema: z.object({
+    role: z.enum(['pick', 'safe', 'also', 'passed']),
+    order: z.number(),
+    name: z.string(),
+    // Present on the three live picks; absent on the passed-on entries.
+    photoSubject: z.string().optional(),
+    vibe: z.string().optional(),
+    onsen: z.string().optional(),
+    fits: z.string().optional(),
+    getThere: z.string().optional(),
+    meals: z.string().optional(),
+    toddler: z.string().optional(),
+    allIn: z.string().optional(),
+    availSat: z.string().optional(),
+    catch: z.string().optional(),
+    backup: z.string().optional(),
+    detailUrl: z.string().optional(),
+    // Present only on the passed-on entries.
+    why: z.string().optional(),
+  }),
+});
+
+export const collections = { sources, destinations, places, journeys, pois, paths, photos, notes, kids, weather, todo, popculture, lodging, glamping, neat, picks };

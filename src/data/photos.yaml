@@ -199,6 +199,10 @@
 - { id: ph-g-shuzenji-2, subject: g-shuzenji, src: /photos/g-shuzenji-2.jpg, alt: The cottage living room, credit: via source, creditUrl: https://www.izu-beach.com/forest/, license: see source }
 - { id: ph-g-shuzenji-3, subject: g-shuzenji, src: /photos/g-shuzenji-3.jpg, alt: Inside a cottage, credit: via source, creditUrl: https://www.izu-beach.com/forest/, license: see source }
 - { id: ph-g-shuzenji-4, subject: g-shuzenji, src: /photos/g-shuzenji-4.jpg, alt: The river and grounds for kids, credit: via source, creditUrl: https://www.izu-beach.com/forest/, license: see source }
+- { id: ph-tenku-1, subject: tenku-terrace, src: /photos/tenku-terrace-1.jpg, alt: A dome tent at Tenku Terrace above Suruga Bay, credit: via source, creditUrl: https://www.tenkuu-terrace.jp/, license: see source }
+- { id: ph-tenku-2, subject: tenku-terrace, src: /photos/tenku-terrace-2.jpg, alt: Mt Fuji across the bay from a room, credit: via source, creditUrl: https://www.tenkuu-terrace.jp/, license: see source }
+- { id: ph-tenku-3, subject: tenku-terrace, src: /photos/tenku-terrace-3.jpg, alt: The semi-open-air bath with a Fuji view, credit: via source, creditUrl: https://www.tenkuu-terrace.jp/, license: see source }
+- { id: ph-tenku-4, subject: tenku-terrace, src: /photos/tenku-terrace-4.jpg, alt: Inside a guest dome, credit: via source, creditUrl: https://www.tenkuu-terrace.jp/, license: see source }
 
 # ── Neat stuff I found (subject = neat item id) ──
 - { id: ph-neat-hihokan, subject: neat-hihokan, src: /photos/hihokan.jpg, alt: The Atami Hihokan museum, credit: via source, creditUrl: https://commons.wikimedia.org/wiki/File:Atami_Hihoukan,_Atami,_Shizuoka,_Japan.JPG, license: see source }

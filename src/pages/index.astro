@@ -1,104 +1,200 @@
 ---
 import Base from '../layouts/Base.astro';
-import { comparisonColumns } from '../lib/compare';
 import { getCollection } from 'astro:content';
 
-// Home is one aligned comparison: a photo-headed column per destination and the
-// same rows for all of them, so you read straight across — Numazu's time vs
-// Atami's vs Kurobe's — and decide. With three options the columns scroll
-// sideways on a phone behind a sticky label column. Depth is behind "look closer".
-const columns = await comparisonColumns();
-type Col = (typeof columns)[number];
+// The home IS the live decision: which of these places do the five of us book for
+// July 3–5. The city question (Numazu) is settled — that backstory lives at
+// /cities. This page is for the group, three of whom did none of the research, on
+// their phones, with Saturday inventory draining. Curated to three real options +
+// the four we passed on, framed as a default-unless-objected so it actually ends
+// in a booking instead of more chat.
+const picks = (await getCollection('picks')).sort((a, b) => a.data.order - b.data.order);
+const live = picks.filter((p) => p.data.role !== 'passed');
+const passed = picks.filter((p) => p.data.role === 'passed');
 
-const weather = await getCollection('weather');
-const wByDest = new Map(weather.map((w) => [w.data.destination.id, w.data]));
+const photos = await getCollection('photos');
+const photosBySubject = new Map<string, (typeof photos)[number][]>();
+for (const ph of photos) {
+  const list = photosBySubject.get(ph.data.subject) ?? [];
+  list.push(ph);
+  photosBySubject.set(ph.data.subject, list);
+}
 
-// A one-line lodging summary per option for the comparison row (detail lives in
-// the "where to stay" section on each page).
-const stayByDest: Record<string, string> = {
-  numazu: 'Three stays, about ¥19–29k/person — an onsen hotel with a free Mishima shuttle, the suspended-sphere INN THE PARK, or onsen domes; reservable private baths.',
-  atami: 'Four stays, about ¥21–39k/person — family resorts and buffet hotels, most a short shuttle or taxi from the station.',
-  kurobe: 'Four ryokan in Unazuki, about ¥24–85k/person with two meals — private family baths are common, a 2–5 min walk from the station.',
+// One short label per role so a cold reader sees, at a glance, why each is here.
+const roleLabel: Record<string, string> = {
+  pick: 'My pick',
+  safe: 'Safest to get — wide open',
+  also: 'Least hassle with a kid',
+};
+const roleStyle: Record<string, string> = {
+  pick: 'ring-2 ring-emerald-500',
+  safe: 'ring-1 ring-sky-200',
+  also: 'ring-1 ring-stone-200',
+};
+const roleBadge: Record<string, string> = {
+  pick: 'bg-emerald-600 text-white',
+  safe: 'bg-sky-100 text-sky-800',
+  also: 'bg-stone-100 text-stone-600',
 };
 
-// The deciding dimensions, in the order a toddler weekend weighs them. Every row
-// resolves to a value for every option, so the comparison never goes lopsided.
-const rows: { label: string; val: (c: Col) => string }[] = [
-  { label: 'getting there', val: (c) => c.time ?? '—' },
-  { label: 'cost per adult', val: (c) => c.cost ?? '—' },
-  { label: 'weather', val: (c) => wByDest.get(c.dest.id)?.headline ?? '—' },
-  { label: 'where to stay', val: (c) => stayByDest[c.dest.id] ?? '—' },
-  { label: 'with a three-year-old', val: (c) => c.dest.data.kidNote },
-  { label: 'food', val: (c) => c.dest.data.foodNote },
+// The few facts the group actually weighs — bath is one row among equals, not a
+// headline axis (the constraint is soft: men/women-split baths are fine).
+const factRows: { key: 'onsen' | 'fits' | 'getThere' | 'meals' | 'toddler'; label: string }[] = [
+  { key: 'fits', label: 'all in one place' },
+  { key: 'onsen', label: 'onsen' },
+  { key: 'getThere', label: 'getting there' },
+  { key: 'meals', label: 'meals' },
+  { key: 'toddler', label: 'with the toddler' },
 ];
 
-const gridCols = `6.5rem repeat(${columns.length}, 13rem)`;
-const labelCell = 'sticky left-0 z-10 bg-white border-r border-stone-100';
+const srcLink = 'text-stone-400 underline decoration-stone-300 underline-offset-2 hover:text-stone-700';
 ---
 
 <Base
-  title="Numazu, Atami or Kurobe? — July 3 to 5"
-  description="Three options for the long weekend, compared row by row: Mishima &amp; Numazu's food, easy seaside Atami, or the alpine route at Kurobe. We'll settle it in the chat."
+  title="Where should we stay? — Numazu, July 3 to 5"
+  description="We're set on Numazu for the long weekend — now: which of these three places do we book? Saturday July 4 is filling up. Tap a vote and let's lock it."
   ogImage="/og/home.png"
-  wide={true}
 >
-  <header class="mb-6">
-    <h1 class="m-0 text-2xl font-semibold text-stone-900">Where should we go, July 3 to 5?</h1>
+  {/* Decision banner — establishes the settled city + the ask + honest scarcity,
+      so a friend opening a bare link knows what's decided and what to do. */}
+  <header class="mb-5">
+    <p class="m-0 text-[13px] font-medium uppercase tracking-wide text-emerald-700">Last call — where we'll stay</p>
+    <h1 class="mt-1 text-2xl font-semibold text-stone-900">Where should we stay?</h1>
     <p class="mt-2 text-[15px] leading-relaxed text-stone-600">
-      The long weekend is <span class="text-stone-800">Friday to Sunday</span>. Three options, the same
-      questions for each — read across (swipe on a phone), then we'll settle it in the chat.
+      We're set on <span class="text-stone-800">Numazu</span> (near Mishima) for
+      <span class="text-stone-800">Friday to Sunday, July 3–5</span> — five of us, two nights.
+      Last thing to lock: which of these three places do we book?
     </p>
+    <div class="mt-3 rounded-xl border border-amber-200 bg-amber-50 px-3.5 py-3">
+      <p class="m-0 text-[14px] font-semibold text-amber-900">Saturday July 4 is the tight night</p>
+      <p class="m-0 mt-1 text-[13px] leading-snug text-amber-800">
+        Rooms left for Sat, checked in a browser Mon Jun 29: <span class="font-medium">Shuzenji 2 · Sun Valley a few · INN THE PARK 1 · Shaboten sold out.</span>
+        At this rate the strong picks go within a couple of days.
+      </p>
+    </div>
   </header>
 
-  <div class="overflow-x-auto rounded-2xl border border-stone-200 bg-white">
-    <div class="grid w-max" style={`grid-template-columns: ${gridCols}`}>
-      {/* Header row: blank label cell + a photo-headed cell per option. */}
-      <div class={labelCell}></div>
-      {
-        columns.map((c) => (
-          <a href={`/${c.dest.id}`} class="block border-l border-stone-100 transition hover:bg-stone-50">
-            <img src={c.dest.data.heroImage} alt={c.dest.data.name} class="aspect-[16/9] w-full object-cover" />
-            <div class="px-3 py-2.5">
-              <h2 class="m-0 text-[17px] font-semibold text-stone-900">{c.dest.data.name}</h2>
-              <p class="m-0 mt-0.5 text-[12px] leading-snug text-stone-500">{c.dest.data.tagline}</p>
-            </div>
-          </a>
-        ))
-      }
-
-      {/* One row per dimension: a sticky label cell, then a value per option. */}
-      {
-        rows.map((row) => (
-          <>
-            <div class={`${labelCell} border-t px-3 py-3 text-xs text-stone-400`}>{row.label}</div>
-            {columns.map((c) => (
-              <div class="border-l border-t border-stone-100 px-3 py-3 text-[14px] leading-snug text-stone-800">
-                {row.val(c)}
-              </div>
-            ))}
-          </>
-        ))
-      }
-
-      {/* Look-closer row. */}
-      <div class={`${labelCell} border-t`}></div>
-      {
-        columns.map((c) => (
-          <a
-            href={`/${c.dest.id}`}
-            class="border-l border-t border-stone-100 px-3 py-3 text-center text-[14px] font-medium text-stone-800 transition hover:bg-stone-50"
-          >
-            Look closer →
-          </a>
-        ))
-      }
-    </div>
+  {/* The recommendation as a default-unless-objected, in my own voice. */}
+  <div class="mb-6 rounded-xl bg-stone-900 px-4 py-3.5 text-stone-50">
+    <p class="m-0 text-[15px] leading-relaxed">
+      <span class="font-semibold">Unless someone shouts by ~10am tomorrow, I'll book Shuzenji Forest.</span>
+      Tenku Terrace is the safe backup if it's gone. Tap your vote below — silence counts as a yes.
+    </p>
   </div>
 
-  {/* A quiet, low-priority pointer to the wider browse list. */}
-  <p class="mt-6 text-center text-[13px] text-stone-400">
-    <a href="/glamping" class="underline decoration-stone-300 underline-offset-2 hover:text-stone-700">
-      Other glamping &amp; cabins we found, with photos &amp; transit →
-    </a>
+  <div class="space-y-5">
+    {
+      live.map((p) => {
+        const d = p.data;
+        const imgs = d.photoSubject ? photosBySubject.get(d.photoSubject) ?? [] : [];
+        return (
+          <div class={`overflow-hidden rounded-2xl bg-white ${roleStyle[d.role]}`}>
+            {imgs.length > 0 && (
+              <div class="relative">
+                <div class="flex snap-x snap-mandatory gap-1 overflow-x-auto [-webkit-overflow-scrolling:touch] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                  {imgs.map((ph) => (
+                    <img
+                      src={ph.data.src}
+                      alt={ph.data.alt}
+                      loading="lazy"
+                      class={`aspect-[16/9] ${imgs.length > 1 ? 'w-[92%]' : 'w-full'} shrink-0 snap-start object-cover`}
+                    />
+                  ))}
+                </div>
+                <span class={`absolute left-3 top-3 rounded-full px-2.5 py-1 text-[12px] font-semibold ${roleBadge[d.role]}`}>{roleLabel[d.role]}</span>
+                {d.availSat && (
+                  <span class="absolute right-3 top-3 rounded-full bg-black/60 px-2.5 py-1 text-[12px] font-medium text-white">
+                    Sat: {d.availSat}
+                  </span>
+                )}
+              </div>
+            )}
+
+            <div class="px-4 py-4">
+              <h2 class="m-0 text-[19px] font-semibold text-stone-900">{d.name}</h2>
+              {d.vibe && <p class="m-0 mt-1 text-[14px] leading-snug text-stone-600">{d.vibe}</p>}
+
+              {d.allIn && (
+                <p class="m-0 mt-3 rounded-lg bg-stone-50 px-3 py-2 text-[14px] font-medium text-stone-900">
+                  {d.allIn}
+                </p>
+              )}
+
+              <dl class="m-0 mt-3 grid grid-cols-[6.5rem_1fr] gap-x-3 gap-y-2 text-[13px] leading-snug">
+                {factRows.map((r) =>
+                  d[r.key] ? (
+                    <>
+                      <dt class="text-stone-400">{r.label}</dt>
+                      <dd class="m-0 text-stone-700">{d[r.key]}</dd>
+                    </>
+                  ) : null,
+                )}
+              </dl>
+
+              {d.catch && (
+                <p class="m-0 mt-3 text-[13px] leading-snug text-stone-500">
+                  <span class="font-medium text-stone-700">the catch:</span> {d.catch}
+                </p>
+              )}
+              {d.backup && <p class="m-0 mt-1 text-[13px] leading-snug text-stone-500">{d.backup}</p>}
+
+              <div class="mt-4 flex items-center gap-3">
+                <button
+                  type="button"
+                  class="vote-btn rounded-full bg-emerald-600 px-4 py-2 text-[14px] font-semibold text-white transition hover:bg-emerald-700"
+                  data-name={d.name}
+                >
+                  Vote {d.name.split(' ')[0]}
+                </button>
+                {d.detailUrl && (
+                  <a href={d.detailUrl} class="text-[13px] font-medium text-stone-500 hover:text-stone-800">more detail →</a>
+                )}
+              </div>
+            </div>
+          </div>
+        );
+      })
+    }
+  </div>
+
+  {/* Passed-on, collapsed — named honestly so the curation reads as trustworthy. */}
+  <details class="mt-6 rounded-xl border border-stone-200 bg-white px-4 py-3">
+    <summary class="cursor-pointer text-[14px] font-medium text-stone-700">Four we passed on (and why)</summary>
+    <ul class="m-0 mt-3 list-none space-y-2.5 p-0">
+      {
+        passed.map((p) => (
+          <li class="text-[13px] leading-snug text-stone-600">
+            <span class="font-semibold text-stone-800">{p.data.name}.</span> {p.data.why}
+          </li>
+        ))
+      }
+    </ul>
+  </details>
+
+  <p class="mt-5 text-[13px] leading-relaxed text-stone-500">
+    I'll book it the moment we agree. If we want to look wider, here's
+    <a href="/glamping" class={srcLink}> the full list of places I found</a>, and
+    <a href="/cities" class={srcLink}> how we landed on Numazu</a>.
   </p>
+
+  {/* One-tap structured vote: copy a decision-forcing line into the group chat.
+      No backend — the site stays static. */}
+  <div id="vote-toast" class="pointer-events-none fixed inset-x-0 bottom-5 z-50 mx-auto hidden w-fit rounded-full bg-stone-900 px-4 py-2 text-[13px] font-medium text-white shadow-lg"></div>
+  <script is:inline>
+    document.querySelectorAll('.vote-btn').forEach((btn) => {
+      btn.addEventListener('click', async () => {
+        const name = btn.getAttribute('data-name');
+        const msg = `I vote ${name} for July 3–5. Can we lock it by tomorrow morning?`;
+        const toast = document.getElementById('vote-toast');
+        try {
+          await navigator.clipboard.writeText(msg);
+          toast.textContent = `Copied: “${msg}” — paste it in our chat`;
+        } catch {
+          toast.textContent = `Send to our chat: ${msg}`;
+        }
+        toast.classList.remove('hidden');
+        setTimeout(() => toast.classList.add('hidden'), 4000);
+      });
+    });
+  </script>
 </Base>
