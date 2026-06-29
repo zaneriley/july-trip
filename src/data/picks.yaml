@@ -14,7 +14,13 @@
   lng: 138.98680
   ratingNote: ~13 guest reviews so far — no overall score published.
   photoSubject: g-shuzenji
-  onsen: Private terrace onsen in the cottage, open any hour.
+  onsen: Private to the cottage — a terrace open-air onsen plus an indoor onsen tub; not men/women split.
+  sleeping: Two rooms — a twin-bed room and a tatami room — adjoining, divided by sliding doors.
+  sleepingSource: { label: official room page, url: https://www.izu-beach.com/forest/room/terrace-roten2-5/ }
+  evidence:
+    - { src: /photos/shuzenji-bed.jpg, caption: The bedroom — twin beds. }
+    - { src: /photos/shuzenji-tatami.jpg, caption: The tatami room — futons; it adjoins the bedroom behind sliding doors. }
+    - { src: /photos/shuzenji-bath.jpg, caption: The cottage's own terrace onsen. }
   fits: One cottage, two tatami bedrooms; toddler free.
   getThere: About 50 min — Mishima to Shuzenji by train, then a 12-min taxi.
   meals: Room-only; kitchen and BBQ, self-catered.
@@ -35,7 +41,13 @@
   lng: 138.84862
   ratingNote: 21 reviews on Jalan — no single overall score published.
   photoSubject: numazu-innthepark
-  onsen: Public bathhouse only, men/women split; no private bath.
+  onsen: No bath in the cottage — a separate bathhouse with men's and women's sides.
+  sleeping: Four separate bedrooms, each with a door and a double bed.
+  sleepingSource: { label: official cottage page, url: https://www.innthepark.jp/numazu/en/room/cottage/ }
+  evidence:
+    - { src: /photos/innthepark-room2.jpg, caption: One of the four bedrooms — a double bed. }
+    - { src: /photos/innthepark-room3.jpg, caption: The shared living area, with stairs up to the bedrooms. }
+    - { src: /photos/stay-numazu-innthepark-3.jpg, caption: The bathhouse — separate men's and women's sides. }
   fits: Whole cottage, four bedrooms; in Numazu.
   getThere: In Numazu — about a 20-min taxi from Numazu station (no shuttle).
   meals: Meal plan required — BBQ about ¥12.8k/person or French about ¥19.8k.
@@ -58,7 +70,13 @@
   ratingCount: "4,359"
   ratingSource: Jalan
   photoSubject: numazu-sunvalley
-  onsen: Shared hinoki baths (men/women split) plus a free reservable private open-air slot.
+  onsen: Large hinoki baths split into men's and women's (swapped daily), plus a bookable private bath and the room's own open-air onsen.
+  sleeping: Two semi-double beds plus a 10-mat tatami room; the bed area and tatami room can be partitioned off (和室と洋室は間仕切り可能).
+  sleepingSource: { label: Jalan room listing, url: https://www.jalan.net/yad345636/room/ }
+  evidence:
+    - { src: /photos/stay-numazu-sunvalley-1.jpg, caption: The room's tatami side, garden view (the open-air bath is on the terrace beyond). }
+    - { src: /photos/sunvalley-room2.jpg, caption: The room's own open-air onsen bath. }
+    - { src: /photos/stay-numazu-sunvalley-2.jpg, caption: The big hinoki baths — separate men's and women's. }
   fits: One 53m² room with its own open-air bath; four adults and the toddler.
   getThere: About 25 min — free shuttle from Mishima station (reserve the day before).
   meals: Dinner and breakfast buffet included.

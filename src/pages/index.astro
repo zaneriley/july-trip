@@ -27,8 +27,7 @@ const kindById: Record<string, string> = {
   'also-sunvalley': 'onsen hotel',
 };
 
-const factRows: { key: 'onsen' | 'fits' | 'getThere' | 'meals' | 'toddler'; label: string }[] = [
-  { key: 'fits', label: 'all in one place' },
+const factRows: { key: 'onsen' | 'getThere' | 'meals' | 'toddler'; label: string }[] = [
   { key: 'onsen', label: 'onsen' },
   { key: 'getThere', label: 'getting there' },
   { key: 'meals', label: 'meals' },
@@ -112,6 +111,22 @@ const srcLink = 'text-stone-400 underline decoration-stone-300 underline-offset-
               )}
 
               <dl class="m-0 mt-3 grid grid-cols-[6.5rem_1fr] gap-x-3 gap-y-2 text-[13px] leading-snug">
+                {d.sleeping && (
+                  <>
+                    <dt class="text-stone-400">sleeping</dt>
+                    <dd class="m-0 text-stone-700">
+                      {d.sleeping}
+                      {d.sleepingSource && (
+                        <>
+                          {' '}
+                          <a href={d.sleepingSource.url} target="_blank" rel="noopener noreferrer" class="whitespace-nowrap text-stone-400 underline decoration-stone-300 underline-offset-2 hover:text-stone-700">
+                            ({d.sleepingSource.label})
+                          </a>
+                        </>
+                      )}
+                    </dd>
+                  </>
+                )}
                 {factRows.map((r) =>
                   d[r.key] ? (
                     <>
@@ -134,6 +149,21 @@ const srcLink = 'text-stone-400 underline decoration-stone-300 underline-offset-
                 </p>
               )}
               {d.backup && <p class="m-0 mt-1 text-[13px] leading-snug text-stone-500">{d.backup}</p>}
+
+              {/* Photo evidence for the sleeping/bath layout — captions describe what's in each shot. */}
+              {d.evidence && d.evidence.length > 0 && (
+                <div class="mt-4">
+                  <p class="m-0 mb-2 text-[12px] font-medium uppercase tracking-wide text-stone-400">The rooms &amp; baths</p>
+                  <div class="-mx-4 flex snap-x snap-mandatory gap-3 overflow-x-auto px-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:mx-0 sm:grid sm:grid-cols-3 sm:gap-3 sm:px-0">
+                    {d.evidence.map((e) => (
+                      <figure class="m-0 w-[72%] shrink-0 snap-start sm:w-auto">
+                        <img src={e.src} alt={e.caption} loading="lazy" class="aspect-[4/3] w-full rounded-lg object-cover" />
+                        <figcaption class="mt-1 text-[12px] leading-snug text-stone-500">{e.caption}</figcaption>
+                      </figure>
+                    ))}
+                  </div>
+                </div>
+              )}
 
               <div class="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2">
                 {d.bookUrl && (

@@ -386,6 +386,11 @@ const picks = defineCollection({
     ratingNote: z.string().optional(),
     photoSubject: z.string().optional(),
     onsen: z.string().optional(),
+    sleeping: z.string().optional(),
+    sleepingSource: z.object({ label: z.string(), url: z.url() }).optional(),
+    // Photo evidence for the sleeping/bath layout — each a real image with a
+    // plain caption describing what's in it (show, don't claim).
+    evidence: z.array(z.object({ src: z.string(), caption: z.string() })).optional(),
     fits: z.string().optional(),
     getThere: z.string().optional(),
     meals: z.string().optional(),
