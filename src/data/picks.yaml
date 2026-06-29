@@ -1,10 +1,11 @@
-# The lodging decision layer — what the home renders. One file, role-tagged:
-# the three we'd actually book (pick / safe / also) and the four we passed on.
-# Availability is a dated snapshot (checked in-browser Mon Jun 29) — it moves.
-# Shared facts (photos, fuller detail) live in the lodging/glamping collections;
-# this file holds only the decision-specific framing.
+# The lodging decision layer the home renders. Hard rule the group set: one unit
+# must hold all five of us — no splitting across two domes. Role-tagged: the three
+# that fit five and we'd actually book (pick / safe / also), then the ones we
+# passed on (named honestly). Availability is a dated snapshot (checked in a
+# browser Mon Jun 29) — it moves. Shared facts (photos, fuller detail) live in the
+# lodging/glamping collections; this file holds only the decision framing.
 
-# ── The three worth a look ────────────────────────────────────────────────────
+# ── The three that fit all five in one place ─────────────────────────────────
 - id: pick-shuzenji
   role: pick
   order: 1
@@ -22,30 +23,28 @@
   allIn: Roughly ¥60–80k for all of us, two nights (room only — add groceries).
   availSat: "2 cottages left"
   catch: We cook our own meals, and the riverside play area only opens July 18 — just after us.
-  backup: If it sells out, Glam Aira (its own in-dome onsen, a bit farther out).
+  backup: ""
   detailUrl: /glamping#g-shuzenji
 
-- id: safe-tenku
+- id: innthepark
   role: safe
   order: 2
-  name: Tenku Terrace
-  lat: 34.9625
-  lng: 138.7678
-  rating: "4.18"
-  ratingCount: "207"
-  ratingSource: Rakuten
-  photoSubject: tenku-terrace
-  vibe: A dome on a Numazu ridge with Mt Fuji over the bay, and a bath in the room facing the sunset.
-  onsen: Private — a semi-open-air bath in every room, with the Fuji view.
-  fits: Take a family deluxe dome — the standard rate is priced for two, the big domes take families.
-  getThere: In Numazu itself — west coast, about 30–40 min by car or taxi from the station.
-  meals: Seafood-BBQ dinner plans, with free-flowing drinks on the dinner plans.
-  toddler: A private in-room bath means no public-bath timing with a three-year-old.
-  allIn: From ¥31k Fri / ¥47k Sat per dome (priced for two) — we'd need a real five-person quote.
-  availSat: "open all weekend"
-  catch: We still have to confirm one dome fits all five, and the real five-person price.
+  name: INN THE PARK
+  lat: 35.1591
+  lng: 138.84862
+  ratingNote: Well-reviewed on Jalan (21 reviews) with strong marks, but no single overall score is published.
+  photoSubject: numazu-innthepark
+  vibe: A whole forest cottage to ourselves in a "stayable park" just outside Numazu — woods to roam, a campfire and marshmallows.
+  onsen: Public bathhouse only, men/women split — no private bath. A parent can still bathe with the toddler.
+  fits: A whole cottage with four bedrooms — easily holds the five of us, and it's the closest to Numazu.
+  getThere: In Numazu — about a 20-min taxi from Numazu station (no shuttle).
+  meals: A meal plan is required — a BBQ (about ¥12.8k a person) or a French course (about ¥19.8k); no cook-your-own.
+  toddler: A ground-level cottage (not the suspended sphere tents), with forest, a campfire and marshmallows.
+  allIn: Whole-building rate isn't published; with the required meals, budget about ¥13k+ per adult for food on top — get a quote.
+  availSat: "1 cottage left"
+  catch: Public baths only, the price is opaque, and it's down to its last cottage for Saturday — book fast if it's the one.
   backup: ""
-  detailUrl: https://www.tenkuu-terrace.jp/
+  detailUrl: /numazu#stay
 
 - id: also-sunvalley
   role: also
@@ -69,27 +68,27 @@
   backup: ""
   detailUrl: /numazu#stay
 
-# ── The four we passed on (named honestly, so the curation is trustworthy) ─────
-- id: passed-innthepark
+# ── Passed on (named honestly, sorted by the fits-five rule) ──────────────────
+- id: passed-tenku
   role: passed
   order: 4
-  name: INN THE PARK
-  why: In Numazu, a whole forest cottage that fits us — but the bath is public-only, the price is opaque, and it's down to its last cottage for Saturday.
-
-- id: passed-shaboten
-  role: passed
-  order: 5
-  name: Izu Shaboten Village
-  why: The toddler favourite — a cactus-and-animal park right next door — but Saturday July 4 is already sold out, so it can't be our two-night base.
-
-- id: passed-ufufu
-  role: passed
-  order: 6
-  name: UFUFU Village
-  why: Lovely onsen domes, but each one caps at four people — the five of us would mean booking two separate domes.
+  name: Tenku Terrace
+  why: A stunning Numazu dome with a Fuji-over-the-bay view, but the domes don't hold all five in one — and we want to stay together, so it's out.
 
 - id: passed-glamaira
   role: passed
-  order: 7
+  order: 5
   name: Glam Aira
-  why: An in-dome private onsen with a sea view — solid, but about 1.5h out and pricier, so we're keeping it as Shuzenji's backup.
+  why: One dome does hold all five and it has its own in-room onsen — but it's about 1.5h from the Numazu sights and pricier, so it's a stretch for this trip.
+
+- id: passed-shaboten
+  role: passed
+  order: 6
+  name: Izu Shaboten Village
+  why: One dome fits the five of us and the kid would love the animal park next door — but Saturday July 4 is already sold out, so it can't be our two-night base.
+
+- id: passed-ufufu
+  role: passed
+  order: 7
+  name: UFUFU Village
+  why: Lovely onsen domes, but each one caps at four people — the five of us would mean two separate domes, which we ruled out.
