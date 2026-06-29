@@ -16,6 +16,13 @@ const destinations = await getCollection('destinations');
 const { destination: destId } = Astro.params;
 const dest = destinations.find((d) => d.id === destId)!;
 const other = destinations.find((d) => d.id !== destId)!;
+// "Back" depends on the page's role now that the city is settled: Numazu is the
+// chosen city — its lodging is the home — so it returns there; Atami and Kurobe
+// are the alternatives we compared, reached from /cities, so they return there.
+const back =
+  destId === 'numazu'
+    ? { href: '/', label: '← where we’re staying' }
+    : { href: '/cities', label: '← the three we compared' };
 const dates = 'July 3–5 (Fri–Sun)';
 
 const pois = (await getCollection('pois')).filter((p) => p.data.destination.id === destId);
@@ -111,7 +118,7 @@ const locateBtn = 'cursor-pointer border border-stone-300 text-stone-600 hover:b
 <Base title={`${dest.data.name} — July 3 to 5`} description={dest.data.tagline} ogImage={`/og/${destId}.png`} wide={true}>
   <header class="mb-4 flex items-start justify-between gap-3">
     <div>
-      <a href="/" class="text-sm text-stone-500 hover:text-stone-800">← Kurobe or Atami?</a>
+      <a href={back.href} class="text-sm text-stone-500 hover:text-stone-800">{back.label}</a>
       <h1 class="mt-2 text-2xl font-semibold text-stone-900">{dest.data.name}</h1>
       <p class="mt-1 text-[15px] leading-relaxed text-stone-600">{dest.data.tagline}</p>
       <p class="mt-1 text-[13px] text-stone-400">{dates}</p>
