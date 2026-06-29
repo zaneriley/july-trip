@@ -251,6 +251,24 @@ const weather = defineCollection({
   schema: z.object({
     destination: reference('destinations'),
     headline: z.string(),
+    // A real short-range forecast for the trip dates — optional, and dated so it
+    // reads as "as-of", not a standing fact. It will keep shifting; re-check.
+    forecast: z
+      .object({
+        issued: z.string(),
+        note: z.string(),
+        days: z.array(
+          z.object({
+            day: z.string(),
+            sky: z.string(),
+            high: z.number(),
+            low: z.number(),
+            rain: z.string(),
+          }),
+        ),
+        sources: z.array(z.object({ label: z.string(), url: z.url() })),
+      })
+      .optional(),
     rows: z.array(
       z.object({
         label: z.string(),

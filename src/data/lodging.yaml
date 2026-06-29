@@ -128,9 +128,9 @@
   order: 2
   tier: "destination glamping"
   access: "about 18 min taxi from Numazu station (no shuttle)"
-  rooms: "Book a ground-level cottage, not a sphere tent — the suite tent's open inner stairs are flagged unsafe for small children; the cottage sleeps the group with separate bedrooms"
-  price: "Cottages are sold per building — confirm the early-July rate with the property"
-  privateOnsen: "Gender-separated public bathhouse; the only reservable private facility is a sauna tent, not a hot bath — so the public baths are the soak. The weakest of the three on a private soak"
+  rooms: "Book a ground-level cottage, not a sphere tent — the suite tent's open inner stairs are flagged unsafe for small children. The Standard Cottage is whole-building (4 bedrooms, indoor toilets) and fits the group with room to spare"
+  price: "Cottages are sold per building, and a meal plan is required (no room-only): a barbecue from about ¥12,800 a person or a French course about ¥19,800; confirm the early-July rate"
+  privateOnsen: "Public gender-separated bathhouse only — no private reservable bath. A parent can bathe with the toddler (mixed bathing is fine for ages 6 and under), and baby baths are on hand. The weakest of the three on a private soak"
   kids: "Small children welcome; suspended-sphere tents, a campfire with marshmallows, and forest to roam"
   source: { label: "Official", url: https://www.innthepark.jp/ }
 
@@ -141,7 +141,7 @@
   order: 3
   tier: "onsen glamping"
   access: "about 60 to 70 min from Mishima (train to Shuzenji, then ~20 min taxi) — the farthest of the three"
-  rooms: "Air-conditioned domes sleep 4; an under-6 stays free, but confirm whether one dome fits the group or you need two"
+  rooms: "Every air-conditioned dome caps at 4, so five means two domes (or call to ask about the toddler on a loaner mat — under-6 stays free)"
   price: "From about ¥28,800 for two with a barbecue dinner; early-July rate not confirmed"
   privateOnsen: "A free-flowing hot spring — gender-separated baths plus three reservable family baths (¥1,500 to 2,000, 50 min): the man takes the men's bath, the others a private slot"
   kids: "0+ welcome, an air-conditioned playroom, under-6 free"

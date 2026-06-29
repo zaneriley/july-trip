@@ -177,7 +177,42 @@ const locateBtn = 'cursor-pointer border border-stone-300 text-stone-600 hover:b
       <section id="weather" class={section}>
         <h2 class="m-0 text-lg font-semibold text-stone-900">The weather, {dates}</h2>
         <p class="mt-0.5 text-[14px] text-stone-600">{weather.data.headline}</p>
-        <dl class="mt-3 overflow-hidden rounded-2xl border border-stone-200 bg-white">
+
+        {/* The real short-range forecast — dated, distinct from the typical-day normals below. */}
+        {weather.data.forecast && (
+          <div class="mt-3 overflow-hidden rounded-2xl border border-sky-200 bg-sky-50/60">
+            <div class="flex items-baseline justify-between gap-2 px-4 pt-3">
+              <span class="text-[13px] font-semibold text-sky-900">Forecast</span>
+              <span class="text-[12px] text-sky-700/80">{weather.data.forecast.issued}</span>
+            </div>
+            <div class="mt-2 grid grid-cols-3 gap-px bg-sky-200/50">
+              {weather.data.forecast.days.map((d) => (
+                <div class="bg-sky-50/80 px-3 py-2.5 text-center">
+                  <p class="m-0 text-[12px] font-medium text-sky-900">{d.day}</p>
+                  <p class="m-0 mt-1 text-[12px] leading-snug text-sky-800">{d.sky}</p>
+                  <p class="m-0 mt-1 text-[14px] font-semibold text-stone-800">
+                    {d.high}° <span class="text-[12px] font-normal text-stone-500">/ {d.low}°</span>
+                  </p>
+                  <p class="m-0 mt-0.5 text-[12px] text-sky-700">☔ {d.rain}</p>
+                </div>
+              ))}
+            </div>
+            <p class="m-0 px-4 py-2.5 text-[12px] leading-snug text-sky-900/80">{weather.data.forecast.note}</p>
+            <p class="m-0 px-4 pb-3 text-[11px] text-sky-700/70">
+              {weather.data.forecast.sources.map((s, i) => (
+                <>
+                  {i > 0 && ' · '}
+                  <a href={s.url} target="_blank" rel="noopener noreferrer" class="underline decoration-sky-300 underline-offset-2 hover:text-sky-900">
+                    {s.label}
+                  </a>
+                </>
+              ))}
+            </p>
+          </div>
+        )}
+
+        <p class="mt-4 text-[12px] font-medium uppercase tracking-wide text-stone-400">Typical for these dates</p>
+        <dl class="mt-1.5 overflow-hidden rounded-2xl border border-stone-200 bg-white">
           {weather.data.rows.map((row, i) => (
             <div class={`grid grid-cols-[7rem_1fr] gap-3 px-4 py-3 ${i > 0 ? 'border-t border-stone-100' : ''}`}>
               <dt class="text-[13px] text-stone-400">{row.label}</dt>

@@ -37,6 +37,28 @@
 
 - destination: numazu
   headline: Rainy season, warm and humid by Suruga Bay
+  forecast:
+    issued: "as of 29 Jun — for Fri–Sun Jul 3–5"
+    note: "A real short-range forecast, not the climate normal — cloudy with a rain chance each day, and cooler than the 30°C normal because of the cloud. It will keep shifting; re-checked closer in. Plan the aquariums and indoor play as the wet-day spine, and save the Skywalk and Genbe-gawa wading for any dry window."
+    days:
+      - day: "Fri Jul 3"
+        sky: "Cloudy, showers likely"
+        high: 25
+        low: 20
+        rain: "50%"
+      - day: "Sat Jul 4"
+        sky: "Cloudy"
+        high: 24
+        low: 21
+        rain: "40%"
+      - day: "Sun Jul 5"
+        sky: "Cloudy"
+        high: 25
+        low: 20
+        rain: "40%"
+    sources:
+      - { label: "JMA (issued 29 Jun 17:00 JST)", url: "https://www.jma.go.jp/bosai/forecast/" }
+      - { label: "World Weather Online", url: https://www.worldweatheronline.com/numazu-weather/shizuoka/jp.aspx }
   rows:
     - label: rainy season
       value: Mid-tsuyu — the Tokai rainy season normally ends about July 19, so July 3 to 5 is the wet, muggy heart of it. Pack rain gear and indoor backups.
