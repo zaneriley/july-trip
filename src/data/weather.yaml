@@ -35,7 +35,8 @@
       sourceLabel: Atami Tourism Association
       sourceUrl: https://www.ataminews.gr.jp/event/142
 
-- destination: numazu
+- id: numazu-weather
+  destination: numazu
   headline: Rainy season, warm and humid by Suruga Bay
   forecast:
     issued: "as of 29 Jun — for Fri–Sun Jul 3–5"
