@@ -9,6 +9,9 @@
   role: pick
   order: 1
   name: Shuzenji Forest
+  lat: 34.97494
+  lng: 138.98680
+  ratingNote: Small and newer — only ~13 guest reviews so far, so no settled score yet.
   photoSubject: g-shuzenji
   vibe: A private cabin with its own open-air onsen on the deck — the whole place to ourselves.
   onsen: Private — our own terrace onsen, any hour, nobody splitting off.
@@ -26,6 +29,11 @@
   role: safe
   order: 2
   name: Tenku Terrace
+  lat: 34.9625
+  lng: 138.7678
+  rating: "4.18"
+  ratingCount: "207"
+  ratingSource: Rakuten
   photoSubject: tenku-terrace
   vibe: A dome on a Numazu ridge with Mt Fuji over the bay, and a bath in the room facing the sunset.
   onsen: Private — a semi-open-air bath in every room, with the Fuji view.
@@ -43,6 +51,11 @@
   role: also
   order: 3
   name: Sun Valley Izu-Nagaoka
+  lat: 35.03511
+  lng: 138.92902
+  rating: "4.4"
+  ratingCount: "4,359"
+  ratingSource: Jalan
   photoSubject: numazu-sunvalley
   vibe: A proper onsen hotel — a big hinoki bath hall, a free Mishima shuttle, every meal done for us.
   onsen: Shared hinoki baths (men/women split) plus a free private open-air slot — so a parent and the toddler take the private one.

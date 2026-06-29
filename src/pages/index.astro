@@ -1,13 +1,12 @@
 ---
 import Base from '../layouts/Base.astro';
+import StayMap from '../components/StayMap.astro';
 import { getCollection } from 'astro:content';
 
-// The home IS the live decision: which of these places do the five of us book for
-// July 3–5. The city question (Numazu) is settled — that backstory lives at
-// /cities. This page is for the group, three of whom did none of the research, on
-// their phones, with Saturday inventory draining. Curated to three real options +
-// the four we passed on, framed as a default-unless-objected so it actually ends
-// in a booking instead of more chat.
+// The home is a decision AID for the group: where the three places are (a map),
+// what they cost, how long they take, how guests rate them, and what they're
+// like. No urgency sell and no "my pick" on the page — that nudge is a message
+// Z sends in iMessage; this page just helps everyone weigh it.
 const picks = (await getCollection('picks')).sort((a, b) => a.data.order - b.data.order);
 const live = picks.filter((p) => p.data.role !== 'passed');
 const passed = picks.filter((p) => p.data.role === 'passed');
@@ -20,25 +19,14 @@ for (const ph of photos) {
   photosBySubject.set(ph.data.subject, list);
 }
 
-// One short label per role so a cold reader sees, at a glance, why each is here.
-const roleLabel: Record<string, string> = {
-  pick: 'My pick',
-  safe: 'Safest to get — wide open',
-  also: 'Least hassle with a kid',
-};
-const roleStyle: Record<string, string> = {
-  pick: 'ring-2 ring-emerald-500',
-  safe: 'ring-1 ring-sky-200',
-  also: 'ring-1 ring-stone-200',
-};
-const roleBadge: Record<string, string> = {
-  pick: 'bg-emerald-600 text-white',
-  safe: 'bg-sky-100 text-sky-800',
-  also: 'bg-stone-100 text-stone-600',
+// A neutral one-word type per place (not a ranking) so the chips read as "what
+// kind of place is this", paired with the map pin number.
+const kindById: Record<string, string> = {
+  'pick-shuzenji': 'private cabin',
+  'safe-tenku': 'glamping dome',
+  'also-sunvalley': 'onsen hotel',
 };
 
-// The few facts the group actually weighs — bath is one row among equals, not a
-// headline axis (the constraint is soft: men/women-split baths are fine).
 const factRows: { key: 'onsen' | 'fits' | 'getThere' | 'meals' | 'toddler'; label: string }[] = [
   { key: 'fits', label: 'all in one place' },
   { key: 'onsen', label: 'onsen' },
@@ -47,48 +35,46 @@ const factRows: { key: 'onsen' | 'fits' | 'getThere' | 'meals' | 'toddler'; labe
   { key: 'toddler', label: 'with the toddler' },
 ];
 
+// Stays with coordinates, for the map (numbered to match the cards).
+const mapStays = live
+  .filter((p) => typeof p.data.lat === 'number' && typeof p.data.lng === 'number')
+  .map((p) => ({ id: p.id, name: p.data.name, lat: p.data.lat!, lng: p.data.lng!, fromBase: p.data.getThere ?? '', n: p.data.order }));
+
 const srcLink = 'text-stone-400 underline decoration-stone-300 underline-offset-2 hover:text-stone-700';
+
+// The nudge to decide goes out as an iMessage, not page copy.
+const shareMsg = "Where we might stay for the July trip — Numazu, Jul 3–5. Have a look and tell me which one you like: https://july-trip.pages.dev";
+const smsHref = `sms:&body=${encodeURIComponent(shareMsg)}`;
 ---
 
 <Base
-  title="Where should we stay? — Numazu, July 3 to 5"
-  description="We're set on Numazu for the long weekend — now: which of these three places do we book? Saturday July 4 is filling up. Tap a vote and let's lock it."
+  title="Where we might stay — Numazu, July 3 to 5"
+  description="Three places near Mishima for the five of us, July 3–5: where each one is, what it costs, how long it takes, and how guests rate it. Have a look and tell me which."
   ogImage="/og/home.png"
 >
-  {/* Decision banner — establishes the settled city + the ask + honest scarcity,
-      so a friend opening a bare link knows what's decided and what to do. */}
   <header class="mb-5">
-    <p class="m-0 text-[13px] font-medium uppercase tracking-wide text-emerald-700">Last call — where we'll stay</p>
-    <h1 class="mt-1 text-2xl font-semibold text-stone-900">Where should we stay?</h1>
+    <h1 class="m-0 text-2xl font-semibold text-stone-900">Where we might stay</h1>
     <p class="mt-2 text-[15px] leading-relaxed text-stone-600">
-      We're set on <span class="text-stone-800">Numazu</span> (near Mishima) for
-      <span class="text-stone-800">Friday to Sunday, July 3–5</span> — five of us, two nights.
-      Last thing to lock: which of these three places do we book?
+      Three places near <span class="text-stone-800">Mishima / Numazu</span> for the five of us,
+      <span class="text-stone-800">Fri–Sun July 3–5</span>. Here's where each one is, what it costs, how long
+      it takes, and how guests rate it — have a look and tell me which you like.
     </p>
-    <div class="mt-3 rounded-xl border border-amber-200 bg-amber-50 px-3.5 py-3">
-      <p class="m-0 text-[14px] font-semibold text-amber-900">Saturday July 4 is the tight night</p>
-      <p class="m-0 mt-1 text-[13px] leading-snug text-amber-800">
-        Rooms left for Sat, checked in a browser Mon Jun 29: <span class="font-medium">Shuzenji 2 · Sun Valley a few · INN THE PARK 1 · Shaboten sold out.</span>
-        At this rate the strong picks go within a couple of days.
-      </p>
-    </div>
   </header>
 
-  {/* The recommendation as a default-unless-objected, in my own voice. */}
-  <div class="mb-6 rounded-xl bg-stone-900 px-4 py-3.5 text-stone-50">
-    <p class="m-0 text-[15px] leading-relaxed">
-      <span class="font-semibold">Unless someone shouts by ~10am tomorrow, I'll book Shuzenji Forest.</span>
-      Tenku Terrace is the safe backup if it's gone. Tap your vote below — silence counts as a yes.
-    </p>
-  </div>
+  {/* Where they are — the thing place-names alone can't convey. */}
+  <section class="mb-2">
+    <h2 class="mb-2 text-[13px] font-medium uppercase tracking-wide text-stone-400">Where they are</h2>
+    <StayMap stays={mapStays} />
+    <p class="mt-2 text-[12px] text-stone-400">Numbered to match the cards below; the red pin is Mishima station, our base. Tap a pin.</p>
+  </section>
 
-  <div class="space-y-5">
+  <div class="mt-5 space-y-5">
     {
       live.map((p) => {
         const d = p.data;
         const imgs = d.photoSubject ? photosBySubject.get(d.photoSubject) ?? [] : [];
         return (
-          <div class={`overflow-hidden rounded-2xl bg-white ${roleStyle[d.role]}`}>
+          <div id={p.id} class="scroll-mt-4 overflow-hidden rounded-2xl border border-stone-200 bg-white">
             {imgs.length > 0 && (
               <div class="relative">
                 <div class="flex snap-x snap-mandatory gap-1 overflow-x-auto [-webkit-overflow-scrolling:touch] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
@@ -101,23 +87,33 @@ const srcLink = 'text-stone-400 underline decoration-stone-300 underline-offset-
                     />
                   ))}
                 </div>
-                <span class={`absolute left-3 top-3 rounded-full px-2.5 py-1 text-[12px] font-semibold ${roleBadge[d.role]}`}>{roleLabel[d.role]}</span>
-                {d.availSat && (
-                  <span class="absolute right-3 top-3 rounded-full bg-black/60 px-2.5 py-1 text-[12px] font-medium text-white">
-                    Sat: {d.availSat}
-                  </span>
+                <span class="absolute left-3 top-3 inline-flex h-7 w-7 items-center justify-center rounded-full bg-emerald-600 text-[13px] font-semibold text-white">{d.order}</span>
+                {imgs.length > 1 && (
+                  <span class="pointer-events-none absolute right-3 top-3 rounded-full bg-black/55 px-2 py-0.5 text-[11px] font-medium text-white">{imgs.length} photos · swipe</span>
                 )}
               </div>
             )}
 
             <div class="px-4 py-4">
-              <h2 class="m-0 text-[19px] font-semibold text-stone-900">{d.name}</h2>
-              {d.vibe && <p class="m-0 mt-1 text-[14px] leading-snug text-stone-600">{d.vibe}</p>}
+              <div class="flex flex-wrap items-baseline gap-x-2 gap-y-1">
+                <h2 class="m-0 text-[19px] font-semibold text-stone-900">{d.name}</h2>
+                {kindById[p.id] && <span class="rounded-full bg-stone-100 px-2 py-0.5 text-[12px] text-stone-500">{kindById[p.id]}</span>}
+              </div>
+
+              {/* Rating — honest: a star + count where guests have rated it, a plain note where they haven't. */}
+              {d.rating ? (
+                <p class="m-0 mt-1.5 text-[13px] text-stone-600">
+                  <span class="font-semibold text-amber-600">★ {d.rating}</span>
+                  <span class="text-stone-400"> / 5 · {d.ratingCount} reviews · {d.ratingSource}</span>
+                </p>
+              ) : d.ratingNote ? (
+                <p class="m-0 mt-1.5 text-[13px] text-stone-400">{d.ratingNote}</p>
+              ) : null}
+
+              {d.vibe && <p class="m-0 mt-2 text-[14px] leading-snug text-stone-600">{d.vibe}</p>}
 
               {d.allIn && (
-                <p class="m-0 mt-3 rounded-lg bg-stone-50 px-3 py-2 text-[14px] font-medium text-stone-900">
-                  {d.allIn}
-                </p>
+                <p class="m-0 mt-3 rounded-lg bg-stone-50 px-3 py-2 text-[14px] font-medium text-stone-900">{d.allIn}</p>
               )}
 
               <dl class="m-0 mt-3 grid grid-cols-[6.5rem_1fr] gap-x-3 gap-y-2 text-[13px] leading-snug">
@@ -129,6 +125,12 @@ const srcLink = 'text-stone-400 underline decoration-stone-300 underline-offset-
                     </>
                   ) : null,
                 )}
+                {d.availSat && (
+                  <>
+                    <dt class="text-stone-400">Sat Jul 4</dt>
+                    <dd class="m-0 text-stone-700">{d.availSat} (checked Jun 29)</dd>
+                  </>
+                )}
               </dl>
 
               {d.catch && (
@@ -138,18 +140,11 @@ const srcLink = 'text-stone-400 underline decoration-stone-300 underline-offset-
               )}
               {d.backup && <p class="m-0 mt-1 text-[13px] leading-snug text-stone-500">{d.backup}</p>}
 
-              <div class="mt-4 flex items-center gap-3">
-                <button
-                  type="button"
-                  class="vote-btn rounded-full bg-emerald-600 px-4 py-2 text-[14px] font-semibold text-white transition hover:bg-emerald-700"
-                  data-name={d.name}
-                >
-                  Vote {d.name.split(' ')[0]}
-                </button>
-                {d.detailUrl && (
+              {d.detailUrl && (
+                <p class="m-0 mt-3">
                   <a href={d.detailUrl} class="text-[13px] font-medium text-stone-500 hover:text-stone-800">more detail →</a>
-                )}
-              </div>
+                </p>
+              )}
             </div>
           </div>
         );
@@ -171,30 +166,20 @@ const srcLink = 'text-stone-400 underline decoration-stone-300 underline-offset-
     </ul>
   </details>
 
+  {/* The decision nudge lives in iMessage, not in page copy. */}
+  <div class="mt-6 rounded-xl border border-stone-200 bg-stone-50 px-4 py-4 text-center">
+    <p class="m-0 text-[14px] text-stone-600">Seen enough? Send it round and let's pick one.</p>
+    <a
+      href={smsHref}
+      class="mt-3 inline-block rounded-full bg-emerald-600 px-5 py-2.5 text-[14px] font-semibold text-white transition hover:bg-emerald-700"
+    >
+      Share with the group (iMessage)
+    </a>
+  </div>
+
   <p class="mt-5 text-[13px] leading-relaxed text-stone-500">
-    I'll book it the moment we agree. If we want to look wider, here's
-    <a href="/glamping" class={srcLink}> the full list of places I found</a>, and
+    Want the wider net? Here's
+    <a href="/glamping" class={srcLink}> every place I looked at</a>, and
     <a href="/cities" class={srcLink}> how we landed on Numazu</a>.
   </p>
-
-  {/* One-tap structured vote: copy a decision-forcing line into the group chat.
-      No backend — the site stays static. */}
-  <div id="vote-toast" class="pointer-events-none fixed inset-x-0 bottom-5 z-50 mx-auto hidden w-fit rounded-full bg-stone-900 px-4 py-2 text-[13px] font-medium text-white shadow-lg"></div>
-  <script is:inline>
-    document.querySelectorAll('.vote-btn').forEach((btn) => {
-      btn.addEventListener('click', async () => {
-        const name = btn.getAttribute('data-name');
-        const msg = `I vote ${name} for July 3–5. Can we lock it by tomorrow morning?`;
-        const toast = document.getElementById('vote-toast');
-        try {
-          await navigator.clipboard.writeText(msg);
-          toast.textContent = `Copied: “${msg}” — paste it in our chat`;
-        } catch {
-          toast.textContent = `Send to our chat: ${msg}`;
-        }
-        toast.classList.remove('hidden');
-        setTimeout(() => toast.classList.add('hidden'), 4000);
-      });
-    });
-  </script>
 </Base>

@@ -1,0 +1,116 @@
+---
+/*
+  A locator map for the lodging shortlist, anchored on our base (Mishima station)
+  so the group can see where each place actually sits — south to Shuzenji, west
+  to the Numazu coast, and so on. Numbered pins match the numbered cards below;
+  the base is a red pin. No key → a note; the cards still work without it.
+*/
+interface Stay {
+  id: string;
+  name: string;
+  lat: number;
+  lng: number;
+  fromBase: string;
+  n: number;
+}
+interface Props {
+  stays: Stay[];
+  base?: { name: string; lat: number; lng: number };
+}
+const { stays, base = { name: 'Mishima station — our base', lat: 35.1265, lng: 138.9109 } } = Astro.props;
+const apiKey = import.meta.env.PUBLIC_GOOGLE_MAPS_API_KEY ?? '';
+const hasKey = apiKey.length > 0;
+const data = stays.map((s) => ({ id: s.id, name: s.name, lat: s.lat, lng: s.lng, fromBase: s.fromBase, n: s.n }));
+---
+
+{
+  hasKey ? (
+    <div
+      data-staymap
+      data-base={JSON.stringify(base)}
+      data-stays={JSON.stringify(data)}
+      class="h-72 w-full rounded-2xl border border-stone-200 bg-stone-100 sm:h-80 md:h-[26rem]"
+    />
+  ) : (
+    <div class="flex h-72 w-full items-center justify-center rounded-2xl border border-stone-200 bg-stone-100 px-6 text-center text-sm text-stone-500 sm:h-80 md:h-[26rem]">
+      the map needs a Google Maps key — the cards below work without it
+    </div>
+  )
+}
+
+<script>
+  const KEY = import.meta.env.PUBLIC_GOOGLE_MAPS_API_KEY ?? '';
+
+  let mapsPromise: Promise<void> | null = null;
+  function loadMaps(): Promise<void> {
+    if (mapsPromise) return mapsPromise;
+    mapsPromise = new Promise((resolve, reject) => {
+      const s = document.createElement('script');
+      s.src = `https://maps.googleapis.com/maps/api/js?key=${KEY}&v=weekly`;
+      s.async = true;
+      s.onload = () => resolve();
+      s.onerror = reject;
+      document.head.appendChild(s);
+    });
+    return mapsPromise;
+  }
+
+  type S = { id: string; name: string; lat: number; lng: number; fromBase: string; n: number };
+
+  async function init(el: HTMLElement) {
+    const base = JSON.parse(el.dataset.base ?? '{}');
+    const stays: S[] = JSON.parse(el.dataset.stays ?? '[]');
+    await loadMaps();
+    const g = (window as any).google;
+    const map = new g.maps.Map(el, { mapTypeControl: false, streetViewControl: false, gestureHandling: 'greedy' });
+    const info = new g.maps.InfoWindow();
+    const bounds = new g.maps.LatLngBounds();
+
+    // Base: a default red pin so it reads as "where we're headed".
+    const bm = new g.maps.Marker({ position: { lat: base.lat, lng: base.lng }, map, title: base.name });
+    bm.addListener('click', () => {
+      info.setContent(`<div style="font:14px/1.45 system-ui,sans-serif"><strong>${base.name}</strong></div>`);
+      info.open(map, bm);
+    });
+    bounds.extend(bm.getPosition());
+
+    for (const s of stays) {
+      const marker = new g.maps.Marker({
+        position: { lat: s.lat, lng: s.lng },
+        map,
+        title: `${s.n}. ${s.name}`,
+        label: { text: String(s.n), color: '#ffffff', fontSize: '12px', fontWeight: '600' },
+        icon: { path: g.maps.SymbolPath.CIRCLE, scale: 12, fillColor: '#059669', fillOpacity: 0.95, strokeColor: '#ffffff', strokeWeight: 2 },
+      });
+      marker.addListener('click', () => {
+        info.setContent(
+          `<div style="font:14px/1.45 system-ui,sans-serif;max-width:220px">
+             <strong>${s.n}. ${s.name}</strong><br>
+             <span style="color:#555">${s.fromBase}</span><br>
+             <a href="#${s.id}">see the card ↓</a>
+           </div>`,
+        );
+        info.open(map, marker);
+      });
+      bounds.extend(marker.getPosition());
+    }
+
+    if (!bounds.isEmpty()) map.fitBounds(bounds, 56);
+  }
+
+  const el = document.querySelector<HTMLElement>('[data-staymap]');
+  if (el) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          if (e.isIntersecting) {
+            observer.disconnect();
+            init(el).catch(() => { el.textContent = 'the map could not load — check the API key and signal'; });
+          }
+        }
+      },
+      { rootMargin: '200px' },
+    );
+    observer.observe(el);
+  }
+</script>

@@ -378,6 +378,12 @@ const picks = defineCollection({
     order: z.number(),
     name: z.string(),
     // Present on the three live picks; absent on the passed-on entries.
+    lat: z.number().optional(),
+    lng: z.number().optional(),
+    rating: z.string().optional(),
+    ratingCount: z.string().optional(),
+    ratingSource: z.string().optional(),
+    ratingNote: z.string().optional(),
     photoSubject: z.string().optional(),
     vibe: z.string().optional(),
     onsen: z.string().optional(),
