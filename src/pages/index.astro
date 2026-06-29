@@ -42,22 +42,19 @@ const mapStays = live
 
 const srcLink = 'text-stone-400 underline decoration-stone-300 underline-offset-2 hover:text-stone-700';
 
-// The nudge to decide goes out as an iMessage, not page copy.
-const shareMsg = "Where we might stay for the July trip — Numazu, Jul 3–5. Have a look and tell me which one you like: https://july-trip.pages.dev";
-const smsHref = `sms:&body=${encodeURIComponent(shareMsg)}`;
 ---
 
 <Base
   title="Where we might stay — Numazu, July 3 to 5"
-  description="Three places near Mishima for the five of us, July 3–5: where each one is, what it costs, how long it takes, and how guests rate it. Have a look and tell me which."
+  description="Three places near Mishima for the five of us, July 3–5: where each one is, what it costs, how long it takes, and how guests rate it."
   ogImage="/og/home.png"
 >
   <header class="mb-5">
     <h1 class="m-0 text-2xl font-semibold text-stone-900">Where we might stay</h1>
     <p class="mt-2 text-[15px] leading-relaxed text-stone-600">
       Three places near <span class="text-stone-800">Mishima / Numazu</span> for the five of us,
-      <span class="text-stone-800">Fri–Sun July 3–5</span>. Here's where each one is, what it costs, how long
-      it takes, and how guests rate it — have a look and tell me which you like.
+      <span class="text-stone-800">Fri–Sun July 3–5</span>. Below, for each: where it is, what it costs, how long
+      it takes, and how guests rate it.
     </p>
   </header>
 
@@ -179,18 +176,7 @@ const smsHref = `sms:&body=${encodeURIComponent(shareMsg)}`;
     </ul>
   </details>
 
-  {/* The decision nudge lives in iMessage, not in page copy. */}
-  <div class="mt-6 rounded-xl border border-stone-200 bg-stone-50 px-4 py-4 text-center">
-    <p class="m-0 text-[14px] text-stone-600">Seen enough? Send it round and let's pick one.</p>
-    <a
-      href={smsHref}
-      class="mt-3 inline-block rounded-full bg-emerald-600 px-5 py-2.5 text-[14px] font-semibold text-white transition hover:bg-emerald-700"
-    >
-      Share with the group (iMessage)
-    </a>
-  </div>
-
-  <p class="mt-5 text-[13px] leading-relaxed text-stone-500">
+  <p class="mt-6 text-[13px] leading-relaxed text-stone-500">
     Want the wider net? Here's
     <a href="/glamping" class={srcLink}> every place I looked at</a>, and
     <a href="/cities" class={srcLink}> how we landed on Numazu</a>.
