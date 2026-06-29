@@ -70,12 +70,12 @@
   ratingCount: "4,359"
   ratingSource: Jalan
   photoSubject: numazu-sunvalley
-  onsen: Large hinoki baths split into men's and women's (swapped daily), plus a bookable private bath and the room's own open-air onsen.
-  sleeping: Two semi-double beds plus a 10-mat tatami room; the bed area and tatami room can be partitioned off (和室と洋室は間仕切り可能).
-  sleepingSource: { label: Jalan room listing, url: https://www.jalan.net/yad345636/room/ }
+  onsen: Large hinoki baths, men's and women's (swapped daily), plus a bookable private family bath.
+  sleeping: 2 semi-double beds + a tatami room, split by sliding fusuma — but this room officially holds 4.
+  sleepingSource: { label: official room page (定員 2–4), url: https://reserve.489ban.net/client/izu3800-honkan/0/plan/room/35398/stay }
   evidence:
-    - { src: /photos/stay-numazu-sunvalley-1.jpg, caption: The room's tatami side, garden view (the open-air bath is on the terrace beyond). }
-    - { src: /photos/sunvalley-room2.jpg, caption: The room's own open-air onsen bath. }
+    - { src: /photos/sunvalley-beds.jpg, caption: The bed side — two semi-double beds. }
+    - { src: /photos/stay-numazu-sunvalley-1.jpg, caption: The tatami room, with a garden-view terrace. }
     - { src: /photos/stay-numazu-sunvalley-2.jpg, caption: The big hinoki baths — separate men's and women's. }
   fits: One 53m² room with its own open-air bath; four adults and the toddler.
   getThere: About 25 min — free shuttle from Mishima station (reserve the day before).
@@ -83,7 +83,7 @@
   toddler: Kids' game corner and picture-book library.
   allIn: About ¥150k for five, two nights, all meals included.
   availSat: "a few left"
-  catch: ""
+  catch: The room with the divider officially holds 4, so all five needs the hotel's OK for the toddler (055-948-3800); the rooms that clearly hold five are open tatami, with no divider.
   backup: ""
   detailUrl: /numazu#stay
   bookUrl: "https://www.jalan.net/yad345636/plan/?stayYear=2026&stayMonth=07&stayDay=03&stayCount=2&roomCount=1&adultNum=4"
